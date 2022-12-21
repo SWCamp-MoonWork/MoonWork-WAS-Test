@@ -49,6 +49,10 @@
 				<td><input name="email" value="${dto.email}"></td>
 			</tr>
 			<tr>
+				<th>Birth</th>
+				<td><input name="birth" value="${dto.birth}" type="date"></td>
+			</tr>
+			<tr>
 				<td colspan="2" align="center"><input type="button" value="수정"
 					id="btnUpdate"> <input type="button" value="삭제"
 					id="btnDelete">

@@ -23,6 +23,7 @@
 			<th>ID</th>
 			<th>Name</th>
 			<th>Email</th>
+			<th>Birth</th>
 		</tr>
 		<!-- MemberController에서 model을 통해 넘겨준 변수명(items)과 동일해야 함 -->
 		<!-- items 리스트에서 하나씩. dto 값 출력 -->
@@ -33,6 +34,7 @@
 					href="${pageContext.request.contextPath}/member/view?id=${row.id}">
 						${row.name}</a></td>
 				<td>${row.email}</td>
+				<td>${row.birth}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -128,33 +130,32 @@
 	});
 
 	</script>
+	
 	<!-- jsGrid 실습 -->
 	        <div id="jsGrid"></div>
         <script>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+        	var dataMap = '<c:out value='${dataMap}'/>'
             $(function () {
 
                 $("#jsGrid").jsGrid({
                     width: "100%",
                     height: "400px",
-
                     sorting: true, // 칼럼의 헤더를 눌렀을 때, 그 헤더를 통한 정렬 
-                    data: clients, //아래에 있는 client 배열을 데이터를 받아서 
+                    data: dataMap,
 
                     fields: [ // 그리드 헤더 부분에 넣기 위해서 필드 지정 
-                        { name: "Name", type: "text", width: 150 },
-                        { name: "Age", type: "number", width: 50 },
-                        { name: "Address", type: "text", width: 200 },
-                        { name: "Married", type: "checkbox", title: "Is Married" },
+                        { name: "ID", type: "text", width: 100 },
+                        { name: "Name", type: "text", width: 100 },
+                        { name: "Email", type: "text", width: 200 }
+                      
                     ]
                 })
             })
 
             var clients = [
-                { "Name": "Otto Clay", "Age": 25, "Country": 1, "Address": "Ap #897-1459 Quam Avenue", "Married": false },
-                { "Name": "Connor Johnston", "Age": 45, "Country": 2, "Address": "Ap #370-4647 Dis Av.", "Married": true },
-                { "Name": "Lacey Hess", "Age": 29, "Country": 3, "Address": "Ap #365-8835 Integer St.", "Married": false },
-                { "Name": "Timothy Henson", "Age": 56, "Country": 1, "Address": "911-5143 Luctus Ave", "Married": true },
-                { "Name": "Ramona Benton", "Age": 32, "Country": 3, "Address": "Ap #614-689 Vehicula Street", "Married": false }
+                { "ID": "Otto Clay", "Name": 25, "Email": 1 }
+               
             ];
 
         </script>

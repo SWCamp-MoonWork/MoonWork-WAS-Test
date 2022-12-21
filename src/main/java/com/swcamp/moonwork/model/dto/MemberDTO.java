@@ -6,7 +6,14 @@ public class MemberDTO {
 	private String password;
 	private String email;
 	private String name;
+	private String birth;
 	
+	public String getBirth() {
+		return birth;
+	}
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 	public String getId() {
 		return id;
 	}

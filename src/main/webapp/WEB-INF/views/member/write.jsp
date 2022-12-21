@@ -28,6 +28,10 @@
 				<td><input name="email" type="email"></td>
 			</tr>
 			<tr>
+				<th>Birth</th>
+				<td><input name="birth" type="date"></td>
+			</tr>
+			<tr>
 				<td colspan="2" align="center"><input type="submit" value="등록">
 				</td>
 			</tr>

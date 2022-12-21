@@ -1,5 +1,6 @@
 package com.swcamp.moonwork.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class MemberController {
  
     // 회원 리스트 조회
     @RequestMapping("member/list")
-    public String list(Model model) {
+    public HashMap<String, Object> list(Model model) {
  	
  	   /* 인터페이스를 구현한 클래스(MemberDAOImpl)의 list() 호출 → mapper의 sql문 실행
  	   → 레코드들이 ArrayList로 만들어져서 넘어옴   */
@@ -28,8 +29,17 @@ public class MemberController {
  	
  	   // model에 items이라는 이름으로 담아서 전달
  	   model.addAttribute("items", list);	// "변수명", value
+ 	   
+ 	   HashMap<String, Object> dataMap = new HashMap<String, Object>();
  	
- 	   return "member/list";
+ 	   for(int i = 0; i<list.size(); i++) {
+ 		   dataMap.put("ID", list.get(i).getId());
+ 		   dataMap.put("Name", list.get(i).getName());
+ 		   dataMap.put("Email", list.get(i).getEmail());
+ 	   }
+ 	  model.addAttribute("dataMap", dataMap);
+ 	   System.out.println(dataMap);
+ 	   return dataMap;
     }
  
     // 회원 등록 폼으로 이동
