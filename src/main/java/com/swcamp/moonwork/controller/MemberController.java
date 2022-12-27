@@ -8,10 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.swcamp.moonwork.model.dao.MemberDAO;
 import com.swcamp.moonwork.model.dto.MemberDTO;
+
+import net.sf.json.JSONArray;
 
 @Controller
 public class MemberController {
@@ -21,7 +25,7 @@ public class MemberController {
  
     // 회원 리스트 조회
     @RequestMapping("member/list")
-    public HashMap<String, Object> list(Model model) {
+    public String list(Model model) {
  	
  	   /* 인터페이스를 구현한 클래스(MemberDAOImpl)의 list() 호출 → mapper의 sql문 실행
  	   → 레코드들이 ArrayList로 만들어져서 넘어옴   */
@@ -29,17 +33,21 @@ public class MemberController {
  	
  	   // model에 items이라는 이름으로 담아서 전달
  	   model.addAttribute("items", list);	// "변수명", value
- 	   
- 	   HashMap<String, Object> dataMap = new HashMap<String, Object>();
  	
- 	   for(int i = 0; i<list.size(); i++) {
- 		   dataMap.put("ID", list.get(i).getId());
- 		   dataMap.put("Name", list.get(i).getName());
- 		   dataMap.put("Email", list.get(i).getEmail());
- 	   }
- 	  model.addAttribute("dataMap", dataMap);
- 	   System.out.println(dataMap);
- 	   return dataMap;
+ 	   return "member/list";
+    }
+    
+    @RequestMapping(value = "member/jsgrid", method= {RequestMethod.GET , RequestMethod.POST})
+    @ResponseBody
+    public String jsgrid(Model model) {
+
+ 	List<MemberDTO> list = memberDao.list();
+ 	JSONArray jsonArray = new JSONArray();
+ 	   // model에 items이라는 이름으로 담아서 전달
+ 	   model.addAttribute("data", jsonArray.fromObject(list));	// "변수명", value
+
+ 	   
+ 	   return "member/jsgrid";
     }
  
     // 회원 등록 폼으로 이동
