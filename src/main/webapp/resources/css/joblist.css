@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+.bold-blue {
+	font-weight: bold;
+	color: #0277BD;
+}
+
+.read .btn-primary {
+  	display: inline-block;
+  	text-decoration: none;
+  	background-color: #0080ff;
+  	font-weight: bold;
+  	font-size: 14px;
+  	color: #FFFFFF;
+  	padding: 10px 15px;
+  	margin: 15px 0;
+}
+
+.read table {
+  	width: 100%;
+  	padding-top: 30px;
+  	border-collapse: collapse;
+}
+.read table thead {
+  	background-color: #ebeef1;
+  	border-bottom: 1px solid #d3dae0;
+}
+.read table thead td {
+  	padding: 10px;
+  	font-weight: bold;
+  	color: #767779;
+  	font-size: 14px;
+}
+.read table tbody tr {
+  	border-bottom: 1px solid #d3dae0;
+}
+.read table tbody tr:nth-child(even) {
+  	background-color: #fbfcfc;
+}
+.read table tbody tr:hover {
+  	background-color: #a5a7a9;
+}
+.read table tbody tr:hover td {
+  	color: #FFFFFF;
+}
+.read table tbody tr:hover td:nth-child(1) {
+  	color: #FFFFFF;
+}
+.read table tbody tr td {
+  	padding: 10px;
+}
+.read table tbody tr td:nth-child(1) {
+  	color: #a5a7a9;
+}
+.read table tbody tr td.actions {
+  	padding: 8px;
+  	text-align: left;
+}
+.read table tbody tr td.actions .edit, .read table tbody tr td.actions .trash {
+  	display: inline-flex;
+  	text-align: left;
+  	text-decoration: none;
+  	color: #FFFFFF;
+  	padding: 10px 12px;
+}

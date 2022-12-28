@@ -19,8 +19,20 @@ public class JobListController {
     MemberDAO memberDao;	// 인터페이스 객체
     
     @RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
-    public String home(Locale locale, Model model) {
+    public String joblist(Locale locale, Model model) {
+    	
+    	List<MemberDTO> list = memberDao.list();
+     	
+  	   // model에 items이라는 이름으로 담아서 전달
+  	   model.addAttribute("items", list);	// "변수명", value
  	
  	   return "JobList/joblist";
+    }
+    
+    @RequestMapping(value = "/addjob.do", method = RequestMethod.GET)
+    public String addjob(Locale locale, Model model) {
+
+ 	
+ 	   return "JobList/addjob";
     }
 }

@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MoonWork_Dashboard</title>
+<title>MoonWork_Job List_Add Job</title>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>
@@ -48,9 +47,19 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <link type="text/css" rel="stylesheet"
 	href="../../resources/css/dashboard.css" />
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/joblist.css" />
+
+<!-- CodePen 테이블 디자인 css cdn -->
+<link type="text/css" rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css" />
+<link type="text/css" rel="stylesheet"
+	href="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css" />
 </head>
 <body>
-	<div id="viewport">
+<div id="viewport">
 		<!-- Sidebar -->
 		<div id="sidebar">
 			<header>
@@ -63,10 +72,12 @@
 					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-chart-line"></i>Dashboard
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/joblist.do" class="nav-link px-0 align-middle"> <i
+				<li><a href="${pageContext.request.contextPath}/joblist.do"
+					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobschedule.do" class="nav-link px-0 align-middle"> <i
+				<li><a href="${pageContext.request.contextPath}/jobschedule.do"
+					class="nav-link px-0 align-middle"> <i
 						class="fa-regular fa-calendar-days"></i>Job Scheduler
 				</a></li>
 			</ul>
@@ -78,7 +89,10 @@
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					<h6>menu / </h6><h4><strong>Dashboard</strong></h4>
+					<h6>menu /</h6>
+					<h4>
+						<strong>Job List_Add Job</strong>
+					</h4>
 					<div class="collapse navbar-collapse text-decoration-none"
 						id="navbarNavDarkDropdown"></div>
 					<div class="dropdown">
@@ -102,30 +116,13 @@
 					</div>
 				</div>
 			</nav>
-			<div class="container-fluid dashboard">
-				<div class="row">
-					<div class="col-sm-6">
-						<canvas id="myChartTwo"></canvas>
-					</div>
-					<div class="col-sm-6">
-						<canvas id="myChartThree"></canvas>
-
-					</div>
-				</div>
-				<div class="row" style="padding-top: 50px">
-					<div class="col-sm-12">
-						<div id="dashboard-jsGrid"></div>
-
-					</div>
-				</div>
-				<!-- ChartJs -->
-				<script src="../resources/js/chartjs.js"></script>
-				<!-- jsGrid -->
-				<script src="../resources/js/jsgrid.js"></script>
 			</div>
-		</div>
-	</div>
-
-
+			<div class="container-fluid">
+				<div class="row">
+				<div class="col-sm-12">
+				</div>
+				</div>
+				</div>
+			</div>
 </body>
 </html>

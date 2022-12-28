@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,9 +48,19 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <link type="text/css" rel="stylesheet"
 	href="../../resources/css/dashboard.css" />
+<link type="text/css" rel="stylesheet"
+	href="../../resources/css/joblist.css" />
+
+<!-- CodePen 테이블 디자인 css cdn -->
+<link type="text/css" rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css" />
+<link type="text/css" rel="stylesheet"
+	href="https://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css" />
 </head>
 <body>
-<div id="viewport">
+	<div id="viewport">
 		<!-- Sidebar -->
 		<div id="sidebar">
 			<header>
@@ -58,13 +69,16 @@
 			<ul
 				class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
 				id="menu">
-				<li><a href="${pageContext.request.contextPath}/dashboard.do"  
-				class="nav-link px-0 align-middle"> <i class="fa-solid fa-chart-line"></i>Dashboard
+				<li><a href="${pageContext.request.contextPath}/dashboard.do"
+					class="nav-link px-0 align-middle"> <i
+						class="fa-solid fa-chart-line"></i>Dashboard
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/joblist.do" class="nav-link px-0 align-middle"> <i
+				<li><a href="${pageContext.request.contextPath}/joblist.do"
+					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobschedule.do" class="nav-link px-0 align-middle"> <i
+				<li><a href="${pageContext.request.contextPath}/jobschedule.do"
+					class="nav-link px-0 align-middle"> <i
 						class="fa-regular fa-calendar-days"></i>Job Scheduler
 				</a></li>
 			</ul>
@@ -76,7 +90,10 @@
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					<h6>menu / </h6><h4><strong>Job List</strong></h4>
+					<h6>menu /</h6>
+					<h4>
+						<strong>Job List</strong>
+					</h4>
 					<div class="collapse navbar-collapse text-decoration-none"
 						id="navbarNavDarkDropdown"></div>
 					<div class="dropdown">
@@ -100,7 +117,65 @@
 					</div>
 				</div>
 			</nav>
+
+			<div class="container-fluid read">
+				<div class="row">
+					<div class="col-sm-12">
+					<button type="button" class="btn btn-primary" onClick="location.href='addjob.do'">Add Job</button>
+					<div style="width:100%; height:350px; overflow:auto">
+						<table>
+							<thead>
+								<tr>
+									<td>No</td>
+									<td>Action</td>
+									<td>Name</td>
+									<td>IsUse</td>
+									<td>WorkflowName</td>
+									<td>SaveDate</td>
+									<td>User</td>
+									<td>Delete</td>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="row" items="${items}">
+									<tr>
+										<td>42122220009311</td>
+										<td class="actions">
+											<button class="btn btn-success">Run</button>
+											<button class="btn btn-info" onClick="location.href='#'">Edit</button>
+											<button class="btn btn-warning" onClick="location.href='#'">Schedule</button>
+										</td>
+										<td>${row.name}</td>
+										<td>no</td>
+										<td>HelloWorld.java</td>
+										<td>${row.birth}</td>
+										<td>Han</td>
+										<td class="actions"><button class="btn btn-danger">Delete</button></td>
+									</tr>
+
+								</c:forEach>
+
+							</tbody>
+						</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-sm-12">
+						<iframe title="test" name="frame" width="100%" height="450" style="border:none"></iframe>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+
+	
+	<!-- jsGrid -->
+	<script src="../resources/js/jsgrid.js"></script>
+	<script src="../resources/js/joblist.js"></script>
+
+
 </body>
 </html>
