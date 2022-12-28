@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
+<title>Welcome to MoonWork</title>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>
@@ -34,15 +34,13 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <link type="text/css" rel="stylesheet" href="../resources/css/home.css" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
 </head>
 
 <body>
 	<h1>Welcome to MoonWork!</h1>
 	<p>
 		<!-- ${pageContext.request.contextPath}: Context root(springMVC)가 들어감 -->
-		<a href="${pageContext.request.contextPath}/member/list">MoonWork 0.0.1 Beta</a>
+		<a href="${pageContext.request.contextPath}/dashboard.do">MoonWork v0.0.1</a>
 	</p>
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">
@@ -50,7 +48,7 @@
 				<h1>Create Account</h1>
 
 				<span>or use your email for registration</span> <input type="text"
-					placeholder="ID" /> <input type="email" placeholder=Name />
+					placeholder="ID" /> <input type="text" placeholder=Name />
 				<input type="password" placeholder="Password" />
 				<button>Sign Up</button>
 			</form>
@@ -59,7 +57,7 @@
 			<form action="#">
 				<h1>Sign in</h1>
 
-				<span>or use your account</span> <input type="email"
+				<span>or use your account</span> <input type="text"
 					placeholder="ID" /> <input type="password"
 					placeholder="Password" /> <a href="#">Forgot your password?</a>
 				<button>Sign In</button>
@@ -81,7 +79,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="../resources/js/home.js"></script>
+
 	
 	<!-- CodePen 출처 
 	<P>The MIT License (MIT)
@@ -108,5 +106,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.</P>
 
 -->
+	<script src="../resources/js/home.js"></script>
 </body>
 </html>

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.swcamp.moonwork.model.dao.MemberDAO;
 import com.swcamp.moonwork.model.dto.MemberDTO;
 
-import net.sf.json.JSONArray;
 
 @Controller
 public class MemberController {
@@ -23,32 +22,6 @@ public class MemberController {
     @Autowired
     MemberDAO memberDao;	// 인터페이스 객체
  
-    // 회원 리스트 조회
-    @RequestMapping("member/list")
-    public String list(Model model) {
- 	
- 	   /* 인터페이스를 구현한 클래스(MemberDAOImpl)의 list() 호출 → mapper의 sql문 실행
- 	   → 레코드들이 ArrayList로 만들어져서 넘어옴   */
- 	List<MemberDTO> list = memberDao.list();
- 	
- 	   // model에 items이라는 이름으로 담아서 전달
- 	   model.addAttribute("items", list);	// "변수명", value
- 	
- 	   return "member/list";
-    }
-    
-    @RequestMapping(value = "member/jsgrid", method= {RequestMethod.GET , RequestMethod.POST})
-    @ResponseBody
-    public String jsgrid(Model model) {
-
- 	List<MemberDTO> list = memberDao.list();
- 	JSONArray jsonArray = new JSONArray();
- 	   // model에 items이라는 이름으로 담아서 전달
- 	   model.addAttribute("data", jsonArray.fromObject(list));	// "변수명", value
-
- 	   
- 	   return "member/jsgrid";
-    }
  
     // 회원 등록 폼으로 이동
     @RequestMapping("member/write")
