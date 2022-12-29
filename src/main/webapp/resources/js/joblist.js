@@ -1,13 +1,7 @@
-/**
- * 
- */
-/*
-var $table = $('#Bootstrap-Table');
 
-var trBoldBlue = $("table");
+var myModal = document.getElementById('myModal')
+var myInput = document.getElementById('myInput')
 
-$(trBoldBlue).on("click", "tr", function() {
-	$(this).toggleClass("bold-blue");
-});
-
-*/
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})

@@ -5,6 +5,11 @@
 	color: #0277BD;
 }
 
+.read button{
+	color: #FFFFFF;
+}
+
+
 .read .btn-primary {
   	display: inline-block;
   	text-decoration: none;

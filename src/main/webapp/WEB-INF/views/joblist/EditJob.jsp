@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MoonWork_Job Schedule</title>
+<title>MoonWork_Job List_Add Job</title>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
 	crossorigin="anonymous"></script>
-
 <link type="text/css" rel="stylesheet"
 	href="../../resources/css/dashboard.css" />
 <link
@@ -52,7 +51,7 @@
 				<div class="container-fluid">
 					<h6>menu /</h6>
 					<h4>
-						<strong>Job Scheduler</strong>
+						<strong>Job List_Add Job</strong>
 					</h4>
 					<div class="collapse navbar-collapse text-decoration-none"
 						id="navbarNavDarkDropdown"></div>
@@ -78,8 +77,12 @@
 				</div>
 			</nav>
 		</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12"></div>
+			</div>
+		</div>
 	</div>
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

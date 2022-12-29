@@ -13,26 +13,16 @@ import com.swcamp.moonwork.model.dao.MemberDAO;
 import com.swcamp.moonwork.model.dto.MemberDTO;
 
 @Controller
-public class JobListController {
+public class HostsContorller {
 
     @Autowired
     MemberDAO memberDao;	// 인터페이스 객체
+   
     
-    @RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
-    public String joblist(Locale locale, Model model) {
-    	
-    	List<MemberDTO> list = memberDao.list();
-     	
-  	   // model에 items이라는 이름으로 담아서 전달
-  	   model.addAttribute("items", list);	// "변수명", value
- 	
- 	   return "joblist/JobList";
-    }
-    
-    @RequestMapping(value = "/editjob.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/hosts.do", method = RequestMethod.GET)
     public String addjob(Locale locale, Model model) {
 
  	
- 	   return "joblist/EditJob";
+ 	   return "hosts/Hosts";
     }
 }
