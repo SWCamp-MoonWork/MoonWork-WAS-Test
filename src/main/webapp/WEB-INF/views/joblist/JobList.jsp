@@ -6,8 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>MoonWork_Job List</title>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
 	crossorigin="anonymous"></script>
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <link type="text/css" rel="stylesheet"
 	href="../../resources/css/dashboard.css" />
 <link type="text/css" rel="stylesheet"
@@ -85,17 +95,16 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<button type="button" class="btn btn-primary"
-							data-bs-toggle="modal" data-bs-target="#editModal">Add
+							data-bs-toggle="modal" data-bs-target="#addModal">Add
 							Job</button>
 						<div style="width: 100%; height: 350px; overflow: auto">
 							<table>
 								<thead>
 									<tr>
 										<td>No</td>
-										<td>Action</td>
 										<td>Name</td>
+										<td>Action</td>
 										<td>IsUse</td>
-										<td>WorkflowName</td>
 										<td>SaveDate</td>
 										<td>User</td>
 										<td>Delete</td>
@@ -106,17 +115,16 @@
 									<c:forEach var="row" items="${items}">
 										<tr>
 											<td>42122220009311</td>
+											<td><a href="#" style="color: black">${row.name}</a></td>
 											<td class="actions">
-												<button class="btn btn-info" onClick="location.href='#'"
-													target="frame">Edit</button>
+												<button type="button" class="btn btn-info"
+													data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
 												<button type="button" class="btn btn-warning"
 													data-bs-toggle="modal" data-bs-target="#scheduleModal">Schedule</button>
 												<button type="button" class="btn btn-success"
 													data-bs-toggle="modal" data-bs-target="#runsModal">Runs</button>
 											</td>
-											<td>${row.name}</td>
 											<td>no</td>
-											<td>HelloWorld.java</td>
 											<td>${row.birth}</td>
 											<td>Han</td>
 											<td class="actions"><button class="btn btn-danger">Delete</button></td>
@@ -134,7 +142,7 @@
 
 				<div class="row" style="padding-top: 40px">
 					<div class="col-sm-12">
-						<iframe src="home.do" title="test" name="frame" width="100%"
+						<iframe src="jobdetails.do" title="test" name="frame" width="100%"
 							height="450" style="border: none"></iframe>
 					</div>
 				</div>
@@ -142,8 +150,8 @@
 		</div>
 	</div>
 
-	<!-- EditModal -->
-	<div class="modal fade" id="editModal" tabindex="-1"
+	<!-- AddModal -->
+	<div class="modal fade" id="addModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true"
 		data-bs-backdrop="static">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
@@ -191,6 +199,55 @@
 		</div>
 	</div>
 
+	<!-- EditModal -->
+	<div class="modal fade" id="editModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true"
+		data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="exampleModalLabel">Edit Job</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<label for="exampleFormControlInput1" class="form-label"><strong>Job
+								Name</strong></label> <input type="text" class="form-control"
+							id="exampleFormControlInput1" value="웹 크롤링">
+					</div>
+					<div class="mb-3">
+						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
+								Name</strong></label> <input type="text" class="form-control"
+							id="exampleFormControlInput1" value="Web.py">
+					</div>
+					<div class="mb-3">
+						<label for="exampleFormControlTextarea1" class="form-label"><strong>Source
+								Code</strong></label>
+						<textarea class="form-control" id="exampleFormControlTextarea1"
+							rows="10"></textarea>
+					</div>
+					<div class="mb-3">
+						<label for="formFileSm" class="form-label"><strong>소스코드
+								첨부</strong></label> <input class="form-control form-control-sm" id="formFileSm"
+							type="file">
+					</div>
+					<div class="mb-3">
+						<label for="exampleFormControlTextarea1" class="form-label"><strong>Note</strong></label>
+						<textarea class="form-control" id="exampleFormControlTextarea1"
+							rows="3"></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Edit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- ScheduleModal -->
 	<div class="modal fade" id="scheduleModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true"
@@ -198,12 +255,13 @@
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Schedule Status</h5>
+					<h3 class="modal-title" id="exampleModalLabel">Schedule
+						Management</h3>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="mb-3 row">
+					<div class="mb-4 row">
 						<div class="col-sm-2">
 							<label for="staticEmail" class="col-sm-2 col-form-label"><strong>JobName</strong></label>
 						</div>
@@ -219,23 +277,44 @@
 								id="staticEmail" value="12414215256">
 						</div>
 					</div>
-					<div class="mb-3 row">
+					<div class="mb-4 row">
 						<label for="exampleFormControlInput1" class="form-label"><strong>Schedule
 								Name</strong> </label> <input type="text" class="form-control"
 							id="exampleFormControlInput1"
 							placeholder="ex) 2022/12/25 ~ 2023/12/25 매주 수요일 정기일정">
 					</div>
 					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label" style="padding-right: 20px"><strong>Schedule Type</strong> </label> 
-							<input class="form-check-input" type="radio"
+						<label for="exampleFormControlInput1" class="form-label"
+							style="padding-right: 20px"><strong>Schedule
+								Type</strong> </label> <input class="form-check-input" type="radio"
 							name="flexRadioDefault" id="flexRadioDefault1"> <label
-							class="form-check-label" for="flexRadioDefault1"> Loop </label> 
-							<input
+							class="form-check-label" for="flexRadioDefault1"> Loop </label> <input
 							class="form-check-input" type="radio" name="flexRadioDefault"
 							id="flexRadioDefault1"> <label class="form-check-label"
 							for="flexRadioDefault1"> One Time </label>
 					</div>
+					<div class="mb-3 row">
+						<div class="col-sm-2">
+							<label for="staticEmail" class="col-form-label"><strong>StartDT</strong></label>
+						</div>
+						<div class="col-sm-4">
+							<input type="date" id="startDate">
+						</div>
+						<div class="col-sm-2">
+							<label for="staticEmail" class="col-form-label"><strong>EndDT</strong></label>
+						</div>
+						<div class="col-sm-4">
+							<input type="date" id="startDate">
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="staticEmail" class="col-form-label"><strong>Registered
+								Schedule</strong></label>
+						<div class="col-sm-12">
+							<div id="schedule-jsGrid"></div>
 
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
@@ -266,6 +345,8 @@
 			</div>
 		</div>
 	</div>
+	<!-- ChartJs -->
+	<script src="../resources/js/chartjs.js"></script>
 	<!-- jsGrid -->
 	<script src="../resources/js/jsgrid.js"></script>
 	<script src="../resources/js/joblist.js"></script>

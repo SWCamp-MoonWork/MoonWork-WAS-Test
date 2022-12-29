@@ -29,10 +29,10 @@ public class JobListController {
  	   return "joblist/JobList";
     }
     
-    @RequestMapping(value = "/editjob.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/jobdetails.do", method = RequestMethod.GET)
     public String addjob(Locale locale, Model model) {
 
  	
- 	   return "joblist/EditJob";
+ 	   return "joblist/JobDetails";
     }
 }

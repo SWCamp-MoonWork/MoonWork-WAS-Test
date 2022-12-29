@@ -50,7 +50,7 @@ $(function() {
 
 $(function() {
 
-	$("#joblist-jsGrid").jsGrid({
+	$("#schedule-jsGrid").jsGrid({
 		locale: "ko",
 		editing: false,
 		paging: true,
