@@ -20,6 +20,6 @@ public class JobScheduleController {
     @RequestMapping(value = "/jobschedule.do", method = RequestMethod.GET)
     public String home(Locale locale, Model model) {
  	
- 	   return "JobSchedule/jobschedule";
+ 	   return "jobschedule/JobSchedule";
     }
 }

@@ -142,9 +142,9 @@
 									<tr>
 										<td>42122220009311</td>
 										<td class="actions">
-											<button class="btn btn-success">Run</button>
 											<button class="btn btn-info" onClick="location.href='#'">Edit</button>
 											<button class="btn btn-warning" onClick="location.href='#'">Schedule</button>
+											<button class="btn btn-success">Runs</button>
 										</td>
 										<td>${row.name}</td>
 										<td>no</td>

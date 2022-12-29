@@ -31,7 +31,7 @@ public class DashboardController {
  	   // model에 items이라는 이름으로 담아서 전달
  	   model.addAttribute("items", list);	// "변수명", value
  	
- 	   return "Dashboard/dashboard";
+ 	   return "dashboard/Dashboard";
     }
     
     

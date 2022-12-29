@@ -26,13 +26,13 @@ public class JobListController {
   	   // model에 items이라는 이름으로 담아서 전달
   	   model.addAttribute("items", list);	// "변수명", value
  	
- 	   return "JobList/joblist";
+ 	   return "joblist/JobList";
     }
     
     @RequestMapping(value = "/addjob.do", method = RequestMethod.GET)
     public String addjob(Locale locale, Model model) {
 
  	
- 	   return "JobList/addjob";
+ 	   return "jobList/AddJob";
     }
 }
