@@ -28,6 +28,9 @@
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
 </head>
+<%
+String test = "info";
+%>
 <body>
 	<div id="viewport">
 		<!-- Sidebar -->
@@ -90,19 +93,87 @@
 				</div>
 			</nav>
 			<div class="container-fluid dashboard">
-				<div class="row">
-					<div class="col-sm-6">
-						<canvas id="myChartTwo"></canvas>
-					</div>
-					<div class="col-sm-6">
-						<canvas id="myChartThree"></canvas>
 
+				<div class="row" style="padding-top: 30px">
+					<div class="col-sm-6" style="height: 400px;">
+						<div class="row row-cols-2 row-cols-md-4 justify-content-center">
+							<div class="col">
+								<div class="card text-white bg-success mb-3"
+									style="max-width: 18rem;">
+									<div class="card-header">
+										<strong>MasterNode</strong>
+									</div>
+									<div class="card-body">
+										<h5 class="card-title">가동중</h5>
+										<p class="card-text">마스터 노드이기 때문에 무조건 가동중이어야함</p>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="card text-white bg-primary mb-3"
+									style="max-width: 18rem;">
+									<div class="card-header">
+										<strong>WorkerNode-1</strong>
+									</div>
+									<div class="card-body">
+										<h5 class="card-title">사용 대기 중</h5>
+										<p class="card-text">작업은 할당됬지만 스케줄에 당도하지 않음?</p>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="card text-white bg-secondary mb-3"
+									style="max-width: 18rem;">
+									<div class="card-header">
+										<strong>WorkerNode-2</strong>
+									</div>
+									<div class="card-body">
+										<h5 class="card-title">쉬는 중</h5>
+										<p class="card-text">아무 작업도 할당되지 않은 경우</p>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="card text-white bg-danger mb-3"
+									style="max-width: 18rem;">
+									<div class="card-header">
+										<strong>WorkerNode-3</strong>
+									</div>
+									<div class="card-body">
+										<h5 class="card-title">오류</h5>
+										<p class="card-text">작업 실행 중에 오류가 발생한 경우</p>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="card text-white mb-3" style="max-width: 18rem;">
+									<div class="card-body" style="text-align: center">
+										<p class="card-text">
+											<img src="../../resources/img/plus.png"
+												style="width: 50px; height: 50px;">
+										</p>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-sm-6">
+						<div class="row">
+							<canvas id="myChartTwo"></canvas>
+						</div>
 					</div>
 				</div>
-				<div class="row" style="padding-top: 50px">
-					<div class="col-sm-12">
+				<div class="row">
+					<div class="col-sm-6">
 						<div id="dashboard-jsGrid"></div>
-
+					</div>
+					<div class="col-sm-6">
+						<div class="row">
+							<canvas id="myChartThree"></canvas>
+						</div>
 					</div>
 				</div>
 				<!-- ChartJs -->
@@ -113,10 +184,8 @@
 					src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 					integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 					crossorigin="anonymous"></script>
+
 			</div>
 		</div>
-	</div>
-
-
 </body>
 </html>

@@ -10,7 +10,7 @@ $(function() {
 		paging: true,
 		autoload: true,
 		width: "100%",
-		height: "400px",
+		height: "500px",
 		sorting: true, // 칼럼의 헤더를 눌렀을 때, 그 헤더를 통한 정렬 
 
 		controller: {
