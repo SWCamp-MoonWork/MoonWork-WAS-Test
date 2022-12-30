@@ -5,6 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>MoonWork_Hosts</title>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
 	crossorigin="anonymous"></script>
 <link type="text/css" rel="stylesheet"
@@ -83,12 +90,16 @@
 				</div>
 			</nav>
 		</div>
-		<div class="container-fluid">
+		<div class="container-fluid" style="margin:15px; padding:0px 12px">
 			<div class="row">
-				<div class="col-sm-12"></div>
+				<div class="col-sm-12">
+					<div id="host-jsGrid"></div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<!-- jsGrid -->
+	<script src="../resources/js/jsgrid.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

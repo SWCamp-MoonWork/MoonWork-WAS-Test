@@ -10,6 +10,7 @@
 
 <link type="text/css" rel="stylesheet"
 	href="../../resources/css/dashboard.css" />
+<link href="../../resources/fullcalendar/main.css" rel="stylesheet" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -78,8 +79,25 @@
 				</div>
 			</nav>
 		</div>
-	</div>
 
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+				
+					<div id='calendar'></div>
+				
+				
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</div>
+	<script src='../../resource/js/jobschedule.js'></script>
+	<script src='../../resource/fullcalendar/main.js'></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

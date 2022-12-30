@@ -143,7 +143,7 @@
 				<div class="row" style="padding-top: 40px">
 					<div class="col-sm-12">
 						<iframe src="jobdetails.do" title="test" name="frame" width="100%"
-							height="450" style="border: none"></iframe>
+							height="540" style="border: none"></iframe>
 					</div>
 				</div>
 			</div>
@@ -255,8 +255,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title" id="exampleModalLabel">Schedule
-						Management</h3>
+					<h3 class="modal-title" id="exampleModalLabel">Schedule Add</h3>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -277,49 +276,52 @@
 								id="staticEmail" value="12414215256">
 						</div>
 					</div>
-					<div class="mb-4 row">
-						<label for="exampleFormControlInput1" class="form-label"><strong>Schedule
-								Name</strong> </label> <input type="text" class="form-control"
-							id="exampleFormControlInput1"
-							placeholder="ex) 2022/12/25 ~ 2023/12/25 매주 수요일 정기일정">
-					</div>
-					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label"
-							style="padding-right: 20px"><strong>Schedule
-								Type</strong> </label> <input class="form-check-input" type="radio"
-							name="flexRadioDefault" id="flexRadioDefault1"> <label
-							class="form-check-label" for="flexRadioDefault1"> Loop </label> <input
-							class="form-check-input" type="radio" name="flexRadioDefault"
-							id="flexRadioDefault1"> <label class="form-check-label"
-							for="flexRadioDefault1"> One Time </label>
-					</div>
-					<div class="mb-3 row">
-						<div class="col-sm-2">
-							<label for="staticEmail" class="col-form-label"><strong>StartDT</strong></label>
-						</div>
-						<div class="col-sm-4">
-							<input type="date" id="startDate">
-						</div>
-						<div class="col-sm-2">
-							<label for="staticEmail" class="col-form-label"><strong>EndDT</strong></label>
-						</div>
-						<div class="col-sm-4">
-							<input type="date" id="startDate">
-						</div>
-					</div>
-					<div class="mb-3 row">
-						<label for="staticEmail" class="col-form-label"><strong>Registered
-								Schedule</strong></label>
-						<div class="col-sm-12">
-							<div id="schedule-jsGrid"></div>
 
+					<div class="row mb-3">
+						<label for="inputEmail3" class="col-sm-2 col-form-label"><strong>Schedule
+								Name</strong></label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control" id="inputEmail3"
+								placeholder="ex) 2022/12/25 ~ 2023/12/25 매주 수요일 정기일정">
 						</div>
 					</div>
+					<fieldset class="row mb-3">
+						<legend class="col-form-label col-sm-2 pt-0">
+							<strong>Schedule Type</strong>
+						</legend>
+						<div class="col-sm-10">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="gridRadios"
+									id="gridRadios1" value="option1" checked> <label
+									class="form-check-label" for="gridRadios1"> Loop </label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="gridRadios"
+									id="gridRadios2" value="option2"> <label
+									class="form-check-label" for="gridRadios2"> One time</label>
+							</div>
+						</div>
+					</fieldset>
+
+					<fieldset class="row mb-3">
+						<legend class="col-form-label col-sm-2 pt-0">
+							<strong>StratDT</strong>
+						</legend>
+						<div class="col-sm-10">
+							<input class="startDT" type="date" name="startDT">
+						</div>
+						<legend class="col-form-label col-sm-2 pt-0">
+							<strong>EndDT</strong>
+						</legend>
+						<div class="col-sm-10">
+							<input class="EndDT" type="date" name="EndDT">
+						</div>
+					</fieldset>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" class="btn btn-primary">Add</button>
 				</div>
 			</div>
 		</div>
@@ -336,16 +338,82 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">...</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row read"
+							style="width: 100%; height: 300px; overflow: auto">
+							<div class="col-sm-12">
+								<table>
+									<thead>
+										<tr>
+											<td>ScheduleId</td>
+											<td>ScheduleName</td>
+											<td>InUse</td>
+											<td>ScheduleType</td>
+											<td>ScheduleStartDT</td>
+											<td>ScheduleEndDT</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>2022/12/25 ~ 2023/12/25 매주 수요일 정기일정</td>
+											<td>On</td>
+											<td>Loop</td>
+											<td>2022/12/25</td>
+											<td>2023/12/25</td>
+										</tr>
+										
+										<tr>
+											<td>2</td>
+											<td>매주 일요일 db 백업</td>
+											<td>Off</td>
+											<td>Loop</td>
+											<td>2023/01/01</td>
+											<td>2030/01/01</td>
+										</tr>
+										<tr>
+											<td>3</td>
+											<td>매일 웹크롤링</td>
+											<td>Off</td>
+											<td>Loop</td>
+											<td>2023/01/10</td>
+											<td>2023/12/30</td>
+										</tr>
+										<tr>
+											<td>4</td>
+											<td>콘서트 티켓 예매</td>
+											<td>Off</td>
+											<td>One Time</td>
+											<td>2023/03/03</td>
+											<td>x</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<canvas id="myChartTwo"></canvas>
+							</div>
+							<div class="col-sm-6">
+								<canvas id="myChartThree"></canvas>
+
+							</div>
+						</div>
+					</div>
+
+
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- ChartJs -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="../resources/js/chartjs.js"></script>
 	<!-- jsGrid -->
 	<script src="../resources/js/jsgrid.js"></script>
