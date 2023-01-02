@@ -2,6 +2,12 @@
  * jsGrid Code
  */
 
+/* tool-tip*/
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+	return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
 $(function() {
 
 	$("#dashboard-jsGrid").jsGrid({
@@ -10,7 +16,7 @@ $(function() {
 		paging: true,
 		autoload: true,
 		width: "100%",
-		height: "500px",
+		height: "400px",
 		sorting: true, // 칼럼의 헤더를 눌렀을 때, 그 헤더를 통한 정렬 
 
 		controller: {

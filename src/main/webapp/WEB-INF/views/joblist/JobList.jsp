@@ -19,9 +19,9 @@
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <link type="text/css" rel="stylesheet"
-	href="../../resources/css/dashboard.css" />
+	href="<%= request.getContextPath()%>/resources/css/dashboard.css" />
 <link type="text/css" rel="stylesheet"
-	href="../../resources/css/joblist.css" />
+	href="<%= request.getContextPath()%>/resources/css/joblist.css" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -47,9 +47,8 @@
 					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobschedule.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-regular fa-calendar-days"></i>Job Scheduler
+				<li><a href="${pageContext.request.contextPath}/jobhistoy.do"
+					class="nav-link px-0 align-middle"> <i class="fa-solid fa-clock-rotate-left"></i>Run History
 				</a></li>
 				<li><a href="${pageContext.request.contextPath}/hosts.do"
 					class="nav-link px-0 align-middle"> <i class="fa-solid fa-tv"></i>Hosts
@@ -142,8 +141,54 @@
 
 				<div class="row" style="padding-top: 40px">
 					<div class="col-sm-12">
-						<iframe src="jobdetails.do" title="test" name="frame" width="100%"
-							height="540" style="border: none"></iframe>
+
+	<div class="container-fluid detail-form">
+		<form class="row g-3">
+			<div class="col-md-4">
+				<label for="inputEmail4" class="form-label"><strong>JobId</strong></label>
+				<input readonly type="text" class="form-control" id="JobId" value="1234526733">
+			</div>
+			<div class="col-md-4">
+				<label for="inputPassword4" class="form-label"><strong>JobName</strong></label>
+				<input readonly type="text" class="form-control" id="JobName" value="DB 마이그레이션">
+			</div>
+			<div class="col-md-4">
+				<label for="inputAddress" class="form-label"><strong>WorkflowName</strong></label>
+				<input readonly type="text" class="form-control" id="WorkflowName" value="DBMigration.java">
+			</div>
+			<div class="col-md-4">
+				<label for="inputAddress" class="form-label"><strong>HostName</strong></label>
+				<input readonly type="text" class="form-control" id="HostName" value="Worker-2">
+			</div>
+			<div class="col-md-4">
+				<label for="inputAddress" class="form-label"><strong>HostIp</strong></label>
+				<input readonly type="text" class="form-control" id="HostName" value="192.168.0.0"> 
+			</div>
+			<div class="col-md-4">
+				<label for="inputAddress" class="form-label"><strong>InUse</strong></label>
+				<input readonly type="text" class="form-control" id="InUse" value="Off">
+			</div>
+			<div class="col-md-4">
+				<label for="inputAddress" class="form-label"><strong>CreateUser</strong></label>
+				<input readonly type="text" class="form-control" id="CreateUser" value="Han">
+			</div>
+			<div class="col-md-4">
+				<label for="inputAddress" class="form-label"><strong>SaveDate</strong></label>
+				<input readonly type="text" class="form-control" id="SaveDate" value="2022-12-30">
+			</div>
+			<div class="col-md-4">
+				<label for="inputAddress" class="form-label"><strong>Note</strong></label>
+				<textarea readonly class="form-control" id="Note" value="ddddddddd"
+					style="height: 80px;"></textarea>
+			</div>
+			<div class="col-md-12">
+				<label for="inputAddress" class="form-label"><strong>Registered
+						Schedule</strong></label>
+				<div id="schedule-jsGrid"></div>
+			</div>
+		</form>
+	</div>
+
 					</div>
 				</div>
 			</div>
@@ -414,10 +459,10 @@
 	</div>
 	<!-- ChartJs -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="../resources/js/chartjs.js"></script>
+	<script src="<%= request.getContextPath()%>/resources/js/chartjs.js"></script>
 	<!-- jsGrid -->
-	<script src="../resources/js/jsgrid.js"></script>
-	<script src="../resources/js/joblist.js"></script>
+	<script src="<%= request.getContextPath()%>/resources/js/jsgrid.js"></script>
+	<script src="<%= request.getContextPath()%>/resources/js/joblist.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

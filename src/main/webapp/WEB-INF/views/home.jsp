@@ -33,7 +33,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<link type="text/css" rel="stylesheet" href="../resources/css/home.css" />
+<link type="text/css" rel="stylesheet" href="<%= request.getContextPath()%>/resources/css/home.css" />
 </head>
 
 <body>
@@ -106,6 +106,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.</P>
 
 -->
-	<script src="../resources/js/home.js"></script>
+	<script src="<%= request.getContextPath()%>/resources/js/home.js"></script>
 </body>
 </html>

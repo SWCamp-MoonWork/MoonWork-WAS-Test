@@ -13,13 +13,13 @@ import com.swcamp.moonwork.model.dao.MemberDAO;
 import com.swcamp.moonwork.model.dto.MemberDTO;
 
 @Controller
-public class JobScheduleController {
+public class JobHistoryController {
     @Autowired
     MemberDAO memberDao;	// 인터페이스 객체
     
-    @RequestMapping(value = "/jobschedule.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/jobhistoy.do", method = RequestMethod.GET)
     public String home(Locale locale, Model model) {
  	
- 	   return "jobschedule/JobSchedule";
+ 	   return "jobhistory/JobHistory";
     }
 }

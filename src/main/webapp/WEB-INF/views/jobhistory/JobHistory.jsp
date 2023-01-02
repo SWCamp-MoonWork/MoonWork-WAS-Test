@@ -9,8 +9,8 @@
 	crossorigin="anonymous"></script>
 
 <link type="text/css" rel="stylesheet"
-	href="../../resources/css/dashboard.css" />
-<link href="../../resources/fullcalendar/main.css" rel="stylesheet" />
+	href="<%= request.getContextPath()%>/resources/css/dashboard.css" />
+<link href="<%= request.getContextPath()%>/resources/fullcalendar/main.css" rel="stylesheet" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -35,9 +35,8 @@
 					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobschedule.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-regular fa-calendar-days"></i>Job Scheduler
+				<li><a href="${pageContext.request.contextPath}/jobhistoy.do"
+					class="nav-link px-0 align-middle"> <i class="fa-solid fa-clock-rotate-left"></i>Run History
 				</a></li>
 				<li><a href="${pageContext.request.contextPath}/hosts.do"
 					class="nav-link px-0 align-middle"> <i class="fa-solid fa-tv"></i>Hosts
@@ -96,8 +95,8 @@
 
 
 	</div>
-	<script src='../../resource/js/jobschedule.js'></script>
-	<script src='../../resource/fullcalendar/main.js'></script>
+	<script src='<%= request.getContextPath()%>/resource/js/jobschedule.js'></script>
+	<script src='<%= request.getContextPath()%>/resource/fullcalendar/main.js'></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
