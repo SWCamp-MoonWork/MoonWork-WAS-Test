@@ -17,7 +17,7 @@ public class JobHistoryController {
     @Autowired
     MemberDAO memberDao;	// 인터페이스 객체
     
-    @RequestMapping(value = "/jobhistoy.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/jobhistory.do", method = RequestMethod.GET)
     public String home(Locale locale, Model model) {
  	
  	   return "jobhistory/JobHistory";

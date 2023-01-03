@@ -70,3 +70,14 @@
         width: '100%'
       });
     });
+
+
+$(function () {
+	$('.fa-regular').tooltip()
+})
+
+var exampleEl = document.getElementById('tooltip-info')
+var tooltip = new bootstrap.Tooltip(exampleEl, {
+  boundary: document.body // or document.querySelector('#boundary')
+})
+

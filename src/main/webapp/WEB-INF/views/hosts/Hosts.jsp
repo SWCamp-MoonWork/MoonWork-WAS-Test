@@ -46,7 +46,7 @@
 					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobhistoy.do"
+				<li><a href="${pageContext.request.contextPath}/jobhistory.do"
 					class="nav-link px-0 align-middle"> <i class="fa-solid fa-clock-rotate-left"></i>Run History
 				</a></li>
 				<li><a href="${pageContext.request.contextPath}/hosts.do"

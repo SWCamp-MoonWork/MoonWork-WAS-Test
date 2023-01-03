@@ -31,10 +31,6 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-	crossorigin="anonymous"></script>
 </head>
 <%
 String test = "info";
@@ -57,7 +53,7 @@ String test = "info";
 					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobhistoy.do"
+				<li><a href="${pageContext.request.contextPath}/jobhistory.do"
 					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-clock-rotate-left"></i>Run History
 				</a></li>
@@ -117,12 +113,12 @@ String test = "info";
 								<div class="col-md-8">
 									<div class="card-body">
 										<h5 class="card-title">
-											<strong>Total Runs</strong>
+											<strong>Total Jobs</strong>
 										</h5>
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">10</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="#"
+											<small class="text-muted"><a href="${pageContext.request.contextPath}/joblist.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -144,12 +140,12 @@ String test = "info";
 								<div class="col-md-8">
 									<div class="card-body">
 										<h5 class="card-title">
-											<strong>Today New Runs</strong>
+											<strong>Today New Jobs</strong>
 										</h5>
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">1</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="#"
+											<small class="text-muted"><a href="${pageContext.request.contextPath}/joblist.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -172,12 +168,12 @@ String test = "info";
 								<div class="col-md-8">
 									<div class="card-body">
 										<h5 class="card-title">
-											<strong>No Schedule Runs</strong>
+											<strong>No Schedule Jobs</strong>
 										</h5>
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">0</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="#"
+											<small class="text-muted"><a href="${pageContext.request.contextPath}/joblist.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -198,13 +194,13 @@ String test = "info";
 								</div>
 								<div class="col-md-8">
 									<div class="card-body">
-										<h5 class="card-title">
-											<strong>Today Started Runs</strong>
+										<h5 class="card-title ">
+											<strong>Today Started Jobs</strong>
 										</h5>
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">0</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="#"
+											<small class="text-muted"><a href="${pageContext.request.contextPath}/jobhistory.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -228,7 +224,7 @@ String test = "info";
 								</div>
 								<div class="col-md-8">
 									<div class="card-body">
-										<h5 class="card-title">
+										<h5 class="card-title text-success">
 											<strong>Success</strong>
 										</h5>
 										<p class="card-text"
@@ -251,7 +247,7 @@ String test = "info";
 								</div>
 								<div class="col-md-8">
 									<div class="card-body">
-										<h5 class="card-title">
+										<h5 class="card-title text-danger">
 											<strong>Fail</strong>
 										</h5>
 										<p class="card-text"
@@ -266,24 +262,23 @@ String test = "info";
 
 
 				<div class="row" style="padding: 10px 20px 0px 20px">
-					<div class="col-sm-6">
+					<div class="col-sm-7">
 						<div class="row mb-3"
 							style="padding-right: 10px; padding-left: 0px; white-space: nowrap;">
 							<h6>
-								<strong>Runs Count View </strong>
+								<strong>Runs Count View (Calendar)</strong>
 							</h6>
 							<div id='myChart'></div>
 						</div>
 
-						<div class="row" style="height: 350px">
-							
-								<i
-									class="fa-regular fa-circle-question fa-lg"></i>
-							
-							<canvas id="myChartThree"></canvas>
+						<div class="row">
+							<div style="width:20px; height:20px">
+								<i id="tooltip-info" class="fa-regular fa-circle-question fa-lg " data-bs-toggle="tooltip" data-bs-placement="right" title="그래프에 들어갈 내용(미정)"></i>
+							</div>
+							<canvas id="myChartThree" height="420px"></canvas>
 						</div>
 					</div>
-					<div class="col-sm-6" style="height: 200px;">
+					<div class="col-sm-5" style="height: 200px;">
 						<div class="row justify-content-center">
 							<h6>
 								<strong>Simple Hosts View </strong>
@@ -294,33 +289,33 @@ String test = "info";
 									<th scope="row"><strong>Master</strong></th>
 									<td>HostName - 1</td>
 									<td>192.168.0.0</td>
-									<td><img
+									<td><a href="#"><img
 										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></td>
+										width="30px" height="30px"></a></td>
 								</tr>
 								<tr>
 									<th scope="row">Worker</th>
 									<td>HostName - 2</td>
 									<td>192.168.0.0</td>
-									<td><img
+									<td><a href="#"><img
 										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></td>
+										width="30px" height="30px"></a></td>
 								</tr>
 								<tr>
 									<th scope="row">Worker</th>
 									<td>HostName - 3</td>
 									<td>192.168.0.0</td>
-									<td><img
+									<td><a href="#"><img
 										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></td>
+										width="30px" height="30px"></a></td>
 								</tr>
 								<tr>
 									<th scope="row">Worker</th>
 									<td>HostName - 4</td>
 									<td>192.168.0.0</td>
-									<td><img
+									<td><a href="#"><img
 										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></td>
+										width="30px" height="30px"></a></td>
 								</tr>
 							</table>
 						</div>

@@ -47,7 +47,7 @@
 					class="nav-link px-0 align-middle"> <i
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobhistoy.do"
+				<li><a href="${pageContext.request.contextPath}/jobhistory.do"
 					class="nav-link px-0 align-middle"> <i class="fa-solid fa-clock-rotate-left"></i>Run History
 				</a></li>
 				<li><a href="${pageContext.request.contextPath}/hosts.do"
@@ -126,7 +126,7 @@
 											<td>no</td>
 											<td>${row.birth}</td>
 											<td>Han</td>
-											<td class="actions"><button class="btn btn-danger">Delete</button></td>
+											<td class="actions"><button class="btn btn-danger" onclick="javascript:delbtn()">Delete</button></td>
 										</tr>
 
 									</c:forEach>
@@ -349,18 +349,22 @@
 					</fieldset>
 
 					<fieldset class="row mb-3">
-						<legend class="col-form-label col-sm-2 pt-0">
-							<strong>StratDT</strong>
-						</legend>
-						<div class="col-sm-10">
-							<input class="startDT" type="date" name="startDT">
-						</div>
-						<legend class="col-form-label col-sm-2 pt-0">
-							<strong>EndDT</strong>
-						</legend>
-						<div class="col-sm-10">
-							<input class="EndDT" type="date" name="EndDT">
-						</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="startdate" class="control-label small font-italic"><strong>StartDT</strong>
+						</label> <input name="startdate" type="datetime-local"
+							class="form-control border-dark" @bind="@from"
+							@bind:format="yyyy-MM-ddTHH:mm:ss" />
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="enddate" class="control-label small font-italic"><strong>EndDT</strong>
+						</label> <input name="enddate" type="datetime-local"
+							class="form-control border-dark" @bind="@to"
+							@bind:format="yyyy-MM-ddTHH:mm" />
+					</div>
+				</div>
 					</fieldset>
 				</div>
 				<div class="modal-footer">
@@ -438,11 +442,8 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-6">
-								<canvas id="myChartTwo"></canvas>
-							</div>
-							<div class="col-sm-6">
-								<canvas id="myChartThree"></canvas>
+							<div class="col-sm-12">
+								<canvas id="myChartThree" height="100px"></canvas>
 
 							</div>
 						</div>

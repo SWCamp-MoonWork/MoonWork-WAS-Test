@@ -38,10 +38,9 @@
 
 <body>
 	<h1>Welcome to MoonWork!</h1>
-	<p>
-		<!-- ${pageContext.request.contextPath}: Context root(springMVC)가 들어감 -->
-		<a href="${pageContext.request.contextPath}/dashboard.do">MoonWork v0.0.1</a>
-	</p>
+	<br>
+	<br>
+	<br>
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">
 			<form action="#">
@@ -60,7 +59,7 @@
 				<span>or use your account</span> <input type="text"
 					placeholder="ID" /> <input type="password"
 					placeholder="Password" /> <a href="#">Forgot your password?</a>
-				<button>Sign In</button>
+				<button type="button" onClick="location.href='${pageContext.request.contextPath}/dashboard.do'">Sign In</button>
 			</form>
 		</div>
 		<div class="overlay-container">
