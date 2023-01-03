@@ -102,15 +102,15 @@ String test = "info";
 					style="padding: 15px 15px">
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 320px; height: 200px; border-radius: 30px;">
+							style="width: 300px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-4"
+								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
 									<img src="<%=request.getContextPath()%>/resources/img/all.png"
 										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 80px; height: 80px;">
+										style="vertical-align: middle; width: 70px; height: 70px;">
 								</div>
-								<div class="col-md-8">
+								<div class="col-md-9">
 									<div class="card-body">
 										<h5 class="card-title">
 											<strong>Total Jobs</strong>
@@ -129,15 +129,15 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 320px; height: 200px; border-radius: 30px;">
+							style="width: 300px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-4"
+								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
 									<img src="<%=request.getContextPath()%>/resources/img/new.png"
 										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 80px; height: 80px;">
+										style="vertical-align: middle; width: 70px; height: 70px;">
 								</div>
-								<div class="col-md-8">
+								<div class="col-md-9">
 									<div class="card-body">
 										<h5 class="card-title">
 											<strong>Today New Jobs</strong>
@@ -156,16 +156,16 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 320px; height: 200px; border-radius: 30px;">
+							style="width: 300px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-4"
+								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
 									<img
 										src="<%=request.getContextPath()%>/resources/img/cancel-event.png"
 										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 80px; height: 80px;">
+										style="vertical-align: middle; width: 70px; height: 70px;">
 								</div>
-								<div class="col-md-8">
+								<div class="col-md-9">
 									<div class="card-body">
 										<h5 class="card-title">
 											<strong>No Schedule Jobs</strong>
@@ -184,15 +184,15 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 340px; height: 200px; border-radius: 30px;">
+							style="width: 300px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-4"
+								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
 									<img src="<%=request.getContextPath()%>/resources/img/play.png"
 										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 80px; height: 80px;">
+										style="vertical-align: middle; width: 70px; height: 70px;">
 								</div>
-								<div class="col-md-8">
+								<div class="col-md-9">
 									<div class="card-body">
 										<h5 class="card-title ">
 											<strong>Today Started Jobs</strong>
@@ -213,7 +213,7 @@ String test = "info";
 					<div class="col">
 
 						<div class="card mb-1"
-							style="width: 320px; height: 100px; border-radius: 30px;">
+							style="width: 300px; height: 100px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 100px; text-align: center">
@@ -236,7 +236,7 @@ String test = "info";
 						</div>
 
 						<div class="card"
-							style="width: 320px; height: 100px; border-radius: 30px;">
+							style="width: 300px; height: 100px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 100px; text-align: center">
@@ -263,7 +263,7 @@ String test = "info";
 
 				<div class="row" style="padding: 10px 20px 0px 20px">
 					<div class="col-sm-7">
-						<div class="row mb-3"
+						<div class="row mb-1"
 							style="padding-right: 10px; padding-left: 0px; white-space: nowrap;">
 							<h6>
 								<strong>Runs Count View (Calendar)</strong>
@@ -275,7 +275,7 @@ String test = "info";
 							<div style="width:20px; height:20px">
 								<i id="tooltip-info" class="fa-regular fa-circle-question fa-lg " data-bs-toggle="tooltip" data-bs-placement="right" title="그래프에 들어갈 내용(미정)"></i>
 							</div>
-							<canvas id="myChartThree" height="420px"></canvas>
+							<canvas id="myChartThree" height="300px"></canvas>
 						</div>
 					</div>
 					<div class="col-sm-5" style="height: 200px;">
@@ -319,7 +319,7 @@ String test = "info";
 								</tr>
 							</table>
 						</div>
-						<div class="row" style="height: 400px; padding-top: 15px;">
+						<div class="row" style="height: 300px; padding-top: 15px;">
 							<h6>
 								<strong>Job of the selected host </strong>
 							</h6>

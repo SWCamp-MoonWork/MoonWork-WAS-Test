@@ -16,7 +16,7 @@ $(function() {
 		paging: true,
 		autoload: true,
 		width: "100%",
-		height: "400px",
+		height: "300px",
 		sorting: true, // 칼럼의 헤더를 눌렀을 때, 그 헤더를 통한 정렬 
 
 		controller: {
@@ -112,18 +112,7 @@ var sampleSchedule = [
 		"StartDT": "2022/12/25",
 		"EndDT": "2023/12/25",
 		"SaveDate": "2022-12-01"
-	},
-	{
-		"Id": "2",
-		"Name": "	매주 일요일 db 백업",
-		"InUse": "Off",
-		"Type": "Loop",
-		"OneTimeOccurDT": "",
-		"StartDT": "2023/01/01",
-		"EndDT": "2030/01/01",
-		"SaveDate": "2022-12-05"
 	}
-
 
 ]
 

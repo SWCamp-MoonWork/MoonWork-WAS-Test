@@ -96,7 +96,7 @@
 						<button type="button" class="btn btn-primary"
 							data-bs-toggle="modal" data-bs-target="#addModal">Add
 							Job</button>
-						<div style="width: 100%; height: 350px; overflow: auto">
+						<div style="width: 100%; height: 300px; overflow: auto">
 							<table>
 								<thead>
 									<tr>
