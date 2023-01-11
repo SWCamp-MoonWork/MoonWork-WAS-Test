@@ -289,3 +289,6 @@ zingchart.render({
 	height: '600px',
 	width: '100%'
 });
+
+
+

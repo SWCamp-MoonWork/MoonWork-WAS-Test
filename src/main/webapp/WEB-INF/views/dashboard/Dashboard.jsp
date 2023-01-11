@@ -38,7 +38,7 @@ String test = "info";
 <body>
 	<div id="viewport">
 		<!-- Sidebar -->
-		<div id="sidebar">
+		<div id="sidebar" class="ham-con">
 			<header>
 				<a href="#" class="d-flex">MoonWork</a>
 			</header>
@@ -69,21 +69,25 @@ String test = "info";
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					<h6>menu /</h6>
-					<h4>
-						<strong>Dashboard</strong>
-					</h4>
-					<div class="collapse navbar-collapse text-decoration-none"
-						id="navbarNavDarkDropdown"></div>
+					<ul class="navbar-nav hambuger">
+						<li class="ham-btn"><a class="menu-trigger" href="#"> <span></span>
+								<span></span> <span></span>
+						</a></li>
+					</ul>
+					<a href="#" class="d-flex moonwork">MoonWork</a>
+
+					<div
+						class="collapse navbar-collapse text-decoration-none user-info"
+						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
 					<div class="dropdown">
 						<a href="#"
-							class="align-items-center text-dark text-decoration-none dropdown-toggle"
+							class="align-items-center text-white text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
 							class="fa-solid fa-circle-user fa-lg"></i> <span
 							class="d-none d-sm-inline mx-1">Han</span>
 						</a>
-						<ul class="dropdown-menu dropdown-menu-white shadow"
+						<ul class="dropdown-menu dropdown-menu-dark shadow"
 							aria-labelledby="dropdownUser1">
 							<li><a class="dropdown-item" href="#">Profiles</a></li>
 							<li><a class="dropdown-item" href="#">Settings</a></li>
@@ -96,13 +100,18 @@ String test = "info";
 					</div>
 				</div>
 			</nav>
-			<div class="container-fluid dashboard"
-				style="padding: 30px 30px 30px 30px">
+			<div class="row">
+				<div class="col-sm-1">
+					<a href="#" class="d-flex menu-area">Dashboard</a>
+				</div>
+			</div>
+			<div class="container-fluid dashboard">
+
 				<div class="row row-cols-1 row-cols-md-5 justify-content-center"
 					style="padding: 15px 15px">
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 300px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
@@ -118,7 +127,8 @@ String test = "info";
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">10</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="${pageContext.request.contextPath}/joblist.do"
+											<small class="text-muted"><a
+												href="${pageContext.request.contextPath}/joblist.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -129,7 +139,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 300px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
@@ -145,7 +155,8 @@ String test = "info";
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">1</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="${pageContext.request.contextPath}/joblist.do"
+											<small class="text-muted"><a
+												href="${pageContext.request.contextPath}/joblist.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -156,7 +167,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 300px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
@@ -173,7 +184,8 @@ String test = "info";
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">0</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="${pageContext.request.contextPath}/joblist.do"
+											<small class="text-muted"><a
+												href="${pageContext.request.contextPath}/joblist.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -184,7 +196,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 300px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-3"
 									style="line-height: 200px; text-align: center">
@@ -200,7 +212,8 @@ String test = "info";
 										<p class="card-text"
 											style="text-align: center; font-size: 70px;">0</p>
 										<p class="card-text">
-											<small class="text-muted"><a href="${pageContext.request.contextPath}/jobhistory.do"
+											<small class="text-muted"><a
+												href="${pageContext.request.contextPath}/jobhistory.do"
 												class="text-dark">view details..</a></small>
 										</p>
 									</div>
@@ -213,7 +226,7 @@ String test = "info";
 					<div class="col">
 
 						<div class="card mb-1"
-							style="width: 300px; height: 100px; border-radius: 30px;">
+							style="width: 330px; height: 100px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 100px; text-align: center">
@@ -236,7 +249,7 @@ String test = "info";
 						</div>
 
 						<div class="card"
-							style="width: 300px; height: 100px; border-radius: 30px;">
+							style="width: 330px; height: 100px; border-radius: 30px;">
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 100px; text-align: center">
@@ -272,8 +285,11 @@ String test = "info";
 						</div>
 
 						<div class="row">
-							<div style="width:20px; height:20px">
-								<i id="tooltip-info" class="fa-regular fa-circle-question fa-lg " data-bs-toggle="tooltip" data-bs-placement="right" title="그래프에 들어갈 내용(미정)"></i>
+							<div style="width: 20px; height: 20px">
+								<i id="tooltip-info"
+									class="fa-regular fa-circle-question fa-lg "
+									data-bs-toggle="tooltip" data-bs-placement="right"
+									title="그래프에 들어갈 내용(미정)"></i>
 							</div>
 							<canvas id="myChartThree" height="300px"></canvas>
 						</div>
@@ -290,32 +306,32 @@ String test = "info";
 									<td>HostName - 1</td>
 									<td>192.168.0.0</td>
 									<td><a href="#"><img
-										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></a></td>
+											src="<%=request.getContextPath()%>/resources/img/detail.png"
+											width="30px" height="30px"></a></td>
 								</tr>
 								<tr>
 									<th scope="row">Worker</th>
 									<td>HostName - 2</td>
 									<td>192.168.0.0</td>
 									<td><a href="#"><img
-										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></a></td>
+											src="<%=request.getContextPath()%>/resources/img/detail.png"
+											width="30px" height="30px"></a></td>
 								</tr>
 								<tr>
 									<th scope="row">Worker</th>
 									<td>HostName - 3</td>
 									<td>192.168.0.0</td>
 									<td><a href="#"><img
-										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></a></td>
+											src="<%=request.getContextPath()%>/resources/img/detail.png"
+											width="30px" height="30px"></a></td>
 								</tr>
 								<tr>
 									<th scope="row">Worker</th>
 									<td>HostName - 4</td>
 									<td>192.168.0.0</td>
 									<td><a href="#"><img
-										src="<%=request.getContextPath()%>/resources/img/detail.png"
-										width="30px" height="30px"></a></td>
+											src="<%=request.getContextPath()%>/resources/img/detail.png"
+											width="30px" height="30px"></a></td>
 								</tr>
 							</table>
 						</div>

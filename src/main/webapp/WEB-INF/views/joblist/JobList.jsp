@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,8 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
 	crossorigin="anonymous"></script>
+	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet"
@@ -27,14 +30,21 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+	<script>
+    $( document ).ready(function() {
+        $('.joblist-table').resizable({
+        	handles: "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
+        });               
+    });
+	</script>
 </head>
 <body>
 
 	<div id="viewport">
 		<!-- Sidebar -->
-		<div id="sidebar">
+		<div id="sidebar" class="ham-con">
 			<header>
-				<a href="#" class="d-flex">MoonWork</a>
+				<a href="#" class="d-flex">Menu</a>
 			</header>
 			<ul
 				class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
@@ -62,21 +72,28 @@
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					<h6>menu /</h6>
-					<h4>
-						<strong>Job List</strong>
-					</h4>
+				<ul class="navbar-nav hambuger">
+				<li class="ham-btn">
+                    <a class="menu-trigger" href="#">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </a>
+                </li>
+                </ul>
+                <a href="#" class="d-flex moonwork">MoonWork</a>
+                <a href="#" class="d-flex menu-area">JobList</a>
 					<div class="collapse navbar-collapse text-decoration-none"
 						id="navbarNavDarkDropdown"></div>
 					<div class="dropdown">
 						<a href="#"
-							class="align-items-center text-dark text-decoration-none dropdown-toggle"
+							class="align-items-center text-white text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
 							class="fa-solid fa-circle-user fa-lg"></i> <span
 							class="d-none d-sm-inline mx-1">Han</span>
 						</a>
-						<ul class="dropdown-menu dropdown-menu-white shadow"
+						<ul class="dropdown-menu dropdown-menu-dark shadow"
 							aria-labelledby="dropdownUser1">
 							<li><a class="dropdown-item" href="#">Profiles</a></li>
 							<li><a class="dropdown-item" href="#">Settings</a></li>
@@ -89,14 +106,18 @@
 					</div>
 				</div>
 			</nav>
-
+			<div class="row">
+				<div class="col-sm-1">
+					<a href="#" class="d-flex menu-area">Job List</a>
+				</div>
+			</div>
 			<div class="container-fluid read">
-				<div class="row">
+				<div class="row" >
 					<div class="col-sm-12">
 						<button type="button" class="btn btn-primary"
 							data-bs-toggle="modal" data-bs-target="#addModal">Add
 							Job</button>
-						<div style="width: 100%; height: 300px; overflow: auto">
+						<div class="joblist-table" style="width: 100%; height: 300px; overflow: auto; border: 1px solid gray">
 							<table>
 								<thead>
 									<tr>
@@ -111,10 +132,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="row" items="${items}">
+									<c:forEach var="row" items="${jobs}">
 										<tr>
-											<td>42122220009311</td>
-											<td><a href="#" style="color: black">${row.name}</a></td>
+											<td>${row.jobId}</td>
+											<td><a href="#" style="color: black">${row.jobName}</a></td>
 											<td class="actions">
 												<button type="button" class="btn btn-info"
 													data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
@@ -123,9 +144,9 @@
 												<button type="button" class="btn btn-success"
 													data-bs-toggle="modal" data-bs-target="#runsModal">Runs</button>
 											</td>
-											<td>no</td>
-											<td>${row.birth}</td>
-											<td>Han</td>
+											<td>${row.isUse}</td>
+											<td><fmt:formatDate value="${row.saveDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+											<td>${row.userId}</td>
 											<td class="actions"><button class="btn btn-danger" onclick="javascript:delbtn()">Delete</button></td>
 										</tr>
 
@@ -218,12 +239,6 @@
 							id="exampleFormControlInput1" placeholder="ex) DBmigration.java">
 					</div>
 					<div class="mb-3">
-						<label for="exampleFormControlTextarea1" class="form-label"><strong>Source
-								Code</strong></label>
-						<textarea class="form-control" id="exampleFormControlTextarea1"
-							rows="10"></textarea>
-					</div>
-					<div class="mb-3">
 						<label for="formFileSm" class="form-label"><strong>소스코드
 								첨부</strong></label> <input class="form-control form-control-sm" id="formFileSm"
 							type="file">
@@ -265,12 +280,6 @@
 						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
 								Name</strong></label> <input type="text" class="form-control"
 							id="exampleFormControlInput1" value="Web.py">
-					</div>
-					<div class="mb-3">
-						<label for="exampleFormControlTextarea1" class="form-label"><strong>Source
-								Code</strong></label>
-						<textarea class="form-control" id="exampleFormControlTextarea1"
-							rows="10"></textarea>
 					</div>
 					<div class="mb-3">
 						<label for="formFileSm" class="form-label"><strong>소스코드
@@ -461,6 +470,9 @@
 	<!-- ChartJs -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="<%= request.getContextPath()%>/resources/js/chartjs.js"></script>
+	<!-- Hamburger -->
+	<script
+			src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
 	<!-- jsGrid -->
 	<script src="<%= request.getContextPath()%>/resources/js/jsgrid.js"></script>
 	<script src="<%= request.getContextPath()%>/resources/js/joblist.js"></script>

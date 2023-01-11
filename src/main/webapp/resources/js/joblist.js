@@ -12,3 +12,5 @@ myModal.addEventListener('shown.bs.modal', function () {
 function delbtn(){
     alert('정말 삭제하시겠습니까?');
 }
+
+$(".joblist-table").draggable();

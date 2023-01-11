@@ -1,10 +1,94 @@
 @charset "UTF-8";
+@font-face {
+    font-family: 'GongGothicMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body {
   overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
-  background: #FDFCFC;
+  
+  
+}
+
+/* 햄버거 버튼  스타일*/
+
+.menu-trigger {
+  margin: 10px 10px;
+}
+
+.menu-trigger:hover span:nth-of-type(1) {
+  background-color: rgb(124,124,125);
+}
+
+.menu-trigger:hover span:nth-of-type(2) {
+  background-color: rgb(124,124,125);
+}
+
+.menu-trigger:hover span:nth-of-type(3) {
+  background-color: rgb(124,124,125);
+}
+
+.menu-trigger,
+.menu-trigger span {
+  display: inline-block;
+  transition: all .4s;
+  box-sizing: border-box;
+}
+
+.menu-trigger {
+		z-index:1000;
+  position: relative;
+  width: 20px;
+  height: 16px;
+  	display:flex;
+	line-height: 16px;
+}
+
+.menu-trigger span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #f7f7f7;
+  border-radius: 4px;
+}
+
+.menu-trigger span:nth-of-type(1) {
+  top: 0;
+}
+
+.menu-trigger span:nth-of-type(2) {
+  top: 6px;
+}
+
+.menu-trigger span:nth-of-type(3) {
+  bottom: 0;
+}
+
+/* 햄버거 버튼 이벤트 */
+.menu-trigger.active-1 span:nth-of-type(1) {
+  -webkit-transform: translateY (6px) rotate (-45deg);
+  transform: translateY(6px) rotate(-45deg);
+}
+
+.menu-trigger.active-1 span:nth-of-type(2) {
+  opacity: 0;
+}
+
+.menu-trigger.active-1 span:nth-of-type(3) {
+  -webkit-transform: translateY(-5.5px) rotate(45deg);
+  transform: translateY(-5.5px) rotate(45deg);
 }
 
 .type04 {
@@ -31,7 +115,7 @@ body {
 /* Toggle Styles */
 
 #viewport {
-  padding-left: 310px;
+  padding-left: 0;
 
 }
 
@@ -42,12 +126,12 @@ body {
 }
 
 #content .navbar{
-	height: 50px;
-	background: #FDFCFC;
-	border: 0.5px solid lightgray;
-	border-radius:15px;
-	margin-top: 10px;
+	height: 40px;
+	background: #262626;
+
 	display:flex;
+	line-height: 40px;
+
 }
 
 #content .navbar > .container-fluid{
@@ -57,34 +141,69 @@ body {
     justify-content: flex-end;
 }
 
+#content .moonwork{
+	text-decoration: none;
+	padding-left:30px;
+	font-family:'GongGothicMedium';
+	font-size:20px;
+	Color: #F7F7F7;
+}
 
+#content .menu-area{
+	text-decoration: none;
+	padding-left:50px;
+	padding-top: 10px;
+	color:black;
+	pointer-events: none; /*이벤트를 막음*/
+	cursor: default; /*마우스 커서를 포인트에서 디폴트로 변경*/
+	Color: black;
+	font-family: 'GmarketSansMedium';
+	font-size:15px;
+}
+
+#content .dashboard{
+	padding: 20px 100px 50px;
+}
+
+#content .read{
+	padding: 20px 100px 50px;
+}
+
+#content .history{
+	padding: 20px 100px 50px;
+}
+
+#content .hosts{
+	padding: 20px 100px 50px;
+}
 
 /* Sidebar Styles */
 
 #sidebar {
-  z-index: 1000;
+  z-index: 900;
   position: fixed;
   left: 250px;
-  width: 300px;
+  width: 100%;
+  max-width: 250px;
   height: 98%;
-  margin-left: -240px;
-  background: #3E3D3D;
-  border-radius: 15px;
+  left: -20%;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 #sidebar header {
-  background-color: #3E3D3D;
-  font-size: 25px;
-  line-height: 52px;
+  background: #262626;
+  font-size: 20px;
+  line-height: 40px;
   text-align: center;
-  border-radius: 15px;
+  font-family:'GongGothicMedium'
 }
 
 #sidebar header a {
-  color: #fff;
+  Color: #f7f7f7;
   display: block;
   text-decoration: none;
   justify-content : center;
+  
 }
 
 
@@ -97,11 +216,13 @@ body {
   float: center;
   padding-left: 30%;
   justify-content : center;
+  text-align: center;
+  vertical-align: middle;
 }
 
 #sidebar .nav a{
   background: none;
-  color: #CFD8DC;
+  color: #fff;
   font-size: 16px;
   padding: 16px 24px;
   justify-content : center;
@@ -110,7 +231,7 @@ body {
 
 #sidebar .nav a:hover{
   background: none;
-  color: #ECEFF1;
+  color: #fff;
 }
 
 #sidebar .nav a i{
@@ -118,7 +239,7 @@ body {
 }
 
 #sidebar footer p{
-	color: #CFD8DC;
+  color: #fff;
     font-size: 14px;
     position: relative;
     bottom: 0;

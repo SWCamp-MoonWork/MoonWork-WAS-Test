@@ -12,7 +12,7 @@ let barChartThree = new Chart(myChartThree, {
 		datasets: [{
 			label: '테스트 데이터',
 			data: [10, 100, 100, 200, 1000],
-			borderColor: 'rgb(75, 192, 192)',
+			borderColor: '#000',
 			tension: 0.1,
 			fill: false
 		}]
