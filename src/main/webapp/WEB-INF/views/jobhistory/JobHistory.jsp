@@ -23,6 +23,8 @@
 	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -79,7 +81,7 @@
                     </a>
                 </li>
                 </ul>
-                <script>
+<!--                 <script>
 
              // 햄버거 버튼 클릭 이벤트 
              var burger = $('.menu-trigger');
@@ -124,19 +126,23 @@
              	});
              })
                 </script>
+                 -->
 					<a href="#" class="d-flex moonwork">MoonWork</a>
-					<a href="#" class="d-flex menu-area">Run History</a>
-					<div class="collapse navbar-collapse text-decoration-none"
-						id="navbarNavDarkDropdown"></div>
-					<div class="dropdown">
+					<div
+						class="collapse navbar-collapse text-decoration-none user-info"
+						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
+					<input type="checkbox" id="dn"> <label for="dn"
+						class="toggle2"> <span class="material-icons toggle__handler">light_mode</span>
+					</label>
+					<div class="dropdown" style="padding-right: 30px">
 						<a href="#"
-							class="align-items-center text-white text-decoration-none dropdown-toggle"
+							class="align-items-center text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
 							class="fa-solid fa-circle-user fa-lg"></i> <span
 							class="d-none d-sm-inline mx-1">Han</span>
 						</a>
-						<ul class="dropdown-menu dropdown-menu-dark shadow"
+						<ul class="dropdown-menu shadow"
 							aria-labelledby="dropdownUser1">
 							<li><a class="dropdown-item" href="#">Profiles</a></li>
 							<li><a class="dropdown-item" href="#">Settings</a></li>
@@ -186,7 +192,8 @@
 
 				<div id='myChart'></div>
 
-
+	<script
+			src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
 				<script
 					src='<%=request.getContextPath()%>/resources/js/jobhistory.js'></script>
 

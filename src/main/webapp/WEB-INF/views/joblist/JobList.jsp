@@ -25,6 +25,8 @@
 	href="<%= request.getContextPath()%>/resources/css/dashboard.css" />
 <link type="text/css" rel="stylesheet"
 	href="<%= request.getContextPath()%>/resources/css/joblist.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -82,18 +84,21 @@
                 </li>
                 </ul>
                 <a href="#" class="d-flex moonwork">MoonWork</a>
-                <a href="#" class="d-flex menu-area">JobList</a>
-					<div class="collapse navbar-collapse text-decoration-none"
-						id="navbarNavDarkDropdown"></div>
-					<div class="dropdown">
+					<div
+						class="collapse navbar-collapse text-decoration-none user-info"
+						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
+					<input type="checkbox" id="dn"> <label for="dn"
+						class="toggle2"> <span class="material-icons toggle__handler">light_mode</span>
+					</label>
+					<div class="dropdown" style="padding-right: 30px">
 						<a href="#"
-							class="align-items-center text-white text-decoration-none dropdown-toggle"
+							class="align-items-center text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
 							class="fa-solid fa-circle-user fa-lg"></i> <span
 							class="d-none d-sm-inline mx-1">Han</span>
 						</a>
-						<ul class="dropdown-menu dropdown-menu-dark shadow"
+						<ul class="dropdown-menu shadow"
 							aria-labelledby="dropdownUser1">
 							<li><a class="dropdown-item" href="#">Profiles</a></li>
 							<li><a class="dropdown-item" href="#">Settings</a></li>
@@ -138,7 +143,8 @@
 											<td><a href="#" style="color: black">${row.jobName}</a></td>
 											<td class="actions">
 												<button type="button" class="btn btn-info"
-													data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+													data-bs-toggle="modal" data-bs-target="#scheduleModal">Edit</button>
+
 												<button type="button" class="btn btn-warning"
 													data-bs-toggle="modal" data-bs-target="#scheduleModal">Schedule</button>
 												<button type="button" class="btn btn-success"
@@ -157,7 +163,6 @@
 						</div>
 					</div>
 				</div>
-
 
 
 				<div class="row" style="padding-top: 40px">
@@ -227,25 +232,26 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
+				<form name="addform" action="${pageContext.request.contextPath}/jobadd.do" method="post">
 				<div class="modal-body">
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label"><strong>Job
 								Name</strong></label> <input type="text" class="form-control"
-							id="exampleFormControlInput1" placeholder="ex) 영업부 DB 마이그레이션">
+							name="jobName" placeholder="ex) 영업부 DB 마이그레이션" required>
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
 								Name</strong></label> <input type="text" class="form-control"
-							id="exampleFormControlInput1" placeholder="ex) DBmigration.java">
+							name="workflowName" placeholder="ex) DBmigration.java" required>
 					</div>
 					<div class="mb-3">
 						<label for="formFileSm" class="form-label"><strong>소스코드
-								첨부</strong></label> <input class="form-control form-control-sm" id="formFileSm"
-							type="file">
+								첨부</strong></label> <input class="form-control form-control-sm" name="workflowFile"
+							type="file" >
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlTextarea1" class="form-label"><strong>Note</strong></label>
-						<textarea class="form-control" id="exampleFormControlTextarea1"
+						<textarea class="form-control" name="note"
 							rows="3"></textarea>
 					</div>
 
@@ -253,8 +259,14 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Add</button>
+					<button type="submit" class="btn btn-primary">Add</button>
 				</div>
+				</form>
+<!-- 				<script>
+					$('#addform').submit(function(){
+						$('#addModal').modal('hide')
+					});
+				</script> -->
 			</div>
 		</div>
 	</div>

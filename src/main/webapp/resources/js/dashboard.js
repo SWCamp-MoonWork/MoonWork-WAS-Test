@@ -1,6 +1,45 @@
 /**
  * 
+
+ const themeToggler = document.querySelector(".theme-toggler");
+ 
+ themeToggler.addEventListener('click', () => {
+ 	document.body.classList.toggle('dark-theme-variables');
+
+	themeToggler.querySelector('span:nth-child(1)').classList.toggle('active');
+ 	themeToggler.querySelector('span:nth-child(2)').classList.toggle('active');
+ })
  */
+ 
+function darkmodeGo () {
+  const darkModeToggle = document.getElementById('dn'); // 체크박스 정의
+  if (!darkModeToggle) {return !1} // 체크 박스 없을 시 작동 종료
+  const Realbody = document.querySelector('body');
+  darkModeToggle.addEventListener('change', function(event) {//체크박스의 변화 감지 리스너
+    if (!Realbody.classList.contains('dark-theme-variables')) { // 바디에 다크모드 클래스가 없으면
+      Realbody.classList.add('dark-theme-variables'); // 다크모드 추가
+      localStorage.setItem('whatMode', darkModeToggle.checked); //whatMode라는 이름의 아이템에 체크박스의 체크 여부를 저장하기     
+ }
+    else { // 바디에 다크모드 클래스가 있으면
+      Realbody.classList.remove('dark-theme-variables'); // 다크모드 클래스를 제거
+      localStorage.setItem('whatMode', darkModeToggle.checked); //whatMode라는 이름의 아이템에 체크박스의 체크 여부를 저장하기     
+    }
+  })
+}
+darkmodeGo ()
+document.addEventListener('DOMContentLoaded',function(){
+  const Realbody = document.querySelector('body');
+const whatMode = localStorage.getItem('whatMode'); //whatMode 아이템 값 불러오기
+
+ if (whatMode === "false") { // 체크 여부가 false라면, 라이트모드입니다. 이 때 false는 문자열 타입이므로 "" 안에 적어야 합니다.
+   return !1; // 라이트모드이므로 아무런 행동을 할 필요가 없습니다.
+ }  
+  else { // 다크모드라면 
+    const darkModeToggle = document.getElementById('dn'); //체크박스를 획득
+    darkModeToggle.checked = true; // 체크박스에 체크를 해주기
+    Realbody.classList.add('dark-theme-variables'); // 다크모드를 body에 걸어주기
+  }
+})
 // 햄버거 버튼 클릭 이벤트 
 var burger = $('.menu-trigger');
 
@@ -44,14 +83,13 @@ $(burger).on("click", function() {
 	});
 })
 
-
-
-
+const background = getComputedStyle(document.documentElement).getPropertyValue("--color-background");
 
 
 ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 var myConfig = {
 	type: 'calendar',
+	backgroundColor: background,
 	options: {
 		year: {
 			text: '2023',
@@ -119,8 +157,31 @@ zingchart.loadModules('calendar', function() {
 });
 
 
+
+
 $(function() {
 	$('.fa-regular').tooltip()
 })
 
+
+/**
+ * ChartJs Code
+ */
+
+let myChartThree = document.getElementById('myChartThree')
+	.getContext('2d');
+
+let barChartThree = new Chart(myChartThree, {
+	type: 'line', //pie, line, doughnut, polarArea
+	data: {
+		labels: ['1번', '2번', '3번', '4번', '5번'],
+		datasets: [{
+			label: '테스트 데이터',
+			data: [10, 100, 100, 200, 1000],
+			borderColor: '#000',
+			tension: 0.1,
+			fill: false
+		}]
+	}
+});
 
