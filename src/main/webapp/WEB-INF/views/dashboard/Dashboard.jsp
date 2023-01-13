@@ -242,7 +242,7 @@ String test = "info";
 								</div>
 								<div class="col-md-8">
 									<div class="card-body">
-										<h5 class="card-title text-success">
+										<h5 class="card-title" style="color:#39D353">
 											<strong>Success</strong>
 										</h5>
 										<p class="card-text card-count"
