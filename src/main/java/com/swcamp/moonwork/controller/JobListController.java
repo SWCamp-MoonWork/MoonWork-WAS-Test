@@ -25,7 +25,7 @@ public class JobListController {
 	@RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
 	public String joblist(Locale locale, Model model) {
 
-		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/list", HttpMethod.GET, null,
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL, HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
 		List<JobDTO> list = result.getBody();

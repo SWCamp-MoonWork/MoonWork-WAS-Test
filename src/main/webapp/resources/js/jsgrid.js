@@ -8,6 +8,8 @@ var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
 	return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
+
+
 $(function() {
 
 	$("#dashboard-jsGrid").jsGrid({

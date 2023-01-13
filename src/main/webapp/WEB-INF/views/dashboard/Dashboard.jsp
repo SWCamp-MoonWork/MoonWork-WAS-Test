@@ -129,12 +129,12 @@ String test = "info";
 										<h5 class="card-title">
 											<strong>Total Jobs</strong>
 										</h5>
-										<p class="card-text"
+										<p class="card-text card-count"
 											style="text-align: center; font-size: 70px;">10</p>
-										<p class="card-text">
-											<small class="text-muted"><a
+										<p class="card-text detail-link">
+											<small><a style="color: var(--color-dark);"
 												href="${pageContext.request.contextPath}/joblist.do"
-												class="text-dark">view details..</a></small>
+												>view details..</a></small>
 										</p>
 									</div>
 								</div>
@@ -157,12 +157,12 @@ String test = "info";
 										<h5 class="card-title">
 											<strong>Today New Jobs</strong>
 										</h5>
-										<p class="card-text"
+										<p class="card-text card-count"
 											style="text-align: center; font-size: 70px;">1</p>
 										<p class="card-text">
-											<small class="text-muted"><a
+											<small><a style="color: var(--color-dark);"
 												href="${pageContext.request.contextPath}/joblist.do"
-												class="text-dark">view details..</a></small>
+												>view details..</a></small>
 										</p>
 									</div>
 								</div>
@@ -186,12 +186,12 @@ String test = "info";
 										<h5 class="card-title">
 											<strong>No Schedule Jobs</strong>
 										</h5>
-										<p class="card-text"
+										<p class="card-text card-count"
 											style="text-align: center; font-size: 70px;">0</p>
 										<p class="card-text">
-											<small class="text-muted"><a
+											<small><a style="color: var(--color-dark);"
 												href="${pageContext.request.contextPath}/joblist.do"
-												class="text-dark">view details..</a></small>
+												>view details..</a></small>
 										</p>
 									</div>
 								</div>
@@ -214,12 +214,12 @@ String test = "info";
 										<h5 class="card-title ">
 											<strong>Today Started Jobs</strong>
 										</h5>
-										<p class="card-text"
+										<p class="card-text card-count"
 											style="text-align: center; font-size: 70px;">0</p>
 										<p class="card-text">
-											<small class="text-muted"><a
+											<small><a style="color: var(--color-dark);"
 												href="${pageContext.request.contextPath}/jobhistory.do"
-												class="text-dark">view details..</a></small>
+												>view details..</a></small>
 										</p>
 									</div>
 								</div>
@@ -245,7 +245,7 @@ String test = "info";
 										<h5 class="card-title text-success">
 											<strong>Success</strong>
 										</h5>
-										<p class="card-text"
+										<p class="card-text card-count"
 											style="text-align: center; font-size: 35px;">0</p>
 									</div>
 
@@ -268,7 +268,7 @@ String test = "info";
 										<h5 class="card-title text-danger">
 											<strong>Fail</strong>
 										</h5>
-										<p class="card-text"
+										<p class="card-text card-count"
 											style="text-align: center; font-size: 35px;">0</p>
 									</div>
 								</div>
@@ -344,7 +344,7 @@ String test = "info";
 							<h6>
 								<strong>Job of the selected host </strong>
 							</h6>
-							<div id="dashboard-jsGrid"></div>
+							<div class="jsgrid" id="dashboard-jsGrid"></div>
 						</div>
 					</div>
 

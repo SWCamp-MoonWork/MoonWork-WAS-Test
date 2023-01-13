@@ -190,7 +190,7 @@
 
 				</div>
 
-				<div id='myChart'></div>
+				<div id='RunHistoryChart'></div>
 
 	<script
 			src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
