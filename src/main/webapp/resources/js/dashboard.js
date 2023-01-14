@@ -8,6 +8,7 @@ $(document).ready(function() {
 		if ($("#dn").is(":checked")) {
 			$(".toggle__handler").html("dark_mode");
 			bg = getComputedStyle(document.documentElement).getPropertyValue("--color-white");
+			
 		}
 		else {
 			$(".toggle__handler").html("light_mode");
@@ -96,11 +97,10 @@ $(burger).on("click", function() {
 // css 값 가져오기
 
 // Zing차트 (대시보드)
-ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+//ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 var dashboard = {
 	type: 'calendar',
-	"backgroundColor": bg,
-
+	backgroundColor: bg,
 	options: {
 
 		year: {
@@ -125,10 +125,10 @@ var dashboard = {
 			}
 		},
 		day: {
-			borderWidth: 5,
-			borderColor: '#202528',
+			borderColor: '#D3D3D3',
+			borderWidth: 3,
 			inactive: { // Use this object to style the cells of all inactive days.
-				"backgroundColor": font
+				backgroundColor: '#808080'
 				
 			}
 		},
@@ -180,7 +180,7 @@ zingchart.loadModules('calendar', function() {
 
 
 // Zing차트 (런 히스토리)
-ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+//ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 var runhistory = {
 	"type": "line",
 	"backgroundColor": bg,

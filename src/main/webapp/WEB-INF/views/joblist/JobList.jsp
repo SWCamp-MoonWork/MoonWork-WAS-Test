@@ -140,10 +140,10 @@
 									<c:forEach var="row" items="${jobs}">
 										<tr>
 											<td>${row.jobId}</td>
-											<td><a href="#" style="color: black">${row.jobName}</a></td>
+											<td><a href="#">${row.jobName}</a></td>
 											<td class="actions">
 												<button type="button" class="btn btn-info"
-													data-bs-toggle="modal" data-bs-target="#scheduleModal">Edit</button>
+													data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
 
 												<button type="button" class="btn btn-warning"
 													data-bs-toggle="modal" data-bs-target="#scheduleModal">Schedule</button>
@@ -331,14 +331,14 @@
 							<label for="staticEmail" class="col-sm-2 col-form-label"><strong>JobName</strong></label>
 						</div>
 						<div class="col-sm-4">
-							<input type="text" readonly class="form-control-plaintext"
+							<input type="text" readonly class="form-control"
 								id="staticEmail" value="기획부 DB 마이그레이션 ">
 						</div>
 						<div class="col-sm-2">
 							<label for="staticEmail" class="col-sm-2 col-form-label"><strong>JobId</strong></label>
 						</div>
 						<div class="col-sm-4">
-							<input type="text" readonly class="form-control-plaintext"
+							<input type="text" readonly class="form-control"
 								id="staticEmail" value="12414215256">
 						</div>
 					</div>
@@ -464,7 +464,7 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-								<canvas id="myChartThree" height="100px"></canvas>
+								<canvas id="modalchart"></canvas>
 
 							</div>
 						</div>

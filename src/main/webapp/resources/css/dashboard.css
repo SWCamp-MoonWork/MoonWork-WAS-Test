@@ -421,14 +421,14 @@ background:var(--color-background);
 }
 
 .read table thead {
-	background-color: #ebeef1;
-	border-bottom: 1px solid #d3dae0;
+	background-color: var(--color-light);
+	border-bottom: 0.5px solid var(--color-light);
 }
 
 .read table thead td {
 	padding: 10px;
 	font-weight: bold;
-	color: #767779;
+	color: var(--color-dark);
 	font-size: 14px;
 }
 
@@ -437,27 +437,23 @@ background:var(--color-background);
 }
 
 .read table tbody tr:nth-child(even) {
-	background-color: #fbfcfc;
+	background-color: var(--color-white);
 }
 
 .read table tbody tr:hover {
-	background-color: #a5a7a9;
+	background-color: var(--color-light);
 }
 
 .read table tbody tr:hover td {
-	color: #FFFFFF;
+	color:var(--color-dark);
 }
 
 .read table tbody tr:hover td:nth-child(1) {
-	color: #FFFFFF;
+	color: var(--color-dark);
 }
 
 .read table tbody tr td {
 	padding: 10px;
-}
-
-.read table tbody tr td:nth-child(1) {
-	color: #a5a7a9;
 }
 
 .read table tbody tr td.actions {
@@ -465,12 +461,20 @@ background:var(--color-background);
 	text-align: left;
 }
 
-.read table tbody tr td.actions .edit, .read table tbody tr td.actions .trash
-	{
-	display: inline-flex;
-	text-align: left;
-	text-decoration: none;
-	color: #FFFFFF;
-	padding: 10px 12px;
+.detail-form .form-control {
+	
+	background-color: var(--color-white) !important;
+	color: var(--color-dark) !important;
 }
+
+.modal-content {
+	background-color: var(--color-white) !important;
+	color: var(--color-dark) !important;
+}
+
+.modal-content .form-control{
+	background-color: var(--color-white) !important;
+	color: var(--color-dark) !important;
+}
+
 
