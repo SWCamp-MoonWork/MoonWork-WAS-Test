@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,30 +15,31 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
 	crossorigin="anonymous"></script>
-	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-	 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <link type="text/css" rel="stylesheet"
-	href="<%= request.getContextPath()%>/resources/css/dashboard.css" />
+	href="<%=request.getContextPath()%>/resources/css/dashboard.css" />
 <link type="text/css" rel="stylesheet"
-	href="<%= request.getContextPath()%>/resources/css/joblist.css" />
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	href="<%=request.getContextPath()%>/resources/css/joblist.css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-	<script>
-    $( document ).ready(function() {
-        $('.joblist-table').resizable({
-        	handles: "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
-        });               
-    });
-	</script>
+<script>
+	$(document).ready(function() {
+		$('.joblist-table').resizable({
+			handles : "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
+		});
+	});
+</script>
 </head>
 <body>
 
@@ -60,7 +61,8 @@
 						class="fa-solid fa-list-ul"></i>Job List
 				</a></li>
 				<li><a href="${pageContext.request.contextPath}/jobhistory.do"
-					class="nav-link px-0 align-middle"> <i class="fa-solid fa-clock-rotate-left"></i>Run History
+					class="nav-link px-0 align-middle"> <i
+						class="fa-solid fa-clock-rotate-left"></i>Run History
 				</a></li>
 				<li><a href="${pageContext.request.contextPath}/hosts.do"
 					class="nav-link px-0 align-middle"> <i class="fa-solid fa-tv"></i>Hosts
@@ -74,21 +76,18 @@
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-				<ul class="navbar-nav hambuger">
-				<li class="ham-btn">
-                    <a class="menu-trigger" href="#">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </a>
-                </li>
-                </ul>
-                <a href="#" class="d-flex moonwork">MoonWork</a>
+					<ul class="navbar-nav hambuger">
+						<li class="ham-btn"><a class="menu-trigger" href="#"> <span></span>
+								<span></span> <span></span>
+						</a></li>
+					</ul>
+					<a href="#" class="d-flex moonwork">MoonWork</a>
 					<div
 						class="collapse navbar-collapse text-decoration-none user-info"
 						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
 					<input type="checkbox" id="dn"> <label for="dn"
-						class="toggle2"> <span class="material-icons toggle__handler">light_mode</span>
+						class="toggle2"> <span
+						class="material-icons toggle__handler">light_mode</span>
 					</label>
 					<div class="dropdown" style="padding-right: 30px">
 						<a href="#"
@@ -98,8 +97,7 @@
 							class="fa-solid fa-circle-user fa-lg"></i> <span
 							class="d-none d-sm-inline mx-1">Han</span>
 						</a>
-						<ul class="dropdown-menu shadow"
-							aria-labelledby="dropdownUser1">
+						<ul class="dropdown-menu shadow" aria-labelledby="dropdownUser1">
 							<li><a class="dropdown-item" href="#">Profiles</a></li>
 							<li><a class="dropdown-item" href="#">Settings</a></li>
 							<li>
@@ -117,12 +115,13 @@
 				</div>
 			</div>
 			<div class="container-fluid read">
-				<div class="row" >
+				<div class="row">
 					<div class="col-sm-12">
 						<button type="button" class="btn btn-primary"
 							data-bs-toggle="modal" data-bs-target="#addModal">Add
 							Job</button>
-						<div class="joblist-table" style="width: 100%; height: 300px; overflow: auto; border: 1px solid gray">
+						<div class="joblist-table"
+							style="width: 100%; height: 300px; overflow: auto; border: 1px solid gray">
 							<table>
 								<thead>
 									<tr>
@@ -140,7 +139,9 @@
 									<c:forEach var="row" items="${jobs}">
 										<tr>
 											<td>${row.jobId}</td>
-											<td><a href="#">${row.jobName}</a></td>
+											<td><a href="javascript:void(0);" class="jobdetail"
+												id="${row.jobId}">${row.jobName}</a></td>
+
 											<td class="actions">
 												<button type="button" class="btn btn-info"
 													data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
@@ -151,9 +152,12 @@
 													data-bs-toggle="modal" data-bs-target="#runsModal">Runs</button>
 											</td>
 											<td>${row.isUse}</td>
-											<td><fmt:formatDate value="${row.saveDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+											<td><fmt:formatDate value="${row.saveDate}"
+													pattern="yyyy-MM-dd HH:mm" /></td>
 											<td>${row.userId}</td>
-											<td class="actions"><button class="btn btn-danger" onclick="javascript:delbtn()">Delete</button></td>
+											<td class="actions"><button class="btn btn-danger"
+													value="${row.jobId}" id="delbtn"
+													onclick="javascript:delbtn(this)">Delete</button></td>
 										</tr>
 
 									</c:forEach>
@@ -164,56 +168,66 @@
 					</div>
 				</div>
 
+				<script>
 
+				</script>
 				<div class="row" style="padding-top: 40px">
 					<div class="col-sm-12">
 
-	<div class="container-fluid detail-form">
-		<form class="row g-3">
-			<div class="col-md-4">
-				<label for="inputEmail4" class="form-label"><strong>JobId</strong></label>
-				<input readonly type="text" class="form-control" id="JobId" value="1234526733">
-			</div>
-			<div class="col-md-4">
-				<label for="inputPassword4" class="form-label"><strong>JobName</strong></label>
-				<input readonly type="text" class="form-control" id="JobName" value="DB 마이그레이션">
-			</div>
-			<div class="col-md-4">
-				<label for="inputAddress" class="form-label"><strong>WorkflowName</strong></label>
-				<input readonly type="text" class="form-control" id="WorkflowName" value="DBMigration.java">
-			</div>
-			<div class="col-md-4">
-				<label for="inputAddress" class="form-label"><strong>HostName</strong></label>
-				<input readonly type="text" class="form-control" id="HostName" value="Worker-2">
-			</div>
-			<div class="col-md-4">
-				<label for="inputAddress" class="form-label"><strong>HostIp</strong></label>
-				<input readonly type="text" class="form-control" id="HostName" value="192.168.0.0"> 
-			</div>
-			<div class="col-md-4">
-				<label for="inputAddress" class="form-label"><strong>InUse</strong></label>
-				<input readonly type="text" class="form-control" id="InUse" value="Off">
-			</div>
-			<div class="col-md-4">
-				<label for="inputAddress" class="form-label"><strong>CreateUser</strong></label>
-				<input readonly type="text" class="form-control" id="CreateUser" value="Han">
-			</div>
-			<div class="col-md-4">
-				<label for="inputAddress" class="form-label"><strong>SaveDate</strong></label>
-				<input readonly type="text" class="form-control" id="SaveDate" value="2022-12-30">
-			</div>
-			<div class="col-md-4">
-				<label for="inputAddress" class="form-label"><strong>Note</strong></label>
-				<textarea readonly class="form-control" id="Note" value="ddddddddd"
-					style="height: 80px;"></textarea>
-			</div>
-			<div class="col-md-12">
-				<label for="inputAddress" class="form-label"><strong>Registered
-						Schedule</strong></label>
-				<div id="schedule-jsGrid"></div>
-			</div>
-		</form>
-	</div>
+						<div class="container-fluid detail-form">
+							<form class="row g-3">
+								<div class="col-md-4">
+									<label for="inputEmail4" class="form-label"><strong>JobId</strong></label>
+									<input type="text" class="form-control detail" id="detail-JobId"
+										value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputPassword4" class="form-label"><strong>JobName</strong></label>
+									<input readonly type="text" class="form-control detail" id="detail-JobName"
+										value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputAddress" class="form-label"><strong>WorkflowName</strong></label>
+									<input readonly type="text" class="form-control detail"
+										id="detail-WorkflowName" value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputAddress" class="form-label"><strong>HostName</strong></label>
+									<input readonly type="text" class="form-control detail" id="detail-HostName"
+										value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputAddress" class="form-label"><strong>HostIp</strong></label>
+									<input readonly type="text" class="form-control detail" id="detail-HostIp"
+										value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputAddress" class="form-label"><strong>IsUse</strong></label>
+									<input readonly type="text" class="form-control detail" id="detail-IsUse"
+										value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputAddress" class="form-label"><strong>CreateUser</strong></label>
+									<input readonly type="text" class="form-control detail"
+										id="detail-CreateUser" value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputAddress" class="form-label"><strong>SaveDate</strong></label>
+									<input readonly type="date" class="form-control detail" id="detail-SaveDate"
+										value="">
+								</div>
+								<div class="col-md-4">
+									<label for="inputAddress" class="form-label"><strong>Note</strong></label>
+									<textarea readonly class="form-control detail" id="detail-Note"
+										value="" style="height: 80px;"></textarea>
+								</div>
+								<div class="col-md-12">
+									<label for="inputAddress" class="form-label detail"><strong>Registered
+											Schedule</strong></label>
+									<div id="schedule-jsGrid"></div>
+								</div>
+							</form>
+						</div>
 
 					</div>
 				</div>
@@ -232,41 +246,48 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form name="addform" action="${pageContext.request.contextPath}/jobadd.do" method="post">
-				<div class="modal-body">
-					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label"><strong>Job
-								Name</strong></label> <input type="text" class="form-control"
-							name="jobName" placeholder="ex) 영업부 DB 마이그레이션" required>
-					</div>
-					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
-								Name</strong></label> <input type="text" class="form-control"
-							name="workflowName" placeholder="ex) DBmigration.java" required>
-					</div>
-					<div class="mb-3">
-						<label for="formFileSm" class="form-label"><strong>소스코드
-								첨부</strong></label> <input class="form-control form-control-sm" name="workflowFile"
-							type="file" >
-					</div>
-					<div class="mb-3">
-						<label for="exampleFormControlTextarea1" class="form-label"><strong>Note</strong></label>
-						<textarea class="form-control" name="note"
-							rows="3"></textarea>
-					</div>
+				<form name="addform" id="add-form"
+					action="${pageContext.request.contextPath}/createjob.do"
+					onsubmit="return addJob()" method="post"
+					enctype="multipart/form-data">
+					<div class="modal-body">
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label job-text"><strong>Job
+									Name</strong></label> <input type="text" class="form-control" name="jobName"
+								placeholder="ex) 영업부 DB 마이그레이션" required>
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label job-text"><strong>Workflow
+									Name</strong></label> <input type="text" class="form-control"
+								name="workflowName" placeholder="ex) DBmigration.java" required>
+						</div>
+						<div class="mb-3">
+							<label for="formFileSm" class="form-label job-text"><strong>소스코드
+									첨부</strong></label> <input class="form-control form-control-sm"
+								name="workflowFile" type="file">
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlTextarea1"
+								class="form-label job-text"><strong>Note</strong></label>
+							<textarea class="form-control" name="note" rows="3"></textarea>
+						</div>
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Add</button>
-				</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Add</button>
+					</div>
 				</form>
-<!-- 				<script>
-					$('#addform').submit(function(){
-						$('#addModal').modal('hide')
-					});
-				</script> -->
+				<script type="text/javascript">
+					// 버튼 클릭 시 모달 닫고 폼 전송 
+					function addJob() {
+
+						alert("Job 추가 완료!");
+						$('#add-form').modal('hide')
+						return true;
+					}
+				</script>
 			</div>
 		</div>
 	</div>
@@ -331,15 +352,15 @@
 							<label for="staticEmail" class="col-sm-2 col-form-label"><strong>JobName</strong></label>
 						</div>
 						<div class="col-sm-4">
-							<input type="text" readonly class="form-control"
-								id="staticEmail" value="기획부 DB 마이그레이션 ">
+							<input type="text" readonly class="form-control" id="staticEmail"
+								value="기획부 DB 마이그레이션 ">
 						</div>
 						<div class="col-sm-2">
 							<label for="staticEmail" class="col-sm-2 col-form-label"><strong>JobId</strong></label>
 						</div>
 						<div class="col-sm-4">
-							<input type="text" readonly class="form-control"
-								id="staticEmail" value="12414215256">
+							<input type="text" readonly class="form-control" id="staticEmail"
+								value="12414215256">
 						</div>
 					</div>
 
@@ -370,22 +391,22 @@
 					</fieldset>
 
 					<fieldset class="row mb-3">
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="startdate" class="control-label small font-italic"><strong>StartDT</strong>
-						</label> <input name="startdate" type="datetime-local"
-							class="form-control border-dark" @bind="@from"
-							@bind:format="yyyy-MM-ddTHH:mm:ss" />
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-group">
-						<label for="enddate" class="control-label small font-italic"><strong>EndDT</strong>
-						</label> <input name="enddate" type="datetime-local"
-							class="form-control border-dark" @bind="@to"
-							@bind:format="yyyy-MM-ddTHH:mm" />
-					</div>
-				</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="startdate" class="control-label small font-italic"><strong>StartDT</strong>
+								</label> <input name="startdate" type="datetime-local"
+									class="form-control border-dark" @bind="@from"
+									@bind:format="yyyy-MM-ddTHH:mm:ss" />
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="enddate" class="control-label small font-italic"><strong>EndDT</strong>
+								</label> <input name="enddate" type="datetime-local"
+									class="form-control border-dark" @bind="@to"
+									@bind:format="yyyy-MM-ddTHH:mm" />
+							</div>
+						</div>
 					</fieldset>
 				</div>
 				<div class="modal-footer">
@@ -433,7 +454,7 @@
 											<td>2022/12/25</td>
 											<td>2023/12/25</td>
 										</tr>
-										
+
 										<tr>
 											<td>2</td>
 											<td>매주 일요일 db 백업</td>
@@ -481,13 +502,12 @@
 	</div>
 	<!-- ChartJs -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="<%= request.getContextPath()%>/resources/js/chartjs.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/chartjs.js"></script>
 	<!-- Hamburger -->
-	<script
-			src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
 	<!-- jsGrid -->
-	<script src="<%= request.getContextPath()%>/resources/js/jsgrid.js"></script>
-	<script src="<%= request.getContextPath()%>/resources/js/joblist.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/jsgrid.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/joblist.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

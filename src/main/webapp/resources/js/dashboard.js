@@ -1,18 +1,19 @@
 
 let bg = null;
-let font = null;
+
+let fire = null;
+
+
 
 // 체크박스 체크 시 아이콘 변경
 $(document).ready(function() {
+
 	$("#dn").change(function() {
 		if ($("#dn").is(":checked")) {
 			$(".toggle__handler").html("dark_mode");
-			bg = getComputedStyle(document.documentElement).getPropertyValue("--color-white");
-			
 		}
 		else {
 			$(".toggle__handler").html("light_mode");
-			bg = getComputedStyle(document.documentElement).getPropertyValue("--color-white");
 		}
 	});
 });
@@ -29,6 +30,7 @@ function darkmodeGo() {
 		}
 		else { // 바디에 다크모드 클래스가 있으면
 			Realbody.classList.remove('dark-theme-variables'); // 다크모드 클래스를 제거
+
 			localStorage.setItem('whatMode', darkModeToggle.checked); //whatMode라는 이름의 아이템에 체크박스의 체크 여부를 저장하기     
 		}
 	})
@@ -37,7 +39,6 @@ darkmodeGo()
 document.addEventListener('DOMContentLoaded', function() {
 	const Realbody = document.querySelector('body');
 	const whatMode = localStorage.getItem('whatMode'); //whatMode 아이템 값 불러오기
-
 	if (whatMode === "false") { // 체크 여부가 false라면, 라이트모드입니다. 이 때 false는 문자열 타입이므로 "" 안에 적어야 합니다.
 		return !1; // 라이트모드이므로 아무런 행동을 할 필요가 없습니다.
 	}
@@ -98,22 +99,21 @@ $(burger).on("click", function() {
 
 // Zing차트 (대시보드)
 //ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
-var dashboard = {
+let dashboard = {
 	type: 'calendar',
-	backgroundColor: bg,
+	backgroundColor: null,	//null : 배경색없음
 	options: {
-
 		year: {
 			text: '2023',
 			visible: false
 		},
 		startMonth: 1,
-		endMonth: 10,
+		endMonth: 12,
 		palette: ['none', '#39D353'],
 		month: {
 			item: {
 				fontColor: 'grey',
-				fontSize: 15
+				fontSize: 13
 
 			}
 		},
@@ -121,18 +121,16 @@ var dashboard = {
 			values: ['', 'Mon', '', 'Wed', '', 'Fri', ''],
 			item: {
 				fontColor: 'grey',
-				fontSize: 15
+				fontSize: 12
 			}
 		},
 		day: {
-			borderColor: '#D3D3D3',
-			borderWidth: 3,
+			borderColor: 'grey',
+			borderWidth: 2,
 			inactive: { // Use this object to style the cells of all inactive days.
-				backgroundColor: '#808080'
-				
+				backgroundColor: '#343a40'
 			}
 		},
-
 		values: [
 			['2023-01-01', 3],
 			['2023-01-04', 12],
@@ -150,6 +148,14 @@ var dashboard = {
 			['2023-02-20', 9],
 			['2023-02-28', 9],
 			['2023-02-01', 11],
+			['2023-03-07', 9],
+			['2023-03-09', 9],
+			['2023-03-15', 11],
+			['2023-03-16', 5],
+			['2023-03-19', 5],
+			['2023-03-23', 9],
+			['2023-03-26', 9],
+			['2023-03-01', 11],
 			['2023-04-04', 5],
 			['2023-04-17', 5],
 			['2023-04-27', 9],
@@ -164,7 +170,55 @@ var dashboard = {
 			['2023-06-16', 5],
 			['2023-06-19', 9],
 			['2023-06-20', 9],
-
+			['2023-07-13', 9],
+			['2023-07-10', 9],
+			['2023-07-13', 11],
+			['2023-07-11', 5],
+			['2023-08-04', 5],
+			['2023-08-20', 9],
+			['2023-08-28', 9],
+			['2023-08-01', 11],
+			['2023-08-04', 5],
+			['2023-08-17', 5],
+			['2023-08-27', 9],
+			['2023-08-06', 9],
+			['2023-09-08', 11],
+			['2023-09-14', 5],
+			['2023-09-15', 5],
+			['2023-09-10', 9],
+			['2023-09-03', 9],
+			['2023-09-01', 11],
+			['2023-09-14', 5],
+			['2023-09-16', 5],
+			['2023-09-19', 9],
+			['2023-09-20', 9],
+			['2023-10-01', 11],
+			['2023-10-14', 5],
+			['2023-10-16', 5],
+			['2023-10-19', 9],
+			['2023-10-20', 9],
+			['2023-10-13', 9],
+			['2023-10-10', 9],
+			['2023-10-13', 11],
+			['2023-10-11', 5],
+			['2023-11-04', 5],
+			['2023-11-20', 9],
+			['2023-11-28', 9],
+			['2023-11-01', 11],
+			['2023-11-04', 5],
+			['2023-11-17', 5],
+			['2023-11-27', 9],
+			['2023-12-06', 9],
+			['2023-12-08', 11],
+			['2023-12-14', 5],
+			['2023-12-15', 5],
+			['2023-12-10', 9],
+			['2023-12-03', 9],
+			['2023-12-01', 11],
+			['2023-12-14', 5],
+			['2023-12-16', 5],
+			['2023-12-19', 9],
+			['2023-12-20', 9],
 		]
 	}
 };
@@ -183,7 +237,7 @@ zingchart.loadModules('calendar', function() {
 //ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 var runhistory = {
 	"type": "line",
-	"backgroundColor": bg,
+	"backgroundColor": null,
 	"utc": true,
 	"title": {
 		"text": "Run history by All hosts",

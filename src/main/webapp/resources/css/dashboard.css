@@ -465,6 +465,7 @@ background:var(--color-background);
 	
 	background-color: var(--color-white) !important;
 	color: var(--color-dark) !important;
+	border: 0.5px solid rgba(128, 128, 128, 0.3);
 }
 
 .modal-content {
