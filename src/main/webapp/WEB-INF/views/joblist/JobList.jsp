@@ -33,15 +33,27 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-<script>
-	$(document).ready(function() {
-		$('.joblist-table').resizable({
-			handles : "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
-		});
-	});
-</script>
 </head>
 <body>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							$('.joblist-table').resizable({
+								handles : "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
+							});
+							$("#search-Keyword")
+									.keyup(
+											function() {
+												var key = $(this).val();
+												$("#job-table > tbody > tr")
+														.hide();
+												var temp = $("#job-table > tbody > tr > td:nth-child(7n+2):contains('"
+														+ key + "')");
+												$(temp).parent().show();
+											});
+						});
+	</script>
 
 	<div id="viewport">
 		<!-- Sidebar -->
@@ -116,13 +128,28 @@
 			</div>
 			<div class="container-fluid read">
 				<div class="row">
-					<div class="col-sm-12">
+					<div class="col-sm-12"
+						style="display: flex; justify-content: space-between;">
 						<button type="button" class="btn btn-primary"
 							data-bs-toggle="modal" data-bs-target="#addModal">Add
 							Job</button>
+						<div class="wrap"
+							style="margin-top: auto; margin-bottom: auto; width: 30rem;">
+							<div class="search">
+								<input type="text" class="searchTerm" id="search-Keyword"
+									placeholder="검색어를 입력해주세요 (Name)">
+								<button type="submit" class="searchButton">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
 						<div class="joblist-table"
 							style="width: 100%; height: 300px; overflow: auto; border: 1px solid gray">
-							<table>
+							<table id="job-table">
 								<thead>
 									<tr>
 										<td>No</td>
@@ -143,8 +170,9 @@
 												id="${row.jobId}">${row.jobName}</a></td>
 
 											<td class="actions">
-												<button type="button" class="btn btn-info"
-													data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+												<button type="button" class="btn btn-info editbtn"
+													data-bs-toggle="modal" data-bs-target="#editModal"
+													data-id="${row.jobId}">Edit</button>
 
 												<button type="button" class="btn btn-warning"
 													data-bs-toggle="modal" data-bs-target="#scheduleModal">Schedule</button>
@@ -168,9 +196,6 @@
 					</div>
 				</div>
 
-				<script>
-
-				</script>
 				<div class="row" style="padding-top: 40px">
 					<div class="col-sm-12">
 
@@ -178,13 +203,13 @@
 							<form class="row g-3">
 								<div class="col-md-4">
 									<label for="inputEmail4" class="form-label"><strong>JobId</strong></label>
-									<input type="text" class="form-control detail" id="detail-JobId"
-										value="">
+									<input type="text" class="form-control detail"
+										id="detail-JobId" value="">
 								</div>
 								<div class="col-md-4">
 									<label for="inputPassword4" class="form-label"><strong>JobName</strong></label>
-									<input readonly type="text" class="form-control detail" id="detail-JobName"
-										value="">
+									<input readonly type="text" class="form-control detail"
+										id="detail-JobName" value="">
 								</div>
 								<div class="col-md-4">
 									<label for="inputAddress" class="form-label"><strong>WorkflowName</strong></label>
@@ -193,18 +218,18 @@
 								</div>
 								<div class="col-md-4">
 									<label for="inputAddress" class="form-label"><strong>HostName</strong></label>
-									<input readonly type="text" class="form-control detail" id="detail-HostName"
-										value="">
+									<input readonly type="text" class="form-control detail"
+										id="detail-HostName" value="">
 								</div>
 								<div class="col-md-4">
 									<label for="inputAddress" class="form-label"><strong>HostIp</strong></label>
-									<input readonly type="text" class="form-control detail" id="detail-HostIp"
-										value="">
+									<input readonly type="text" class="form-control detail"
+										id="detail-HostIp" value="">
 								</div>
 								<div class="col-md-4">
 									<label for="inputAddress" class="form-label"><strong>IsUse</strong></label>
-									<input readonly type="text" class="form-control detail" id="detail-IsUse"
-										value="">
+									<input readonly type="text" class="form-control detail"
+										id="detail-IsUse" value="">
 								</div>
 								<div class="col-md-4">
 									<label for="inputAddress" class="form-label"><strong>CreateUser</strong></label>
@@ -213,8 +238,8 @@
 								</div>
 								<div class="col-md-4">
 									<label for="inputAddress" class="form-label"><strong>SaveDate</strong></label>
-									<input readonly type="date" class="form-control detail" id="detail-SaveDate"
-										value="">
+									<input readonly type="date" class="form-control detail"
+										id="detail-SaveDate" value="">
 								</div>
 								<div class="col-md-4">
 									<label for="inputAddress" class="form-label"><strong>Note</strong></label>
@@ -303,26 +328,25 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body edit-body">
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label"><strong>Job
-								Name</strong></label> <input type="text" class="form-control"
-							id="exampleFormControlInput1" value="웹 크롤링">
+								Name</strong></label> <input type="text" class="form-control" id="edit-JobName"
+							value="웹 크롤링">
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
 								Name</strong></label> <input type="text" class="form-control"
-							id="exampleFormControlInput1" value="Web.py">
+							id="edit-WorkflowName" value="Web.py">
 					</div>
 					<div class="mb-3">
 						<label for="formFileSm" class="form-label"><strong>소스코드
-								첨부</strong></label> <input class="form-control form-control-sm" id="formFileSm"
+								첨부</strong></label> <input class="form-control form-control-sm" id="edit-file"
 							type="file">
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlTextarea1" class="form-label"><strong>Note</strong></label>
-						<textarea class="form-control" id="exampleFormControlTextarea1"
-							rows="3"></textarea>
+						<textarea class="form-control" id="edit-Note" rows="3"></textarea>
 					</div>
 
 				</div>
@@ -372,6 +396,97 @@
 								placeholder="ex) 2022/12/25 ~ 2023/12/25 매주 수요일 정기일정">
 						</div>
 					</div>
+					<div class="row mb-3">
+						<!--  크론식이 들어갈 자리 -->
+						<label for="inputEmail3" class="col-form-label"><strong>Cron
+								Expression</strong></label>
+						<div class="col-sm-1" style="text-align: center">
+							<label for="inputEmail3" class="col-form-label">secs</label> <input
+								type="text" class="form-control" id="cron-secs" value="*">
+						</div>
+						<div class="col-sm-1" style="text-align: center">
+							<label for="inputEmail3" class="col-form-label">mins</label> <input
+								type="text" class="form-control" id="cron-mins" value="*">
+						</div>
+						<div class="col-sm-1" style="text-align: center">
+							<label for="inputEmail3" class="col-form-label">hrs</label> <input
+								type="text" class="form-control" id="cron-hrs" value="*">
+						</div>
+						<div class="col-sm-1" style="text-align: center">
+							<label for="inputEmail3" class="col-form-label">DOM</label> <input
+								type="text" class="form-control" id="cron-dom" value="*">
+						</div>
+						<div class="col-sm-1" style="text-align: center">
+							<label for="inputEmail3" class="col-form-label">month</label> <input
+								type="text" class="form-control" id="cron-month" value="*">
+						</div>
+						<div class="col-sm-1" style="text-align: center">
+							<label for="inputEmail3" class="col-form-label">DOW</label> <input
+								type="text" class="form-control" id="cron-dow" value="*">
+						</div>
+
+						<div class="col-sm-6">
+							<a class="btn btn-info" data-bs-toggle="collapse"
+								href="#collapseExample" role="button" aria-expanded="false"
+								aria-controls="collapseExample"> Cron Manual </a>
+							<div class="collapse" id="collapseExample">
+								<div class="card card-body" style="font-size:14px; background: var(--color-white)">
+								
+								<table style="border: 1px solid var(--color-dark-variant)">
+									<thead style="border: 1px solid var(--color-dark-variant)">
+										<tr>
+											<td>필드명</td>
+											<td>값의 허용 범위</td>
+											<td>허용된 특수문자</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>초 (Seconds)</td>
+											<td>0 ~ 59</td>
+											<td>,  -  *  /</td>
+										</tr>
+										<tr>
+											<td>분 (Minutes)</td>
+											<td>0 ~ 59</td>
+											<td>,  -  *  /</td>
+										</tr>
+										<tr>
+											<td>시 (Hours)</td>
+											<td>0 ~ 23</td>
+											<td>,  -  *  /</td>
+										</tr>
+										<tr>
+											<td>일 (Day of Month)</td>
+											<td>1 ~ 31</td>
+											<td>,  -  *  /  ?  L  W</td>
+										</tr>
+										<tr>
+											<td>월 (Month)</td>
+											<td>1 ~ 12 or JAN ~ DEC</td>
+											<td>,  -  *  /</td>
+										</tr>
+										<tr>
+											<td>요일 (Day Of Week)</td>
+											<td>0 ~ 6 or SUN ~ SAT</td>
+											<td>,  -  *  /  ?  L  W</td>
+										</tr>
+									</tbody>
+								</table>
+								● * : 모든 값을 뜻합니다. <br>
+								● ? : 특정한 값이 없음을 뜻합니다. <br>
+								● - : 범위를 뜻합니다. (예) 월요일에서 수요일까지는 MON-WED로 표현 <br>
+								● , : 특별한 값일 때만 동작 (예) 월,수,금 MON,WED,FRI <br>
+								● / : 시작시간 / 단위 (예) 0분부터 매 5분 0/5 <br>
+								● L : 일에서 사용하면 마지막 일, 요일에서는 마지막 요일(토요일) <br>
+								● W : 가장 가까운 평일 (예) 15W는 15일에서 가장 가까운 평일(월~금)을 찾음 <br>
+								● # : 몇째주의 무슨 요일을 표현 (예) 3#2 : 2번째주 수요일 <br>
+									</div>
+							</div>
+						</div>
+
+
+					</div>
 					<fieldset class="row mb-3">
 						<legend class="col-form-label col-sm-2 pt-0">
 							<strong>Schedule Type</strong>
@@ -395,7 +510,7 @@
 							<div class="form-group">
 								<label for="startdate" class="control-label small font-italic"><strong>StartDT</strong>
 								</label> <input name="startdate" type="datetime-local"
-									class="form-control border-dark" @bind="@from"
+									class="form-control" @bind="@from"
 									@bind:format="yyyy-MM-ddTHH:mm:ss" />
 							</div>
 						</div>
@@ -403,7 +518,7 @@
 							<div class="form-group">
 								<label for="enddate" class="control-label small font-italic"><strong>EndDT</strong>
 								</label> <input name="enddate" type="datetime-local"
-									class="form-control border-dark" @bind="@to"
+									class="form-control" @bind="@to"
 									@bind:format="yyyy-MM-ddTHH:mm" />
 							</div>
 						</div>
@@ -485,8 +600,71 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-								<canvas id="modalchart"></canvas>
+								<canvas id="modalchart" width="400" height="200"></canvas>
+								<script>
+									let runchart = document.getElementById(
+											'modalchart').getContext('2d');
 
+									let chart = new Chart(
+											runchart,
+											{
+												type : 'line', //pie, line, doughnut, polarArea
+												data : {
+													labels : [ 'AM 06:00',
+															'AM 08:00',
+															'AM 10:00',
+															'PM 12:00',
+															'PM 14:00',
+															'PM 16:00',
+															'PM 18:00',
+															'PM 20:00',
+															'PM 22:00' ],
+													datasets : [ {
+														label : 'Run Duration',
+														data : [ 100, 500, 250,
+																350, 700, 200,
+																450, 600, 150 ],
+														borderColor : '#39d353',
+														fill : true,
+														backgroundColor : 'rgba(57,	211, 83, 0.1)'
+													} ]
+												},
+												options : {
+													responsive : false,
+													legend : {
+														labels : {
+															fontColor : "rgba(128, 128, 128, 1)",
+															fontSize : 14
+														}
+													},
+													scales : {
+														yAxes : [ {
+															ticks : {
+																min : 0,
+																beginAtZero : true,
+																stepSize : 100,
+																fontColor : "rgba(128, 128, 128, 1)",
+																fontSize : 14,
+															},
+															gridLines : {
+																color : "rgba(128, 128, 128, 1)",
+																lineWidth : 0.5
+															}
+														} ],
+														xAxes : [ {
+															ticks : {
+																fontColor : "rgba(128, 128, 128, 1)",
+																fontSize : 14
+															},
+															gridLines : {
+																color : "rgba(128, 128, 128, 1)",
+																lineWidth : 0.5
+															}
+														} ]
+													}
+												}
+											});
+								</script>
 							</div>
 						</div>
 					</div>
@@ -512,6 +690,5 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 		crossorigin="anonymous"></script>
-
 </body>
 </html>

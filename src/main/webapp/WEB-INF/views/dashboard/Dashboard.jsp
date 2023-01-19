@@ -118,21 +118,16 @@ String test = "info";
 						<div class="card mb-3"
 							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-3"
-									style="line-height: 200px; text-align: center">
-									<img src="<%=request.getContextPath()%>/resources/img/all.png"
-										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 70px; height: 70px;">
-								</div>
-								<div class="col-md-9">
+
+								<div class="col-md-12">
 									<div class="card-body">
 										<h5 class="card-title">
-											<strong>Total Jobs</strong>
+											<i class="fa-regular fa-flag fa-lg" style="color: var(--color-primary)"></i><strong>&nbsp;&nbsp;&nbsp;Total Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px;">10</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">10</p>
 										<p class="card-text detail-link">
-											<small><a style="color: var(--color-dark);"
+											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/joblist.do"
 												>view details..</a></small>
 										</p>
@@ -146,21 +141,16 @@ String test = "info";
 						<div class="card mb-3"
 							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-3"
-									style="line-height: 200px; text-align: center">
-									<img src="<%=request.getContextPath()%>/resources/img/new.png"
-										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 70px; height: 70px;">
-								</div>
-								<div class="col-md-9">
+
+								<div class="col-md-12">
 									<div class="card-body">
 										<h5 class="card-title">
-											<strong>Today New Jobs</strong>
+											<i class="fa-solid fa-plug-circle-plus fa-lg" style="color: #7B4ED4"></i><strong>&nbsp;&nbsp;&nbsp;Today New Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px;">1</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">1</p>
 										<p class="card-text">
-											<small><a style="color: var(--color-dark);"
+											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/joblist.do"
 												>view details..</a></small>
 										</p>
@@ -174,22 +164,16 @@ String test = "info";
 						<div class="card mb-3"
 							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-3"
-									style="line-height: 200px; text-align: center">
-									<img
-										src="<%=request.getContextPath()%>/resources/img/cancel-event.png"
-										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 70px; height: 70px;">
-								</div>
-								<div class="col-md-9">
+
+								<div class="col-md-12">
 									<div class="card-body">
 										<h5 class="card-title">
-											<strong>No Schedule Jobs</strong>
+											<i class="fa-regular fa-calendar-xmark fa-lg" style="color: var(--color-warning)"></i><strong>&nbsp;&nbsp;&nbsp;No Schedule Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px;">0</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">0</p>
 										<p class="card-text">
-											<small><a style="color: var(--color-dark);"
+											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/joblist.do"
 												>view details..</a></small>
 										</p>
@@ -203,21 +187,16 @@ String test = "info";
 						<div class="card mb-3"
 							style="width: 330px; height: 200px; border-radius: 30px;">
 							<div class="row g-0">
-								<div class="col-md-3"
-									style="line-height: 200px; text-align: center">
-									<img src="<%=request.getContextPath()%>/resources/img/play.png"
-										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 70px; height: 70px;">
-								</div>
-								<div class="col-md-9">
+
+								<div class="col-md-12">
 									<div class="card-body">
 										<h5 class="card-title ">
-											<strong>Today Started Jobs</strong>
+											<i class="fa-regular fa-circle-play fa-lg" style="color: var(--color-info)"></i><strong>&nbsp;&nbsp;&nbsp;Today Started Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px;">0</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">0</p>
 										<p class="card-text">
-											<small><a style="color: var(--color-dark);"
+											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/jobhistory.do"
 												>view details..</a></small>
 										</p>
@@ -235,10 +214,9 @@ String test = "info";
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 100px; text-align: center">
-									<img
-										src="<%=request.getContextPath()%>/resources/img/success.png"
-										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 50px; height: 50px;">
+									<i class="fa-solid fa-circle-check fa-fade fa-3x" 
+									style="color:#39D452; --fa-animation-duration: 2s; vertical-align: middle; "></i>
+
 								</div>
 								<div class="col-md-8">
 									<div class="card-body">
@@ -258,14 +236,13 @@ String test = "info";
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 100px; text-align: center">
-									<img
-										src="<%=request.getContextPath()%>/resources/img/failure.png"
-										class="img-fluid rounded-start" alt="..."
-										style="vertical-align: middle; width: 50px; height: 50px;">
+									<i class="fa-solid fa-triangle-exclamation fa-fade fa-3x" 
+									style="color:#D42449; --fa-animation-duration: 2s; vertical-align: middle; "></i>
+
 								</div>
 								<div class="col-md-8">
 									<div class="card-body">
-										<h5 class="card-title text-danger">
+										<h5 class="card-title" style="color:#D42448">
 											<strong>Fail</strong>
 										</h5>
 										<p class="card-text card-count"
@@ -340,11 +317,32 @@ String test = "info";
 								</tr>
 							</table>
 						</div>
-						<div class="row" style="height: 300px; padding-top: 15px;">
-							<h6>
+						<div class="row" style=" padding-top: 5px;">
+							<h6 style="height:30px">
 								<strong>Job of the selected host </strong>
 							</h6>
-							<div class="jsgrid" id="dashboard-jsGrid"></div>
+							<div class="job-of-host" 
+							style="height:220px ;background: var(--color-table); 
+							border: 1px solid var(--color-table); border-radius: 20px;">
+							<table style="margin:auto; padding: 10px 10px 10px 10px; width:100%;">
+									<thead>
+										<tr style="font-weight:bold">
+											<td>JobId</td>
+											<td>JobName</td>
+											<td>StartRunDT</td>
+											<td>StartEndDT</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>파이썬 웹 크롤링</td>
+											<td>2022/12/25</td>
+											<td>2023/12/31</td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
 						</div>
 					</div>
 

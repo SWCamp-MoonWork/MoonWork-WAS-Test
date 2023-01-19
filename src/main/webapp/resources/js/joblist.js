@@ -1,10 +1,13 @@
-
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+  return new bootstrap.Popover(popoverTriggerEl)
+})
+$("#pop").popover();
 $(document).ready(function() {
+
 
 	$(".jobdetail").click(function() {
 		var id = $(this).attr('id');
-
-		alert(id);
 
 		$.ajax({
 			url: "/jobdetails.do",
@@ -16,22 +19,47 @@ $(document).ready(function() {
 			success: function(result) {
 
 				//$(".detail").val("");   
-				$('input[id=detail-JobId]').attr('value',result.JobId);
-				$('input[id=detail-JobName]').attr('value',result.jobName);
-				$('input[id=detail-WorkflowName]').attr('value',result.workflowName);
-				$('input[id=detail-HostName]').attr('value',result.workflowName); // HostName으로 변경해야함
-				$('input[id=detail-HostIp]').attr('value',result.hostIp);
-				$('input[id=detail-IsUse]').attr('value',result.jobIsUse);
-				$('input[id=detail-CreateUser]').attr('value',result.userName);
-				$('input[id=detail-SaveDate]').attr('value',result.jobSaveDate);
-				$('input[id=detail-Note]').attr('value',result.jobNote);
-				
+				$('input[id=detail-JobId]').attr('value', result.jobId);
+				$('input[id=detail-JobName]').attr('value', result.jobName);
+				$('input[id=detail-WorkflowName]').attr('value', result.workflowName);
+				$('input[id=detail-HostName]').attr('value', result.hostName); // HostName으로 변경해야함
+				$('input[id=detail-HostIp]').attr('value', result.hostIp);
+				$('input[id=detail-IsUse]').attr('value', result.jobIsUse);
+				$('input[id=detail-CreateUser]').attr('value', result.userName);
+				$('input[id=detail-SaveDate]').attr('value', result.jobSaveDate);
+				$('input[id=detail-Note]').attr('value', result.jobNote);
+
 			},
 			error: function(request, error) {
 				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
 			}
 		});
 	});
+
+
+	$(document).on("click", ".editbtn", function() {
+		var selectId = $(this).data('id');
+
+		$.ajax({
+			url: "/jobdetails.do",
+			type: "GET",
+			data: {
+				"jobId": selectId
+			},
+			contentType: "application/json; charset=UTF-8",
+			success: function(result) {
+				$(".edit-body #edit-JobName").val(result.jobName);
+				$(".edit-body #edit-WorkflowName").val(result.workflowName);
+				//$(".edit-body #edit-file").val(result.);
+				$(".edit-body #edit-Note").val(result.jobNote);
+
+			},
+			error: function(request, error) {
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+
 });
 
 
@@ -60,6 +88,7 @@ function delbtn(arg0) {
 			contentType: "application/json; charset=UTF-8",
 			success: function(data) {
 				alert("작업이 삭제되었습니다.");
+				location.reload();
 			},
 			error: function(error) {
 				alert("에러....." + error);

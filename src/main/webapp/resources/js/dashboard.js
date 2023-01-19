@@ -109,7 +109,7 @@ let dashboard = {
 		},
 		startMonth: 1,
 		endMonth: 12,
-		palette: ['none', '#39D353'],
+		palette: ['none', '#39d353'],
 		month: {
 			item: {
 				fontColor: 'grey',
@@ -182,15 +182,6 @@ let dashboard = {
 			['2023-08-17', 5],
 			['2023-08-27', 9],
 			['2023-08-06', 9],
-			['2023-09-08', 11],
-			['2023-09-14', 5],
-			['2023-09-15', 5],
-			['2023-09-10', 9],
-			['2023-09-03', 9],
-			['2023-09-01', 11],
-			['2023-09-14', 5],
-			['2023-09-16', 5],
-			['2023-09-19', 9],
 			['2023-09-20', 9],
 			['2023-10-01', 11],
 			['2023-10-14', 5],
@@ -546,13 +537,13 @@ let myChartThree = document.getElementById('myChartThree')
 let barChartThree = new Chart(myChartThree, {
 	type: 'line', //pie, line, doughnut, polarArea
 	data: {
-		labels: ['1번', '2번', '3번', '4번', '5번'],
+		labels: ['AM 06:00', 'AM 08:00', 'AM 10:00', 'PM 12:00', 'PM 14:00', 'PM 16:00', 'PM 18:00', 'PM 20:00', 'PM 22:00'],
 		datasets: [{
-			label: '테스트 데이터',
-			data: [10, 100, 100, 200, 5000],
-			borderColor: '#007bff',
-			tension: 1,
-			fill: false
+			label: 'Run Duration',
+			data: [100, 500, 250, 350, 700, 200, 450, 600, 150],
+			borderColor: '#39d353',
+			fill: true,
+			backgroundColor: 'rgba(	57,	211, 83, 0.1)'
 		}]
 	},
 	options: {
@@ -568,7 +559,7 @@ let barChartThree = new Chart(myChartThree, {
 				ticks: {
 					min: 0,
 					beginAtZero: true,
-					stepSize: 500,
+					stepSize: 100,
 					fontColor: "rgba(128, 128, 128, 1)",
 					fontSize: 14,
 				},
@@ -590,4 +581,6 @@ let barChartThree = new Chart(myChartThree, {
 		}
 	}
 });
+
+
 

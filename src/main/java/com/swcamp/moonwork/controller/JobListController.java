@@ -64,7 +64,7 @@ public class JobListController {
 		
 		//String resId = param.get("jobId").toString();
 		System.out.println(jobId);
-		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(URL + "/" + jobId + "/all", HttpMethod.GET, null,
+		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(URL + "/" + jobId + "/GetJobAllInfo", HttpMethod.GET, null,
 				new ParameterizedTypeReference<JobDetailDTO>() {
 				});
 		System.out.println("response = " + result);
@@ -77,7 +77,7 @@ public class JobListController {
 	public String jobAdd(Locale locale, Model model, @RequestParam("jobName") String jobName,
 			@RequestParam("workflowName") String workflowName, @RequestParam("note") String note,
 			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException {
-		
+		StringBuilder resultline = new StringBuilder();
 		for(MultipartFile multipartFile : uploadFile) {
 			System.out.println("================uploadFile Info=================");
 			System.out.println("1. 파일 매개변수 이름 : " + multipartFile.getName());
@@ -86,14 +86,16 @@ public class JobListController {
 			System.out.println("4. 크기 : " + multipartFile.getSize());
 			System.out.println("5. 파일 내용(바이트배열) : " + multipartFile.getBytes());
 			System.out.println("6. 실제파일내용");
-			String line;
+			String line = null;
 			int i = 1;
 			BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "UTF-8"));
 			while((line=br.readLine()) != null) {
 				System.out.println("Line" + i + "- " + line);
 				i++;
+				resultline.append(line);
 			}
 			br.close();
+			System.out.println("전체 문자열 : " + resultline);
 			System.out.println("================================================");
 		}
 		
@@ -115,6 +117,7 @@ public class JobListController {
 		body.put("workflowName", dto.WorkflowName);
 		body.put("note", dto.Note);
 		body.put("userId", 3);
+		body.put("WorkflowBlob", resultline.toString());
 
 
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
@@ -135,7 +138,7 @@ public class JobListController {
 	public String jobDelete(@RequestBody Map<String, Object> param, HttpServletRequest hsrequest) throws IOException{
 
 		String re = param.get("jobId").toString();
-		System.out.println(re);
+		System.out.println("삭제할 jobId : "+re);
 		restTemplate = new RestTemplate();
 		headers.add("accept", "application/json");
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -144,7 +147,7 @@ public class JobListController {
 		body.put("JobId", re);
 		
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
-		HttpEntity<String> response = restTemplate.exchange(URL + "/delete" + "?JobId=" + re, HttpMethod.DELETE, request, String.class);
+		HttpEntity<String> response = restTemplate.exchange(URL + "/delete" + "/" + re, HttpMethod.DELETE, request, String.class);
 		System.out.println("response = " + response);
 		
 		
