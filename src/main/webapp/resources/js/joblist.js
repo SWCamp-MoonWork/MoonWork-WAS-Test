@@ -50,10 +50,35 @@ $(document).ready(function() {
 			},
 			contentType: "application/json; charset=UTF-8",
 			success: function(result) {
+				$(".edit-body #edit-JobId").val(selectId);
 				$(".edit-body #edit-JobName").val(result.jobName);
 				$(".edit-body #edit-WorkflowName").val(result.workflowName);
 				//$(".edit-body #edit-file").val(result.);
 				$(".edit-body #edit-Note").val(result.jobNote);
+
+			},
+			error: function(request, error) {
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	
+	$(document).on("click", ".schedulebtn", function() {
+		var selectId = $(this).data('id');
+
+		$.ajax({
+			url: "/jobdetails.do",
+			type: "GET",
+			data: {
+				"jobId": selectId
+			},
+			contentType: "application/json; charset=UTF-8",
+			success: function(result) {
+				$(".schedule-body #schedule-JobId").val(selectId);
+				$(".schedule-body #schedule-JobName").val(result.jobName);
+				$(".schedule-body #schedule-WorkflowName").val(result.workflowName);
+
 
 			},
 			error: function(request, error) {

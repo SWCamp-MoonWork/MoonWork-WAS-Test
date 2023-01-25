@@ -35,8 +35,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swcamp.moonwork.model.dto.JobDTO;
 import com.swcamp.moonwork.model.dto.JobDetailDTO;
-
-
+import com.swcamp.moonwork.model.dto.ScheduleDTO;
 
 import net.sf.json.JSONObject;
 
@@ -47,7 +46,8 @@ public class JobListController {
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
 	JSONObject jobJsonObject = new JSONObject();
-
+	
+	// Job List 띄우기
 	@RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
 	public String joblist(Locale locale, Model model) {
 
@@ -83,6 +83,7 @@ public class JobListController {
 			@RequestParam("workflowName") String workflowName, @RequestParam("note") String note,
 			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException {
 		StringBuilder resultline = new StringBuilder();
+		byte[] content = null;
 		for(MultipartFile multipartFile : uploadFile) {
 			System.out.println("================uploadFile Info=================");
 			System.out.println("1. 파일 매개변수 이름 : " + multipartFile.getName());
@@ -99,6 +100,7 @@ public class JobListController {
 				i++;
 				resultline.append(line);
 			}
+			content = multipartFile.getBytes();
 			br.close();
 			System.out.println("전체 문자열 : " + resultline);
 			System.out.println("================================================");
@@ -122,7 +124,8 @@ public class JobListController {
 		body.put("workflowName", dto.WorkflowName);
 		body.put("note", dto.Note);
 		body.put("userId", 3);
-		body.put("WorkflowBlob", resultline.toString());
+		System.out.println("뽑아낸 바이트배열 : " + content);
+		body.put("WorkflowBlob", content);
 
 
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
@@ -136,6 +139,50 @@ public class JobListController {
 		
 		return "redirect:joblist.do";
 
+	}
+	
+	// Job 수정 컨트롤러
+	@RequestMapping(value = "/editjob.do", method = RequestMethod.POST)
+	public String jobEdit(@RequestParam("jobName") String jobName,
+			@RequestParam("workflowName") String workflowName, @RequestParam("note") String note,
+			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException{
+		
+		byte[] content = null;
+		for(MultipartFile multipartFile : uploadFile) {
+			content = multipartFile.getBytes();
+		}
+		
+		JobDTO dto = new JobDTO();
+		dto.setJobName(jobName);
+		dto.setWorkflowName(workflowName);
+		dto.setNote(note);
+		System.out.println("========jsp에서 넘어와서 객체에 저장한 값===========");
+		System.out.println(dto.JobName);
+		System.out.println(dto.WorkflowName);
+		System.out.println(dto.Note);
+
+		restTemplate = new RestTemplate();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		//MultiValuewMap 은 List형태로 저장됨
+		JSONObject body = new JSONObject();
+		body.put("jobName", dto.JobName);
+		body.put("workflowName", dto.WorkflowName);
+		body.put("note", dto.Note);
+		body.put("userId", 3);
+		System.out.println("뽑아낸 바이트배열 : " + content);
+		body.put("WorkflowBlob", content);
+
+
+		HttpEntity<?> request = new HttpEntity<>(body, headers);
+		System.out.println("헤더" + headers);
+		System.out.println("========HttpEntity Request 값===========");
+		System.out.println("request : "+request);
+
+		HttpEntity<String> response = restTemplate.postForEntity(URL + "/update", request, String.class);
+		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+		System.out.println("response = " + response);
+		return "redirect:joblist.do";
 	}
 	
 	// Job 삭제 컨트롤러
@@ -159,7 +206,7 @@ public class JobListController {
 		return "redirect:joblist.do";
 	}
 	
-	//크론식 유효성 검사
+	// 크론식 유효성 검사
 	/*
 	 * 첫 조건은 Cron 식이 유효한 식인지 확인하는 isValidExpression이다. 파라메터는 String, 반환값은 boolean이다.
 	 * 3번째 줄 isValidExpression의 내부를 보면 
@@ -192,5 +239,57 @@ public class JobListController {
 	    return result;
 	}
 
+	
+	// Schedule 등록 컨트롤러
+	public String scheduleAdd(@RequestParam(value="jobId")int jobId, @RequestParam(value="scheduleName")String scheduleName, 
+			@RequestParam(value="scheduleType")boolean scheduleType, @RequestParam(value="startDate")Date startDate, 
+			@RequestParam(value="endDate")Date endDate, @RequestParam(value="CronExpression")String CronExpression) {
+		
+		if(scheduleType == true) {
+
+			System.out.println("Loop 값 확인: " + jobId + scheduleName + scheduleType + startDate + endDate + CronExpression);
+			
+			restTemplate = new RestTemplate();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			
+			JSONObject body = new JSONObject();
+			body.put("JobId", jobId);
+			body.put("ScheduleName", scheduleName);
+			body.put("ScheduleType", scheduleType);
+			body.put("ScheduleStartDT", startDate);
+			body.put("ScheduleEndDT", endDate);
+			body.put("CronExpression", CronExpression);
+			body.put("UserId", 3);
+			
+			HttpEntity<?> request = new HttpEntity<>(body, headers);
+			HttpEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
+			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+			System.out.println("response = " + response);
+		}
+		else if(scheduleType == false){
+			
+			System.out.println("Onetime 값 확인: " + jobId + scheduleName + scheduleType + startDate);
+			
+			restTemplate = new RestTemplate();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			
+			JSONObject body = new JSONObject();
+			body.put("JobId", jobId);
+			body.put("ScheduleName", scheduleName);
+			body.put("ScheduleType", scheduleType);
+			body.put("OneTimeOccurDT", startDate);
+			body.put("UserId", 3);
+			
+			HttpEntity<?> request = new HttpEntity<>(body, headers);
+			HttpEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
+			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+			System.out.println("response = " + response);
+		}
+		else
+			System.out.println("대실패");
+		
+		
+		return "redirect:joblist.do";
+	}
 
 }
