@@ -1,8 +1,11 @@
 package com.swcamp.moonwork.controller;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +18,23 @@ import com.swcamp.moonwork.model.dto.MemberDTO;
 
 @Controller
 public class DashboardController {
-	
-
+	String Cron = "0 0 12 * * ?";
+	public boolean isValidExpression(String expression){
+	    boolean result = false;
+	    if(CronExpression.isValidExpression(expression)){
+	        try {
+	        	System.out.println("여기로오냐?");
+	            //CronExpression targetExpression = new CronExpression(expression);
+	            //if(targetExpression.getNextValidTimeAfter(new Date(System.currentTimeMillis())) != null){
+	            //    result = true;
+	            //}
+	        	result = true;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return result;
+	}
     @Autowired
     MemberDAO memberDao;	// 인터페이스 객체
     
@@ -24,6 +42,9 @@ public class DashboardController {
     @RequestMapping("/dashboard.do")
     public String list(Locale locale, Model model) {
  	
+    	
+    	System.out.println(isValidExpression(Cron));
+    	
  	   /* 인터페이스를 구현한 클래스(MemberDAOImpl)의 list() 호출 → mapper의 sql문 실행
  	   → 레코드들이 ArrayList로 만들어져서 넘어옴   */
  	List<MemberDTO> list = memberDao.list();

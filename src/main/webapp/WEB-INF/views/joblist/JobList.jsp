@@ -36,25 +36,55 @@
 </head>
 <body>
 	<script>
-		$(document)
-				.ready(
-						function() {
+		$(document).ready(function() {
 							$('.joblist-table').resizable({
 								handles : "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
 							});
-							$("#search-Keyword")
-									.keyup(
-											function() {
+							
+							$("#search-Keyword").keyup(function() {
 												var key = $(this).val();
-												$("#job-table > tbody > tr")
-														.hide();
+												$("#job-table > tbody > tr").hide();
 												var temp = $("#job-table > tbody > tr > td:nth-child(7n+2):contains('"
 														+ key + "')");
 												$(temp).parent().show();
 											});
-						});
+							
+		});
 	</script>
-
+	<script>
+		$(document).ready(function() {
+							$("#Cron-expression").keyup(function(){
+					
+								var cron = $(this).val();
+								if($(this).val() === ''){
+									$('#cron-result').html('<b style="font-size: 14px; color: orange">크론식을 입력해주세요</b>');
+								}
+								else{
+								$.ajax({
+									url: "/cronExpression.do",
+									type: "GET",
+									data: {
+										"expression": cron
+									},
+									contentType: "application/json; charset=UTF-8",
+									success: function(result){
+										if(result === true){
+											 $('#cron-result').html('<b style="font-size: 14px; color: green;">크론식 성공!</b>');
+										}
+										else
+											$('#cron-result').html('<b style="font-size: 14px; color: red">크론식 실패</b>');
+										
+									},
+									error: function(request, error) {
+										alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+										
+									}
+									});
+								}
+								});
+							});
+						
+						</script>
 	<div id="viewport">
 		<!-- Sidebar -->
 		<div id="sidebar" class="ham-con">
@@ -332,12 +362,12 @@
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label"><strong>Job
 								Name</strong></label> <input type="text" class="form-control" id="edit-JobName"
-							value="웹 크롤링">
+							value="웹 크롤링" required>
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
 								Name</strong></label> <input type="text" class="form-control"
-							id="edit-WorkflowName" value="Web.py">
+							id="edit-WorkflowName" value="Web.py" required>
 					</div>
 					<div class="mb-3">
 						<label for="formFileSm" class="form-label"><strong>소스코드
@@ -377,14 +407,14 @@
 						</div>
 						<div class="col-sm-4">
 							<input type="text" readonly class="form-control" id="staticEmail"
-								value="기획부 DB 마이그레이션 ">
+								value="기획부 DB 마이그레이션 " required>
 						</div>
 						<div class="col-sm-2">
 							<label for="staticEmail" class="col-sm-2 col-form-label"><strong>JobId</strong></label>
 						</div>
 						<div class="col-sm-4">
 							<input type="text" readonly class="form-control" id="staticEmail"
-								value="12414215256">
+								value="12414215256" required>
 						</div>
 					</div>
 
@@ -393,99 +423,88 @@
 								Name</strong></label>
 						<div class="col-sm-10">
 							<input type="email" class="form-control" id="inputEmail3"
-								placeholder="ex) 2022/12/25 ~ 2023/12/25 매주 수요일 정기일정">
+								placeholder="ex) 2022/12/25 ~ 2023/12/25 매주 수요일 정기일정" required>
 						</div>
 					</div>
-					<div class="row mb-3">
+					<div class="row">
 						<!--  크론식이 들어갈 자리 -->
 						<label for="inputEmail3" class="col-form-label"><strong>Cron
 								Expression</strong></label>
-						<div class="col-sm-1" style="text-align: center">
-							<label for="inputEmail3" class="col-form-label">secs</label> <input
-								type="text" class="form-control" id="cron-secs" value="*">
+						<div class="col-sm-6">
+							<input type="text" class="form-control" id="Cron-expression"
+								value="" required>
 						</div>
-						<div class="col-sm-1" style="text-align: center">
-							<label for="inputEmail3" class="col-form-label">mins</label> <input
-								type="text" class="form-control" id="cron-mins" value="*">
-						</div>
-						<div class="col-sm-1" style="text-align: center">
-							<label for="inputEmail3" class="col-form-label">hrs</label> <input
-								type="text" class="form-control" id="cron-hrs" value="*">
-						</div>
-						<div class="col-sm-1" style="text-align: center">
-							<label for="inputEmail3" class="col-form-label">DOM</label> <input
-								type="text" class="form-control" id="cron-dom" value="*">
-						</div>
-						<div class="col-sm-1" style="text-align: center">
-							<label for="inputEmail3" class="col-form-label">month</label> <input
-								type="text" class="form-control" id="cron-month" value="*">
-						</div>
-						<div class="col-sm-1" style="text-align: center">
-							<label for="inputEmail3" class="col-form-label">DOW</label> <input
-								type="text" class="form-control" id="cron-dow" value="*">
-						</div>
+
 
 						<div class="col-sm-6">
 							<a class="btn btn-info" data-bs-toggle="collapse"
 								href="#collapseExample" role="button" aria-expanded="false"
 								aria-controls="collapseExample"> Cron Manual </a>
 							<div class="collapse" id="collapseExample">
-								<div class="card card-body" style="font-size:14px; background: var(--color-white)">
-								
-								<table style="border: 1px solid var(--color-dark-variant)">
-									<thead style="border: 1px solid var(--color-dark-variant)">
-										<tr>
-											<td>필드명</td>
-											<td>값의 허용 범위</td>
-											<td>허용된 특수문자</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>초 (Seconds)</td>
-											<td>0 ~ 59</td>
-											<td>,  -  *  /</td>
-										</tr>
-										<tr>
-											<td>분 (Minutes)</td>
-											<td>0 ~ 59</td>
-											<td>,  -  *  /</td>
-										</tr>
-										<tr>
-											<td>시 (Hours)</td>
-											<td>0 ~ 23</td>
-											<td>,  -  *  /</td>
-										</tr>
-										<tr>
-											<td>일 (Day of Month)</td>
-											<td>1 ~ 31</td>
-											<td>,  -  *  /  ?  L  W</td>
-										</tr>
-										<tr>
-											<td>월 (Month)</td>
-											<td>1 ~ 12 or JAN ~ DEC</td>
-											<td>,  -  *  /</td>
-										</tr>
-										<tr>
-											<td>요일 (Day Of Week)</td>
-											<td>0 ~ 6 or SUN ~ SAT</td>
-											<td>,  -  *  /  ?  L  W</td>
-										</tr>
-									</tbody>
-								</table>
-								● * : 모든 값을 뜻합니다. <br>
-								● ? : 특정한 값이 없음을 뜻합니다. <br>
-								● - : 범위를 뜻합니다. (예) 월요일에서 수요일까지는 MON-WED로 표현 <br>
-								● , : 특별한 값일 때만 동작 (예) 월,수,금 MON,WED,FRI <br>
-								● / : 시작시간 / 단위 (예) 0분부터 매 5분 0/5 <br>
-								● L : 일에서 사용하면 마지막 일, 요일에서는 마지막 요일(토요일) <br>
-								● W : 가장 가까운 평일 (예) 15W는 15일에서 가장 가까운 평일(월~금)을 찾음 <br>
-								● # : 몇째주의 무슨 요일을 표현 (예) 3#2 : 2번째주 수요일 <br>
-									</div>
+								<div class="card card-body"
+									style="font-size: 14px; background: var(--color-white)">
+
+									<table style="border: 1px solid var(--color-dark-variant)">
+										<thead style="border: 1px solid var(--color-dark-variant)">
+											<tr>
+												<td>필드명</td>
+												<td>값의 허용 범위</td>
+												<td>허용된 특수문자</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>초 (Seconds)</td>
+												<td>0 ~ 59</td>
+												<td>, - * /</td>
+											</tr>
+											<tr>
+												<td>분 (Minutes)</td>
+												<td>0 ~ 59</td>
+												<td>, - * /</td>
+											</tr>
+											<tr>
+												<td>시 (Hours)</td>
+												<td>0 ~ 23</td>
+												<td>, - * /</td>
+											</tr>
+											<tr>
+												<td>일 (Day of Month)</td>
+												<td>1 ~ 31</td>
+												<td>, - * / ? L W</td>
+											</tr>
+											<tr>
+												<td>월 (Month)</td>
+												<td>1 ~ 12 or JAN ~ DEC</td>
+												<td>, - * /</td>
+											</tr>
+											<tr>
+												<td>요일 (Day Of Week)</td>
+												<td>0 ~ 6 or SUN ~ SAT</td>
+												<td>, - * / ? L W</td>
+											</tr>
+										</tbody>
+									</table>
+									● * : 모든 값을 뜻합니다. <br> ● ? : 특정한 값이 없음을 뜻합니다. <br> ●
+									- : 범위를 뜻합니다. (예) 월요일에서 수요일까지는 MON-WED로 표현 <br> ● , : 특별한
+									값일 때만 동작 (예) 월,수,금 MON,WED,FRI <br> ● / : 시작시간 / 단위 (예)
+									0분부터 매 5분 0/5 <br> ● L : 일에서 사용하면 마지막 일, 요일에서는 마지막 요일(토요일)
+									<br> ● W : 가장 가까운 평일 (예) 15W는 15일에서 가장 가까운 평일(월~금)을 찾음 <br>
+									● # : 몇째주의 무슨 요일을 표현 (예) 3#2 : 2번째주 수요일 <br>
+								</div>
 							</div>
 						</div>
+						<script>
 
+					
+					</script>
 
+					</div>
+					
+					<div class="row mb-3">
+						<div class="col-sm-6" id="cron-result">
+						<b style="font-size: 14px; color: orange">크론식을 입력해주세요</b>
+						</div>
 					</div>
 					<fieldset class="row mb-3">
 						<legend class="col-form-label col-sm-2 pt-0">
@@ -511,7 +530,7 @@
 								<label for="startdate" class="control-label small font-italic"><strong>StartDT</strong>
 								</label> <input name="startdate" type="datetime-local"
 									class="form-control" @bind="@from"
-									@bind:format="yyyy-MM-ddTHH:mm:ss" />
+									@bind:format="yyyy-MM-ddTHH:mm:ss" required />
 							</div>
 						</div>
 						<div class="col-md-3">
@@ -519,7 +538,7 @@
 								<label for="enddate" class="control-label small font-italic"><strong>EndDT</strong>
 								</label> <input name="enddate" type="datetime-local"
 									class="form-control" @bind="@to"
-									@bind:format="yyyy-MM-ddTHH:mm" />
+									@bind:format="yyyy-MM-ddTHH:mm" required />
 							</div>
 						</div>
 					</fieldset>

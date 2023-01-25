@@ -2,7 +2,9 @@ var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl)
 })
-$("#pop").popover();
+
+
+
 $(document).ready(function() {
 
 

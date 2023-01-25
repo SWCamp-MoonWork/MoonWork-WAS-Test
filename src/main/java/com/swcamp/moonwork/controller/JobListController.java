@@ -3,12 +3,15 @@ package com.swcamp.moonwork.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.quartz.CronExpression;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +35,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swcamp.moonwork.model.dto.JobDTO;
 import com.swcamp.moonwork.model.dto.JobDetailDTO;
+
+
 
 import net.sf.json.JSONObject;
 
@@ -153,4 +158,39 @@ public class JobListController {
 		
 		return "redirect:joblist.do";
 	}
+	
+	//크론식 유효성 검사
+	/*
+	 * 첫 조건은 Cron 식이 유효한 식인지 확인하는 isValidExpression이다. 파라메터는 String, 반환값은 boolean이다.
+	 * 3번째 줄 isValidExpression의 내부를 보면 
+	 * CronExpression을 생성하면서 파라메터의 String을 생성자로 주는데, 
+	 * 이 때 Exception이 발생하면 false, 제대로 생성되면 true를 반환하게 된다. 
+	 * 결국 5번째 줄 CronExpression 생성자를 내부에서 한번 해보고 결과를 넘겨주는 것이다.
+	 * 두번째 조건은 6번째 줄의 getNextValidTimeAfter이다.
+	 * CronExpression이 생성됐다면, getNextValidTimeAfter를 통해 다음 수행 예정 Date가 있는지를 체크하는 것이다. 
+	 * 없으면 null이 반환되기 때문에 null일 경우 다음 수행 예정이 없는 무의미한 Cron 식이라는 것이고, 있다면 사용할 수 있는 식으로 간주한다.
+	 */
+	//참고: https://povia.tistory.com/9
+	@ResponseBody
+	@RequestMapping(value = "/cronExpression.do", method = RequestMethod.GET)
+	public boolean isValidExpression(@RequestParam(value="expression")String expression){
+		//System.out.println(expression);
+	    boolean result = false;
+	    if(CronExpression.isValidExpression(expression)){
+	        try {
+	            //CronExpression targetExpression = new CronExpression(cron);
+	            //if(targetExpression.getNextValidTimeAfter(new Date(System.currentTimeMillis())) != null){
+	                //System.out.println("트루");
+	            	result = true;
+	                
+	            //}
+	        } catch (Exception e) {
+	        	//System.out.println("펄스");
+	            e.printStackTrace();
+	        }
+	    }
+	    return result;
+	}
+
+
 }
