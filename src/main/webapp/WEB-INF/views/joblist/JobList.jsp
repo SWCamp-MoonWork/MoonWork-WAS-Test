@@ -281,67 +281,99 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="row" style="padding-top: 40px">
-					<div class="col-sm-12">
+<!-- 작업 중 -->
+				<div class="row" style="padding: 50px 50px 50px 50px">
+					<div class="col-sm-12" >
 
 						<div class="container-fluid detail-form">
+						<div class="row mb-3">
+							<div class="col-md-3">
+								<label for="detail-label-head" class="form-label"><i class="fa-solid fa-briefcase" style="color:var(--color-primary)"></i>&nbsp;&nbsp;&nbsp;<strong>Job</strong></label><br>
+							</div>
+							<div class="col-md-3">
+								<label for="detail-label-head" class="form-label"><i class="fa-solid fa-desktop" style="color:var(--color-purple)"></i>&nbsp;&nbsp;&nbsp;<strong>Host</strong></label><br>
+							</div>
+							<div class="col-md-3">
+								<label for="detail-label-head" class="form-label"><i class="fa-regular fa-id-card" style="color:var(--color-warning)"></i>&nbsp;&nbsp;&nbsp;<strong>User</strong></label><br>
+							</div>
+							<div class="col-md-3">
+								<label for="detail-label-head" class="form-label"><i class="fa-regular fa-clipboard" style="color:var(--color-info)"></i>&nbsp;&nbsp;&nbsp;<strong>Note</strong></label><br>
+							</div>
+						</div>
 							<form class="row g-3">
-								<div class="col-md-4">
-									<label for="inputEmail4" class="form-label"><strong>JobId</strong></label>
-									<input type="text" class="form-control detail"
-										id="detail-JobId" value="">
+								<div class="col-md-1">
+									<label for="detail-label" class="form-label detail-label">JobId</label><br>
+									<label for="detail-label" class="form-label detail-label">JobName</label><br>
+									<label for="detail-label" class="form-label detail-label">WorkflowName</label><br>
+									</div>
+								<div class="col-md-2">
+									<label for="detail-JobId" class="form-label jobdetail-text"></label><br>
+									<label for="detail-JobName" class="form-label jobdetail-text"></label><br>
+									<label for="detail-WorkflowName" class="form-label jobdetail-text"></label><br>
 								</div>
-								<div class="col-md-4">
-									<label for="inputPassword4" class="form-label"><strong>JobName</strong></label>
-									<input readonly type="text" class="form-control detail"
-										id="detail-JobName" value="">
+								<div class="col-md-1">
+									<label for="detail-label" class="form-label detail-label">HostName</label><br>
+									<label for="detail-label" class="form-label detail-label">HostIp</label><br>
+									<label for="detail-label" class="form-label detail-label">IsUse</label><br>
 								</div>
-								<div class="col-md-4">
-									<label for="inputAddress" class="form-label"><strong>WorkflowName</strong></label>
-									<input readonly type="text" class="form-control detail"
-										id="detail-WorkflowName" value="">
+								<div class="col-md-2">
+									<label for="detail-HostName" class="form-label jobdetail-text"></label><br>		
+									<label for="detail-HostIp" class="form-label jobdetail-text"></label><br>
+									<label for="detail-IsUse" class="form-label jobdetail-text"></label><br>
 								</div>
-								<div class="col-md-4">
-									<label for="inputAddress" class="form-label"><strong>HostName</strong></label>
-									<input readonly type="text" class="form-control detail"
-										id="detail-HostName" value="">
+								<div class="col-md-1">
+									<label for="detail-label" class="form-label detail-label">CreateUser</label><br>
+									<label for="detail-label" class="form-label detail-label">SaveDate</label><br>
 								</div>
-								<div class="col-md-4">
-									<label for="inputAddress" class="form-label"><strong>HostIp</strong></label>
-									<input readonly type="text" class="form-control detail"
-										id="detail-HostIp" value="">
+										
+								<div class="col-md-2">
+									<label for="detail-CreateUser" class="form-label jobdetail-text"></label><br>
+									<label for="detail-SaveDate" class="form-label jobdetail-text"></label><br>
+
 								</div>
-								<div class="col-md-4">
-									<label for="inputAddress" class="form-label"><strong>IsUse</strong></label>
-									<input readonly type="text" class="form-control detail"
-										id="detail-IsUse" value="">
+								
+								<div class="col-md-3">
+										<textarea readonly class="form-control jobdetail-text" id="detail-Note"
+												value="" style="height: 70px;"></textarea>
 								</div>
-								<div class="col-md-4">
-									<label for="inputAddress" class="form-label"><strong>CreateUser</strong></label>
-									<input readonly type="text" class="form-control detail"
-										id="detail-CreateUser" value="">
-								</div>
-								<div class="col-md-4">
-									<label for="inputAddress" class="form-label"><strong>SaveDate</strong></label>
-									<input readonly type="text" class="form-control detail"
-										id="detail-SaveDate" value="">
-								</div>
-								<div class="col-md-4">
-									<label for="inputAddress" class="form-label"><strong>Note</strong></label>
-									<textarea readonly class="form-control detail" id="detail-Note"
-										value="" style="height: 80px;"></textarea>
-								</div>
-								<div class="col-md-12">
-									<label for="inputAddress" class="form-label detail"><strong>Registered
-											Schedule</strong></label>
-									<div id="schedule-jsGrid"></div>
+
+								<div class="col-md-12"  style="padding-top: 30px">
+									<label for="inputAddress" class="form-label detail"><i class="fa-regular fa-calendar-check" style="color: var(--color-green)"></i>&nbsp;&nbsp;&nbsp;<strong>Registered
+											Schedule&nbsp;&nbsp;</strong></label>
+											<i class="fa-regular fa-pen-to-square" style="color: var(--color-dark-variant)"></i>
+											&nbsp;<i class="fa-regular fa-trash-can" style="color: var(--color-danger)"></i>
+
+							<div class="col-md-12">
+								<table>
+									<thead>
+										<tr>
+											<td>ScheduleId</td>
+											<td>ScheduleName</td>
+											<td>IsUse</td>
+											<td>ScheduleType</td>
+											<td>ScheduleStartDT</td>
+											<td>ScheduleEndDT</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>2022/12/25 ~ 2023/12/25 매주 수요일 정기일정</td>
+											<td>On</td>
+											<td>Loop</td>
+											<td>2022/12/25</td>
+											<td>2023/12/25</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 								</div>
 							</form>
 						</div>
 
 					</div>
 				</div>
+				<!-- 작업 중 -->
 			</div>
 		</div>
 	</div>
@@ -458,7 +490,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form name="addform" id="add-form" action="#"
+				<form name="addform" id="add-form" action="${pageContext.request.contextPath}/createschedule.do"
 					onsubmit="return addSchedule()" method="post"
 					enctype="multipart/form-data">
 					<div class="modal-body schedule-body">
@@ -539,10 +571,10 @@
 									aria-controls="collapseExample"> Cron Manual </a>
 								<div class="collapse" id="collapseExample">
 									<div class="card card-body"
-										style="font-size: 14px; background: var(- -color-white)">
+										style="font-size: 14px; background: var(--color-white)">
 
-										<table style="border: 1px solid var(- -color-dark-variant)">
-											<thead style="border: 1px solid var(- -color-dark-variant)">
+										<table style="border: 1px solid var(--color-dark-variant)">
+											<thead style="border: 1px solid var(--color-dark-variant)">
 												<tr>
 													<td>필드명</td>
 													<td>값의 허용 범위</td>
@@ -609,13 +641,10 @@
 					</div>
 				</form>
 				<script type="text/javascript">
-					// 버튼 클릭 시 모달 닫고 폼 전송 
 					function addSchedule() {
 						var tagId = $('.CronIsVaildText').attr('id');
 						if ($('#loop').is(':checked')) {
-
-							if (tagId == "fail"
-									|| $('#Cron-expression').val() === '') {
+							if (tagId == "fail" || $('#Cron-expression').val() === '') {
 								alert("크론식을 다시 입력해주세요.");
 								return false;
 							} else {
@@ -649,14 +678,14 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row read"
-							style="width: 100%; height: 300px; overflow: auto">
+							style="width: 100%; height: 15vh; overflow: auto">
 							<div class="col-sm-12">
 								<table>
 									<thead>
 										<tr>
 											<td>ScheduleId</td>
 											<td>ScheduleName</td>
-											<td>InUse</td>
+											<td>IsUse</td>
 											<td>ScheduleType</td>
 											<td>ScheduleStartDT</td>
 											<td>ScheduleEndDT</td>
@@ -671,38 +700,13 @@
 											<td>2022/12/25</td>
 											<td>2023/12/25</td>
 										</tr>
-
-										<tr>
-											<td>2</td>
-											<td>매주 일요일 db 백업</td>
-											<td>Off</td>
-											<td>Loop</td>
-											<td>2023/01/01</td>
-											<td>2030/01/01</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>매일 웹크롤링</td>
-											<td>Off</td>
-											<td>Loop</td>
-											<td>2023/01/10</td>
-											<td>2023/12/30</td>
-										</tr>
-										<tr>
-											<td>4</td>
-											<td>콘서트 티켓 예매</td>
-											<td>Off</td>
-											<td>One Time</td>
-											<td>2023/03/03</td>
-											<td>x</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-								<canvas id="modalchart" width="400" height="200"></canvas>
+								<canvas id="modalchart" width="1100vw" height="300vh"></canvas>
 								<script>
 									let runchart = document.getElementById(
 											'modalchart').getContext('2d');
@@ -726,9 +730,9 @@
 														data : [ 100, 500, 250,
 																350, 700, 200,
 																450, 600, 150 ],
-														borderColor : '#39d353',
+														borderColor : '#7B4ED4',
 														fill : true,
-														backgroundColor : 'rgba(57,	211, 83, 0.1)'
+														backgroundColor : 'rgba(123, 78, 212, 0.1)'
 													} ]
 												},
 												options : {

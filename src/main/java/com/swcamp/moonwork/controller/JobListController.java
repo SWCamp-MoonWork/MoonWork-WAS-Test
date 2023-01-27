@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.quartz.CronExpression;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -47,6 +51,7 @@ public class JobListController {
 	HttpHeaders headers = new HttpHeaders();
 	JSONObject jobJsonObject = new JSONObject();
 	
+	
 	// Job List 띄우기
 	@RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
 	public String joblist(Locale locale, Model model) {
@@ -72,7 +77,7 @@ public class JobListController {
 		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(URL + "/" + jobId + "/GetJobAllInfo", HttpMethod.GET, null,
 				new ParameterizedTypeReference<JobDetailDTO>() {
 				});
-		System.out.println("response = " + result);
+		System.out.println("response (/GetJobAllInfo)= " + result);
 
 		return result;
 	}
@@ -135,7 +140,7 @@ public class JobListController {
 
 		HttpEntity<String> response = restTemplate.postForEntity(URL + "/create", request, String.class);
 		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-		System.out.println("response = " + response);
+		System.out.println("response (/create)= " + response);
 		
 		return "redirect:joblist.do";
 
@@ -181,7 +186,7 @@ public class JobListController {
 
 		HttpEntity<String> response = restTemplate.postForEntity(URL + "/update", request, String.class);
 		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-		System.out.println("response = " + response);
+		System.out.println("response (/update) = " + response);
 		return "redirect:joblist.do";
 	}
 	
@@ -200,7 +205,7 @@ public class JobListController {
 		
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
 		HttpEntity<String> response = restTemplate.exchange(URL + "/delete" + "/" + re, HttpMethod.DELETE, request, String.class);
-		System.out.println("response = " + response);
+		System.out.println("response (/delete) = " + response);
 		
 		
 		return "redirect:joblist.do";
@@ -241,30 +246,33 @@ public class JobListController {
 
 	
 	// Schedule 등록 컨트롤러
+	@RequestMapping(value = "/createschedule.do", method = RequestMethod.POST)
 	public String scheduleAdd(@RequestParam(value="jobId")int jobId, @RequestParam(value="scheduleName")String scheduleName, 
-			@RequestParam(value="scheduleType")boolean scheduleType, @RequestParam(value="startDate")Date startDate, 
-			@RequestParam(value="endDate")Date endDate, @RequestParam(value="CronExpression")String CronExpression) {
+			@RequestParam(value="scheduleType")boolean scheduleType, @RequestParam(value="startDate") @DateTimeFormat(iso = ISO.DATE_TIME)LocalDateTime startDate, 
+			 @RequestParam(value="endDate")@DateTimeFormat(iso = ISO.DATE_TIME)LocalDateTime endDate, @RequestParam(value="CronExpression")String CronExpression) {
 		
 		if(scheduleType == true) {
-
+			LocalDateTime currentDate = LocalDateTime.now(); 
 			System.out.println("Loop 값 확인: " + jobId + scheduleName + scheduleType + startDate + endDate + CronExpression);
-			
+			System.out.println("현재시간 : " + currentDate);
 			restTemplate = new RestTemplate();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			
 			JSONObject body = new JSONObject();
-			body.put("JobId", jobId);
-			body.put("ScheduleName", scheduleName);
-			body.put("ScheduleType", scheduleType);
-			body.put("ScheduleStartDT", startDate);
-			body.put("ScheduleEndDT", endDate);
-			body.put("CronExpression", CronExpression);
-			body.put("UserId", 3);
+			body.put("jobId", jobId);
+			body.put("scheduleName", scheduleName);
+			//body.put("scheduleType", true);
+			//body.put("oneTimeOccurDT", null);
+			body.put("scheduleStartDT", startDate);
+			body.put("scheduleEndDT", endDate);
+			body.put("cronExpression", CronExpression);
+			body.put("userId", 3);
+			body.put("saveDate", currentDate);
 			
 			HttpEntity<?> request = new HttpEntity<>(body, headers);
 			HttpEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
 			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-			System.out.println("response = " + response);
+			System.out.println("response (Schedule 등록/Loop) = " + response);
 		}
 		else if(scheduleType == false){
 			
@@ -278,12 +286,15 @@ public class JobListController {
 			body.put("ScheduleName", scheduleName);
 			body.put("ScheduleType", scheduleType);
 			body.put("OneTimeOccurDT", startDate);
+			body.put("ScheduleStartDT", startDate);
+			body.put("ScheduleEndDT", null);
+			body.put("CronExpression", null);
 			body.put("UserId", 3);
 			
 			HttpEntity<?> request = new HttpEntity<>(body, headers);
 			HttpEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
 			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-			System.out.println("response = " + response);
+			System.out.println("response (Schedule 등록/OneTime) = " + response);
 		}
 		else
 			System.out.println("대실패");

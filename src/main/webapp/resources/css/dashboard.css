@@ -29,6 +29,8 @@
 --color-danger: #dc3545;
 --color-warning: #ffc107;
 --color-info: #17a2b8;
+--color-green: #39D353;
+--color-purple: #7B4ED4;
 --color-dark: #343a40;
 --color-light: #f8f9fa;
 --color-background: #fff;
@@ -41,6 +43,7 @@
 --color-black: #000;
 --color-thead: #e3e3e3;
 --color-table: #eeeeee;
+--color-jobdetail: #909090;
 
 
 --color-chart:#007bff;
@@ -61,7 +64,7 @@
 --color-thead: #000;
 --box-shadow: 0 0.1rem 20rem var(--color-shadow);
 --color-table: rgba(68, 68, 68, 0.5);
-
+--color-jobdetail: #bcbcbc;
 
 }
 
@@ -514,7 +517,25 @@ background:var(--color-background);
 	text-align: left;
 }
 
+.detail-label-head{
+	padding-bottom:15px;
+
+}
+.detail-label {
+	padding-bottom:15px;
+	margin-left:32px;
+	color: var(--color-jobdetail);
+}
+
+.jobdetail-text {
+	padding-bottom:15px;
+	margin-left: 40px;
+	color: var(--color-black);
+}
+
+
 .detail-form .form-control {
+
 	
 	background-color: var(--color-white) !important;
 	color: var(--color-dark) !important;

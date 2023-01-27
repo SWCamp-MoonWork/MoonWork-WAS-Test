@@ -125,7 +125,7 @@ String test = "info";
 											<i class="fa-regular fa-flag fa-lg" style="color: var(--color-primary)"></i><strong>&nbsp;&nbsp;&nbsp;Total Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px; margin-top:15px">10</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">${TotalJobsCount}</p>
 										<p class="card-text detail-link">
 											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/joblist.do"
@@ -148,7 +148,7 @@ String test = "info";
 											<i class="fa-solid fa-plug-circle-plus fa-lg" style="color: #7B4ED4"></i><strong>&nbsp;&nbsp;&nbsp;Today New Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px; margin-top:15px">1</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">${TodayNewJobs}</p>
 										<p class="card-text">
 											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/joblist.do"
@@ -171,7 +171,7 @@ String test = "info";
 											<i class="fa-regular fa-calendar-xmark fa-lg" style="color: var(--color-warning)"></i><strong>&nbsp;&nbsp;&nbsp;No Schedule Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px; margin-top:15px">0</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">${NoScheduleJobs}</p>
 										<p class="card-text">
 											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/joblist.do"
@@ -194,7 +194,7 @@ String test = "info";
 											<i class="fa-regular fa-circle-play fa-lg" style="color: var(--color-info)"></i><strong>&nbsp;&nbsp;&nbsp;Today Started Jobs</strong>
 										</h5>
 										<p class="card-text card-count"
-											style="text-align: center; font-size: 70px; margin-top:15px">0</p>
+											style="text-align: center; font-size: 70px; margin-top:15px">${TodayStartedJobs}</p>
 										<p class="card-text">
 											<small><a style="color: var(--color-dark); text-decoration-line:none;"
 												href="${pageContext.request.contextPath}/jobhistory.do"

@@ -21,15 +21,16 @@ $(document).ready(function() {
 			success: function(result) {
 
 				//$(".detail").val("");   
-				$('input[id=detail-JobId]').attr('value', result.jobId);
-				$('input[id=detail-JobName]').attr('value', result.jobName);
-				$('input[id=detail-WorkflowName]').attr('value', result.workflowName);
-				$('input[id=detail-HostName]').attr('value', result.hostName); // HostName으로 변경해야함
-				$('input[id=detail-HostIp]').attr('value', result.hostIp);
-				$('input[id=detail-IsUse]').attr('value', result.jobIsUse);
-				$('input[id=detail-CreateUser]').attr('value', result.userName);
-				$('input[id=detail-SaveDate]').attr('value', result.jobSaveDate);
-				$('input[id=detail-Note]').attr('value', result.jobNote);
+				//$('input[id=detail-JobId]').attr('value', result.jobId);
+				$('label[for="detail-JobId"]').text(result.jobId);
+				$('label[for="detail-JobName"]').text(result.jobId);
+				$('label[for="detail-WorkflowName"]').text(result.workflowName);
+				$('label[for="detail-HostName"]').text(result.hostName); // HostName으로 변경해야함
+				$('label[for="detail-HostIp"]').text(result.hostIp);
+				$('label[for="detail-IsUse"]').text(result.isUse);
+				$('label[for="detail-CreateUser"]').text(result.userName);
+				$('label[for="detail-SaveDate"]').text(result.jobSaveDate);
+				$('textarea[id="detail-Note"]').text(result.jobNote);
 
 			},
 			error: function(request, error) {

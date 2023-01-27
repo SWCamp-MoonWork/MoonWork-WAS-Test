@@ -1,13 +1,14 @@
 package com.swcamp.moonwork.model.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ScheduleDTO {
 	public int jobId;
 	public String scheduleName;
 	public boolean scheduleType;
-	public Date startDate;
-	public Date endDate;
+	public LocalDate  startDate;
+	public LocalDate  endDate;
 	public String CronExpression;
 	
 	public int getJobId() {
@@ -28,16 +29,16 @@ public class ScheduleDTO {
 	public void setScheduleType(boolean scheduleType) {
 		this.scheduleType = scheduleType;
 	}
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 	public String getCronExpression() {
