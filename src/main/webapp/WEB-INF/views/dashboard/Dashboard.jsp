@@ -259,14 +259,17 @@ String test = "info";
 				<div class="row" style="padding: 10px 20px 0px 20px">
 					<div class="col-sm-7">
 						<div class="row mb-1"
-							style="padding-right: 10px; padding-left: 0px; white-space: nowrap;">
+							style="padding-right: 10px; padding-left: 0px; white-space: nowrap; background:var(--color-white)">
 							<h6>
 								<strong>Runs Count View (Calendar)</strong>
 							</h6>
 							<div id='myChart'></div>
+						<div class="row" style="position:absolute; background:var(--color-white); width:1000px; height:30px; margin-top: 200px; z-index:1000">
+						
+						</div>
 						</div>
 
-						<div class="row">
+						<div class="row" style="z-index:1000">
 							<div style="width: 20px; height: 20px">
 								<i id="tooltip-info"
 									class="fa-regular fa-circle-question fa-lg "

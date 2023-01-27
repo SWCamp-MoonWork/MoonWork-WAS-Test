@@ -7,12 +7,18 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 
 $(document).ready(function() {
 
+	function getContextPath(){
+		var hostIndex = location.href.indexOf(location.host) + location.host.length;
+		return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+	}
+	
 
 	$(".jobdetail").click(function() {
 		var id = $(this).attr('id');
+		var url      = getContextPath() + "/jobdetails.do";
 
 		$.ajax({
-			url: "/jobdetails.do",
+			url: url,
 			type: "GET",
 			data: {
 				"jobId": id
@@ -23,7 +29,7 @@ $(document).ready(function() {
 				//$(".detail").val("");   
 				//$('input[id=detail-JobId]').attr('value', result.jobId);
 				$('label[for="detail-JobId"]').text(result.jobId);
-				$('label[for="detail-JobName"]').text(result.jobId);
+				$('label[for="detail-JobName"]').text(result.jobName);
 				$('label[for="detail-WorkflowName"]').text(result.workflowName);
 				$('label[for="detail-HostName"]').text(result.hostName); // HostName으로 변경해야함
 				$('label[for="detail-HostIp"]').text(result.hostIp);
@@ -31,6 +37,15 @@ $(document).ready(function() {
 				$('label[for="detail-CreateUser"]').text(result.userName);
 				$('label[for="detail-SaveDate"]').text(result.jobSaveDate);
 				$('textarea[id="detail-Note"]').text(result.jobNote);
+				$('#scheduleID').text(result.scheduleID);
+				$('#scheduleName').text(result.scheduleName);
+				$('#scheduleIsUse').text(result.scheduleIsUse);
+				$('#scheduleType').text(result.scheduleType);
+				$('#oneTimeOccurDT').text(result.oneTimeOccurDT);
+				$('#scheduleStartDT').text(result.scheduleStartDT);
+				$('#scheduleEndDT').text(result.scheduleEndDT);
+				$('#scheduleSaveDate').text(result.scheduleSaveDate);
+				
 
 			},
 			error: function(request, error) {
@@ -42,9 +57,9 @@ $(document).ready(function() {
 
 	$(document).on("click", ".editbtn", function() {
 		var selectId = $(this).data('id');
-
+		var url      = getContextPath() + "/jobdetails.do";
 		$.ajax({
-			url: "/jobdetails.do",
+			url: url,
 			type: "GET",
 			data: {
 				"jobId": selectId
@@ -67,9 +82,9 @@ $(document).ready(function() {
 	
 	$(document).on("click", ".schedulebtn", function() {
 		var selectId = $(this).data('id');
-
+		var url      = getContextPath() + "/deletejob.do";
 		$.ajax({
-			url: "/jobdetails.do",
+			url: url,
 			type: "GET",
 			data: {
 				"jobId": selectId
@@ -107,8 +122,9 @@ function delbtn(arg0) {
 	if (window.confirm('정말 삭제하시겠습니까?')) {
 		// They clicked Yes
 		var id = $(arg0).val();
+		var url      = getContextPath() + "/jobdetails.do";
 		$.ajax({
-			url: "/deletejob.do",
+			url: url,
 			type: "POST",
 			data: JSON.stringify({
 				"jobId": id

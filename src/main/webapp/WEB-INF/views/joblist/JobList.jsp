@@ -39,6 +39,9 @@
 		$(document)
 				.ready(
 						function() {
+							sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
+							
+							
 							$('.joblist-table').resizable({
 								handles : "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
 							});
@@ -60,6 +63,20 @@
 		$(document)
 				.ready(
 						function() {
+							
+							$('#re-fileUpload').change(
+									function() {
+										if ($(this).is(':checked')) {
+											$(".re-fileUpload").show();
+										}
+										else{
+											$(".re-fileUpload").hide();
+										}
+										
+
+									});
+							
+							
 
 							$('#onetime').change(
 									function() {
@@ -350,18 +367,22 @@
 											<td>ScheduleName</td>
 											<td>IsUse</td>
 											<td>ScheduleType</td>
+											<td>OneTimeOccurDT</td>
 											<td>ScheduleStartDT</td>
 											<td>ScheduleEndDT</td>
+											<td>ScheduleSaveDate</td>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>1</td>
-											<td>2022/12/25 ~ 2023/12/25 매주 수요일 정기일정</td>
-											<td>On</td>
-											<td>Loop</td>
-											<td>2022/12/25</td>
-											<td>2023/12/25</td>
+											<td id="scheduleID"></td>
+											<td id="scheduleName"></td>
+											<td id="scheduleIsUse"></td>
+											<td id="scheduleType"></td>
+											<td id="oneTimeOccurDT"></td>
+											<td id="scheduleStartDT"></td>
+											<td id="scheduleEndDT"></td>
+											<td id="scheduleSaveDate"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -459,8 +480,12 @@
 							id="edit-WorkflowName" value="" required>
 					</div>
 					<div class="mb-3">
-						<label for="formFileSm" class="form-label"><strong>소스코드
-								첨부</strong></label> <input class="form-control form-control-sm" id="edit-file"
+						<input class="form-check-input" type="checkbox" name="scheduleType"
+								id="re-fileUpload" value="true" checked> <label
+							class="form-check-label" for="gridRadios1"><strong> 소스코드 재첨부 </strong></label>
+					</div>
+					<div class="mb-3 re-fileUpload">
+						<input class="form-control form-control-sm" id="edit-file"
 							type="file">
 					</div>
 					<div class="mb-3">
@@ -689,18 +714,22 @@
 											<td>ScheduleName</td>
 											<td>IsUse</td>
 											<td>ScheduleType</td>
+											<td>OneTimeOccurDT</td>
 											<td>ScheduleStartDT</td>
 											<td>ScheduleEndDT</td>
+											<td>ScheduleSaveDate</td>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>1</td>
-											<td>2022/12/25 ~ 2023/12/25 매주 수요일 정기일정</td>
-											<td>On</td>
-											<td>Loop</td>
-											<td>2022/12/25</td>
-											<td>2023/12/25</td>
+											<td id="scheduleID"></td>
+											<td id="scheduleName"></td>
+											<td id="scheduleIsUse"></td>
+											<td id="scheduleType"></td>
+											<td id="oneTimeOccurDT"></td>
+											<td id="scheduleStartDT"></td>
+											<td id="scheduleEndDT"></td>
+											<td id="scheduleSaveDate"></td>
 										</tr>
 									</tbody>
 								</table>

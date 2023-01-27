@@ -343,7 +343,7 @@ margin-bottom:0;
     position: relative;
     width: 65px;
     height: 32px;
-    background: var(--color-shadow);
+    background: var(--color-white);
     border-radius: 84px;
     margin-right: 40px;
     border: 1px solid var(--color-dark);
@@ -528,7 +528,7 @@ background:var(--color-background);
 
 .jobdetail-text {
 	padding-bottom:15px;
-	margin-left: 40px;
+
 	color: var(--color-black);
 }
 

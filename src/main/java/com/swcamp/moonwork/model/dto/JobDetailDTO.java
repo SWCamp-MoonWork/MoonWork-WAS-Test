@@ -14,12 +14,21 @@ public class JobDetailDTO {
     public String hostIp;
     public String hostName;
     public long scheduleID;
+	public String scheduleName;
     public Boolean scheduleIsUse;
     public Boolean scheduleType;
     public Date oneTimeOccurDT;
     public Date scheduleStartDT;
     public Date scheduleEndDT;
     public Date scheduleSaveDate;
+    
+    
+    public String getScheduleName() {
+    	return scheduleName;
+    }
+    public void setScheduleName(String scheduleName) {
+    	this.scheduleName = scheduleName;
+    }
 	public long getJobId() {
 		return jobId;
 	}
