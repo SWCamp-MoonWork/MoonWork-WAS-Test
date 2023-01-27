@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -247,31 +248,37 @@ public class JobListController {
 	
 	// Schedule 등록 컨트롤러
 	@RequestMapping(value = "/createschedule.do", method = RequestMethod.POST)
-	public String scheduleAdd(@RequestParam(value="jobId")int jobId, @RequestParam(value="scheduleName")String scheduleName, 
+	public String scheduleAdd(@RequestParam(value="jobId")String jobId, @RequestParam(value="scheduleName")String scheduleName, 
 			@RequestParam(value="scheduleType")boolean scheduleType, @RequestParam(value="startDate") @DateTimeFormat(iso = ISO.DATE_TIME)LocalDateTime startDate, 
 			 @RequestParam(value="endDate")@DateTimeFormat(iso = ISO.DATE_TIME)LocalDateTime endDate, @RequestParam(value="CronExpression")String CronExpression) {
+		LocalDateTime currentDate = LocalDateTime.now(); 
 		
 		if(scheduleType == true) {
-			LocalDateTime currentDate = LocalDateTime.now(); 
-			System.out.println("Loop 값 확인: " + jobId + scheduleName + scheduleType + startDate + endDate + CronExpression);
-			System.out.println("현재시간 : " + currentDate);
+			
+			//String real_currentDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			//String real_startDate = startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			//String real_endDate = endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			
 			restTemplate = new RestTemplate();
+			headers.add("accept", "application/json");
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			
 			JSONObject body = new JSONObject();
 			body.put("jobId", jobId);
 			body.put("scheduleName", scheduleName);
-			//body.put("scheduleType", true);
-			//body.put("oneTimeOccurDT", null);
-			body.put("scheduleStartDT", startDate);
-			body.put("scheduleEndDT", endDate);
+			body.put("scheduleType", scheduleType);
+			body.put("oneTimeOccurDT", null);
+			body.put("isUse", false);
+			body.put("scheduleStartDT", startDate.toString());
+			body.put("scheduleEndDT", endDate.toString());
 			body.put("cronExpression", CronExpression);
 			body.put("userId", 3);
-			body.put("saveDate", currentDate);
+			body.put("saveDate", currentDate.toString());
+			System.out.println(body);
 			
 			HttpEntity<?> request = new HttpEntity<>(body, headers);
-			HttpEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
-			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+			System.out.println(request);
+			ResponseEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
 			System.out.println("response (Schedule 등록/Loop) = " + response);
 		}
 		else if(scheduleType == false){
@@ -279,21 +286,23 @@ public class JobListController {
 			System.out.println("Onetime 값 확인: " + jobId + scheduleName + scheduleType + startDate);
 			
 			restTemplate = new RestTemplate();
+			headers.add("accept", "application/json");
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			
 			JSONObject body = new JSONObject();
-			body.put("JobId", jobId);
-			body.put("ScheduleName", scheduleName);
-			body.put("ScheduleType", scheduleType);
-			body.put("OneTimeOccurDT", startDate);
-			body.put("ScheduleStartDT", startDate);
-			body.put("ScheduleEndDT", null);
-			body.put("CronExpression", null);
-			body.put("UserId", 3);
+			body.put("jobId", jobId);
+			body.put("scheduleName", scheduleName);
+			body.put("scheduleType", scheduleType);
+			body.put("oneTimeOccurDT", startDate.toString());
+			body.put("isUse", false);
+			body.put("scheduleStartDT", null);
+			body.put("scheduleEndDT", null);
+			body.put("cronExpression", null);
+			body.put("userId", 3);
+			body.put("saveDate", currentDate.toString());
 			
 			HttpEntity<?> request = new HttpEntity<>(body, headers);
-			HttpEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
-			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+			ResponseEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
 			System.out.println("response (Schedule 등록/OneTime) = " + response);
 		}
 		else

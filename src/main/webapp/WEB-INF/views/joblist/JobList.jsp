@@ -67,10 +67,6 @@
 											$(".enddate").hide();
 											$("#schedule-addbtn").removeAttr(
 													"disabled");
-											$("#enddate")
-													.attr("disabled", true);
-											$("#Cron-expression").attr(
-													"disabled", true);
 											$(".cron-div").hide();
 										}
 
@@ -337,11 +333,14 @@
 												value="" style="height: 70px;"></textarea>
 								</div>
 
-								<div class="col-md-12"  style="padding-top: 30px">
+								<div class="col-md-12"  style="padding-top: 30px;">
 									<label for="inputAddress" class="form-label detail"><i class="fa-regular fa-calendar-check" style="color: var(--color-green)"></i>&nbsp;&nbsp;&nbsp;<strong>Registered
 											Schedule&nbsp;&nbsp;</strong></label>
+								<label for="inputAddress" class="form-label" style="float: right;">
 											<i class="fa-regular fa-pen-to-square" style="color: var(--color-dark-variant)"></i>
 											&nbsp;<i class="fa-regular fa-trash-can" style="color: var(--color-danger)"></i>
+								</label>
+
 
 							<div class="col-md-12">
 								<table>
@@ -491,8 +490,7 @@
 						aria-label="Close"></button>
 				</div>
 				<form name="addform" id="add-form" action="${pageContext.request.contextPath}/createschedule.do"
-					onsubmit="return addSchedule()" method="post"
-					enctype="multipart/form-data">
+					onsubmit="return addSchedule()" method="post">
 					<div class="modal-body schedule-body">
 						<div class="mb-4 row">
 							<div class="col-sm-2">
@@ -552,7 +550,7 @@
 									<label for="enddate" class="control-label small font-italic"><strong>EndDT</strong>
 									</label> <input id="enddate" name="endDate" type="datetime-local"
 										class="form-control" @bind="@to"
-										@bind:format="yyyy-MM-ddTHH:mm" required />
+										@bind:format="yyyy-MM-ddTHH:mm" />
 								</div>
 							</div>
 						</fieldset>
@@ -644,7 +642,11 @@
 					function addSchedule() {
 						var tagId = $('.CronIsVaildText').attr('id');
 						if ($('#loop').is(':checked')) {
-							if (tagId == "fail" || $('#Cron-expression').val() === '') {
+							if($('#enddate').val() ===''){
+								alert("종료 날짜를 입력해주세요.")
+								retrun false;
+								
+							} else if (tagId == "fail" || $('#Cron-expression').val() === '') {
 								alert("크론식을 다시 입력해주세요.");
 								return false;
 							} else {
