@@ -67,6 +67,20 @@ public class JobListController {
 		return "joblist/JobList";
 	}
 	
+	// 특정 Id에 대한 Job List
+	@ResponseBody
+	@RequestMapping(value = "/selectjobid.do", method = RequestMethod.GET)
+	public ResponseEntity<JobDTO> selectjobid(Locale locale, Model model, @RequestParam(value="jobId") String jobId) {
+
+		System.out.println(jobId);
+		ResponseEntity<JobDTO> result = restTemplate.exchange(URL + "/" + jobId , HttpMethod.GET, null,
+				new ParameterizedTypeReference<JobDTO>() {
+				});
+		System.out.println("response (/GetJobAllInfo)= " + result);
+
+		return result;
+	}
+	
 	// Job 상세정보
 	// json 형태로 반환해줘야하기 때문에 리턴 타입을 ResponseEntity<JobDTO> 사용(?)
 	@ResponseBody
@@ -75,10 +89,11 @@ public class JobListController {
 		
 		//String resId = param.get("jobId").toString();
 		System.out.println(jobId);
-		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(URL + "/" + jobId + "/GetJobAllInfo", HttpMethod.GET, null,
+		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(URL + "/" + jobId + "/GetJob_UserSchedule", HttpMethod.GET, null,
 				new ParameterizedTypeReference<JobDetailDTO>() {
 				});
 		System.out.println("response (/GetJobAllInfo)= " + result);
+		System.out.println(result.getBody().jobSaveDate);
 
 		return result;
 	}
@@ -112,26 +127,18 @@ public class JobListController {
 			System.out.println("================================================");
 		}
 		
-		JobDTO dto = new JobDTO();
-		dto.setJobName(jobName);
-		dto.setWorkflowName(workflowName);
-		dto.setNote(note);
-		System.out.println("========jsp에서 넘어와서 객체에 저장한 값===========");
-		System.out.println(dto.JobName);
-		System.out.println(dto.WorkflowName);
-		System.out.println(dto.Note);
 
 		restTemplate = new RestTemplate();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		
 		//MultiValuewMap 은 List형태로 저장됨
 		JSONObject body = new JSONObject();
-		body.put("jobName", dto.JobName);
-		body.put("workflowName", dto.WorkflowName);
-		body.put("note", dto.Note);
+		body.put("jobName", jobName);
+		body.put("workflowName", workflowName);
+		body.put("note", note);
 		body.put("userId", 3);
 		System.out.println("뽑아낸 바이트배열 : " + content);
-		body.put("WorkflowBlob", content);
+		body.put("workflowBlob", content.toString());
 
 
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
@@ -151,33 +158,35 @@ public class JobListController {
 	@RequestMapping(value = "/editjob.do", method = RequestMethod.POST)
 	public String jobEdit(@RequestParam("jobName") String jobName,
 			@RequestParam("workflowName") String workflowName, @RequestParam("note") String note,
-			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException{
-		
+			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile,
+			@RequestParam(value = "workflowBlob",required = false) byte[] workflowBlob,
+			@RequestParam(value = "checkfile", required=false) String checkfile) throws IOException{
+		System.out.println(workflowBlob);
 		byte[] content = null;
 		for(MultipartFile multipartFile : uploadFile) {
 			content = multipartFile.getBytes();
 		}
-		
-		JobDTO dto = new JobDTO();
-		dto.setJobName(jobName);
-		dto.setWorkflowName(workflowName);
-		dto.setNote(note);
-		System.out.println("========jsp에서 넘어와서 객체에 저장한 값===========");
-		System.out.println(dto.JobName);
-		System.out.println(dto.WorkflowName);
-		System.out.println(dto.Note);
+		System.out.println(jobName + "\n" + workflowName + "\n" + note + "/n" + checkfile);
 
 		restTemplate = new RestTemplate();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		
-		//MultiValuewMap 은 List형태로 저장됨
 		JSONObject body = new JSONObject();
-		body.put("jobName", dto.JobName);
-		body.put("workflowName", dto.WorkflowName);
-		body.put("note", dto.Note);
-		body.put("userId", 3);
-		System.out.println("뽑아낸 바이트배열 : " + content);
-		body.put("WorkflowBlob", content);
+		
+		if(checkfile.equals("checked")) {
+			
+			body.put("jobName", jobName);
+			body.put("workflowName", workflowName);
+			body.put("note", note);
+			body.put("workflowBlob", content.toString());
+		}
+		else {
+
+			body.put("jobName", jobName);
+			body.put("workflowName", workflowName);
+			body.put("note", note);
+			body.put("workflowBlob", workflowBlob.toString());
+		}
+
 
 
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
@@ -185,7 +194,7 @@ public class JobListController {
 		System.out.println("========HttpEntity Request 값===========");
 		System.out.println("request : "+request);
 
-		HttpEntity<String> response = restTemplate.postForEntity(URL + "/update", request, String.class);
+		HttpEntity<String> response = restTemplate.exchange(URL + "/update", HttpMethod.PUT, request, String.class);
 		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 		System.out.println("response (/update) = " + response);
 		return "redirect:joblist.do";
@@ -268,7 +277,6 @@ public class JobListController {
 			body.put("scheduleName", scheduleName);
 			body.put("scheduleType", scheduleType);
 			body.put("oneTimeOccurDT", null);
-			body.put("isUse", false);
 			body.put("scheduleStartDT", startDate.toString());
 			body.put("scheduleEndDT", endDate.toString());
 			body.put("cronExpression", CronExpression);
@@ -294,7 +302,6 @@ public class JobListController {
 			body.put("scheduleName", scheduleName);
 			body.put("scheduleType", scheduleType);
 			body.put("oneTimeOccurDT", startDate.toString());
-			body.put("isUse", false);
 			body.put("scheduleStartDT", null);
 			body.put("scheduleEndDT", null);
 			body.put("cronExpression", null);

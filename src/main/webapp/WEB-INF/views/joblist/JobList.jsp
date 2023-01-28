@@ -28,6 +28,7 @@
 	href="<%=request.getContextPath()%>/resources/css/joblist.css" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -52,7 +53,7 @@
 												var key = $(this).val();
 												$("#job-table > tbody > tr")
 														.hide();
-												var temp = $("#job-table > tbody > tr > td:nth-child(7n+2):contains('"
+												var temp = $("#job-table > tbody > tr > td:nth-child(-n+7):contains('"
 														+ key + "')");
 												$(temp).parent().show();
 											});
@@ -68,9 +69,13 @@
 									function() {
 										if ($(this).is(':checked')) {
 											$(".re-fileUpload").show();
+											$("#edit-checkfile").val("checked");
+											$("#edit-workflowBlob").attr("disabled", true);
 										}
 										else{
 											$(".re-fileUpload").hide();
+											$("#edit-checkfile").val("unchecked");
+											$("#edit-workflowBlob").removeAttr("disabled");
 										}
 										
 
@@ -234,7 +239,7 @@
 							style="margin-top: auto; margin-bottom: auto; width: 30rem;">
 							<div class="search">
 								<input type="text" class="searchTerm" id="search-Keyword"
-									placeholder="검색어를 입력해주세요 (Name)">
+									placeholder="검색어를 입력해주세요 (Any Column)">
 								<button type="submit" class="searchButton">
 									<i class="fa fa-search"></i>
 								</button>
@@ -254,7 +259,7 @@
 										<td>Action</td>
 										<td>IsUse</td>
 										<td>SaveDate</td>
-										<td>User</td>
+										<td>Saver</td>
 										<td>Delete</td>
 
 									</tr>
@@ -278,10 +283,19 @@
 													data-bs-toggle="modal" data-bs-target="#runsModal"
 													data-id="${row.jobId}">Runs</button>
 											</td>
-											<td>${row.isUse}</td>
+											<c:if test="${row.isUse eq true}">
+												<td>
+												<input type="checkbox" name="isUsecheck" value="${row.isUse}" checked onClick="return false;">
+												</td>
+											</c:if>
+											<c:if test="${row.isUse eq false}">
+												<td>
+												<input type="checkbox" name="isUsecheck" value="${row.isUse}" onClick="return false;">
+												</td>
+											</c:if>
 											<td><fmt:formatDate value="${row.saveDate}"
 													pattern="yyyy-MM-dd HH:mm" /></td>
-											<td>${row.userId}</td>
+											<td>${row.userName}</td>
 											<td class="actions"><button class="btn btn-danger"
 													value="${row.jobId}" id="delbtn"
 													onclick="javascript:delbtn(this)">Delete</button></td>
@@ -294,47 +308,36 @@
 						</div>
 					</div>
 				</div>
-<!-- 작업 중 -->
+
 				<div class="row" style="padding: 50px 50px 50px 50px">
 					<div class="col-sm-12" >
 
 						<div class="container-fluid detail-form">
 						<div class="row mb-3">
-							<div class="col-md-3">
+							<div class="col-md-4">
 								<label for="detail-label-head" class="form-label"><i class="fa-solid fa-briefcase" style="color:var(--color-primary)"></i>&nbsp;&nbsp;&nbsp;<strong>Job</strong></label><br>
 							</div>
-							<div class="col-md-3">
-								<label for="detail-label-head" class="form-label"><i class="fa-solid fa-desktop" style="color:var(--color-purple)"></i>&nbsp;&nbsp;&nbsp;<strong>Host</strong></label><br>
-							</div>
-							<div class="col-md-3">
+							<div class="col-md-4">
 								<label for="detail-label-head" class="form-label"><i class="fa-regular fa-id-card" style="color:var(--color-warning)"></i>&nbsp;&nbsp;&nbsp;<strong>User</strong></label><br>
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-4">
 								<label for="detail-label-head" class="form-label"><i class="fa-regular fa-clipboard" style="color:var(--color-info)"></i>&nbsp;&nbsp;&nbsp;<strong>Note</strong></label><br>
 							</div>
 						</div>
-							<form class="row g-3">
-								<div class="col-md-1">
+							<form class="row">
+								<div class="col-md-2">
 									<label for="detail-label" class="form-label detail-label">JobId</label><br>
 									<label for="detail-label" class="form-label detail-label">JobName</label><br>
 									<label for="detail-label" class="form-label detail-label">WorkflowName</label><br>
+									<label for="detail-label" class="form-label detail-label">IsUse</label><br>
 									</div>
 								<div class="col-md-2">
 									<label for="detail-JobId" class="form-label jobdetail-text"></label><br>
 									<label for="detail-JobName" class="form-label jobdetail-text"></label><br>
 									<label for="detail-WorkflowName" class="form-label jobdetail-text"></label><br>
-								</div>
-								<div class="col-md-1">
-									<label for="detail-label" class="form-label detail-label">HostName</label><br>
-									<label for="detail-label" class="form-label detail-label">HostIp</label><br>
-									<label for="detail-label" class="form-label detail-label">IsUse</label><br>
-								</div>
-								<div class="col-md-2">
-									<label for="detail-HostName" class="form-label jobdetail-text"></label><br>		
-									<label for="detail-HostIp" class="form-label jobdetail-text"></label><br>
 									<label for="detail-IsUse" class="form-label jobdetail-text"></label><br>
 								</div>
-								<div class="col-md-1">
+								<div class="col-md-2">
 									<label for="detail-label" class="form-label detail-label">CreateUser</label><br>
 									<label for="detail-label" class="form-label detail-label">SaveDate</label><br>
 								</div>
@@ -346,8 +349,8 @@
 								</div>
 								
 								<div class="col-md-3">
-										<textarea readonly class="form-control jobdetail-text" id="detail-Note"
-												value="" style="height: 70px;"></textarea>
+										<textarea readonly class="form-control jobdetail-text" id="detail-Note" name="txtarea-note"
+												style="height: 70px;"></textarea>
 								</div>
 
 								<div class="col-md-12"  style="padding-top: 30px;">
@@ -367,6 +370,7 @@
 											<td>ScheduleName</td>
 											<td>IsUse</td>
 											<td>ScheduleType</td>
+											<td>CronExpression</td>
 											<td>OneTimeOccurDT</td>
 											<td>ScheduleStartDT</td>
 											<td>ScheduleEndDT</td>
@@ -379,6 +383,7 @@
 											<td id="scheduleName"></td>
 											<td id="scheduleIsUse"></td>
 											<td id="scheduleType"></td>
+											<td id="cronExpression"></td>
 											<td id="oneTimeOccurDT"></td>
 											<td id="scheduleStartDT"></td>
 											<td id="scheduleEndDT"></td>
@@ -393,7 +398,6 @@
 
 					</div>
 				</div>
-				<!-- 작업 중 -->
 			</div>
 		</div>
 	</div>
@@ -420,17 +424,17 @@
 								placeholder="ex) 영업부 DB 마이그레이션" required>
 						</div>
 						<div class="mb-3">
-							<label for="exampleFormControlInput1" class="form-label job-text"><strong>Workflow
+							<label for="exampleFormControlInput1" class="form-label job-text "><strong>Workflow
 									Name</strong></label> <input type="text" class="form-control"
-								name="workflowName" placeholder="ex) DBmigration.java" required>
+								name="workflowName" id="workflowName-add" placeholder="ex) DBmigration.java" required>
 						</div>
 						<div class="mb-3">
 							<label for="formFileSm" class="form-label job-text"><strong>소스코드
-									첨부</strong></label> <input class="form-control form-control-sm"
-								name="workflowFile" type="file">
+									첨부</strong></label> <input class="form-control form-control-sm fileadd"
+								name="workflowFile" type="file" onchange="fileUpload()">
 						</div>
 						<div class="mb-3">
-							<label for="exampleFormControlTextarea1"
+							<label for="exampleFormControlTextarea1" 
 								class="form-label job-text"><strong>Note</strong></label>
 							<textarea class="form-control" name="note" rows="3"></textarea>
 						</div>
@@ -466,6 +470,10 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
+				<form name="editform" id="edit-form"
+					action="${pageContext.request.contextPath}/editjob.do"
+					onsubmit="return editJob()" method="post"
+					enctype="multipart/form-data">
 				<div class="modal-body edit-body">
 					<div class="mb-3">
 						<input type="hidden" name="hide" value="edit-JobId"
@@ -480,25 +488,39 @@
 							id="edit-WorkflowName" value="" required>
 					</div>
 					<div class="mb-3">
-						<input class="form-check-input" type="checkbox" name="scheduleType"
-								id="re-fileUpload" value="true" checked> <label
+						<label
 							class="form-check-label" for="gridRadios1"><strong> 소스코드 재첨부 </strong></label>
+							<input class="form-check-input" type="checkbox" name="scheduleType"
+								id="re-fileUpload" value="true" checked> 
 					</div>
 					<div class="mb-3 re-fileUpload">
 						<input class="form-control form-control-sm" id="edit-file"
-							type="file">
+							type="file" name="workflowFile">
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlTextarea1" class="form-label"><strong>Note</strong></label>
 						<textarea class="form-control" id="edit-Note" rows="3" name="note"></textarea>
 					</div>
-
+					<input type="hidden" name="workflowBlob"
+							id="edit-WorkflowBlob" value="">
+					<input type="hidden" name="checkfile"
+							id="edit-checkfile" value="">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Edit</button>
+					<button type="submit" class="btn btn-primary">Edit</button>
 				</div>
+				</form>
+				<script type="text/javascript">
+					// 버튼 클릭 시 모달 닫고 폼 전송 
+					function editJob() {
+
+						alert("Job 수정 완료!");
+						$('#edit-form').modal('hide')
+						return true;
+					}
+				</script>
 			</div>
 		</div>
 	</div>
@@ -710,14 +732,14 @@
 								<table>
 									<thead>
 										<tr>
-											<td>ScheduleId</td>
-											<td>ScheduleName</td>
-											<td>IsUse</td>
-											<td>ScheduleType</td>
-											<td>OneTimeOccurDT</td>
-											<td>ScheduleStartDT</td>
-											<td>ScheduleEndDT</td>
-											<td>ScheduleSaveDate</td>
+											<td>RunId</td>
+											<td>HostName</td>
+											<td>HostIp</td>
+											<td>StartDT</td>
+											<td>EndDT</td>
+											<td>RunState</td>
+											<td>SaveDate</td>
+											
 										</tr>
 									</thead>
 									<tbody>
@@ -729,7 +751,7 @@
 											<td id="oneTimeOccurDT"></td>
 											<td id="scheduleStartDT"></td>
 											<td id="scheduleEndDT"></td>
-											<td id="scheduleSaveDate"></td>
+											
 										</tr>
 									</tbody>
 								</table>

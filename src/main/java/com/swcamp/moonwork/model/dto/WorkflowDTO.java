@@ -2,24 +2,17 @@ package com.swcamp.moonwork.model.dto;
 
 import java.util.Date;
 
-public class JobDTO {
+public class WorkflowDTO {
 	public long JobId;
     public String JobName;
     public Boolean IsUse;
     public String WorkflowName;
-    public String WorkflowBlob;
+    public Byte[] WorkflowBlob;
     public String Note;
     public Date SaveDate;
     public long UserId;
-    public String UserName;
     
-    public String getUserName() {
-		return UserName;
-	}
-	public void setUserName(String userName) {
-		UserName = userName;
-	}
-	public long getJobId() {
+    public long getJobId() {
 		return JobId;
 	}
 	public void setJobId(long jobId) {
@@ -43,10 +36,10 @@ public class JobDTO {
 	public void setWorkflowName(String workflowName) {
 		WorkflowName = workflowName;
 	}
-	public String getWorkflowBlob() {
+	public Byte[] getWorkflowBlob() {
 		return WorkflowBlob;
 	}
-	public void setWorkflowBlob(String workflowBlob) {
+	public void setWorkflowBlob(Byte[] workflowBlob) {
 		WorkflowBlob = workflowBlob;
 	}
 	public String getNote() {

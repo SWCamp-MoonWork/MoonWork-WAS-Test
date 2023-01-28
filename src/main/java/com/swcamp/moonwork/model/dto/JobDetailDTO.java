@@ -21,9 +21,16 @@ public class JobDetailDTO {
     public Date scheduleStartDT;
     public Date scheduleEndDT;
     public Date scheduleSaveDate;
+    public String cronExpression;
     
     
-    public String getScheduleName() {
+    public String getCronExpression() {
+		return cronExpression;
+	}
+	public void setCronExpression(String cronExpression) {
+		this.cronExpression = cronExpression;
+	}
+	public String getScheduleName() {
     	return scheduleName;
     }
     public void setScheduleName(String scheduleName) {
