@@ -57,7 +57,7 @@ public class JobListController {
 	@RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
 	public String joblist(Locale locale, Model model) {
 
-		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/list", HttpMethod.GET, null,
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
 		List<JobDTO> list = result.getBody();
@@ -92,8 +92,12 @@ public class JobListController {
 		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(URL + "/" + jobId + "/GetJob_UserSchedule", HttpMethod.GET, null,
 				new ParameterizedTypeReference<JobDetailDTO>() {
 				});
-		System.out.println("response (/GetJobAllInfo)= " + result);
-		System.out.println(result.getBody().jobSaveDate);
+		System.out.println("response (/GetJob_UserSchedule)= " + result);
+		System.out.println(result.getBody().JobId);
+		System.out.println(result.getBody().JobName);
+		System.out.println(result.getBody().WorkflowName);
+		System.out.println(result.getBody().JobIsUse);
+		System.out.println(result.getBody().ScheduleId);
 
 		return result;
 	}
@@ -156,37 +160,49 @@ public class JobListController {
 	
 	// Job 수정 컨트롤러
 	@RequestMapping(value = "/editjob.do", method = RequestMethod.POST)
-	public String jobEdit(@RequestParam("jobName") String jobName,
+	public String jobEdit(@RequestParam("jobId") String jobId,@RequestParam("jobName") String jobName,
 			@RequestParam("workflowName") String workflowName, @RequestParam("note") String note,
 			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile,
 			@RequestParam(value = "workflowBlob",required = false) byte[] workflowBlob,
-			@RequestParam(value = "checkfile", required=false) String checkfile) throws IOException{
-		System.out.println(workflowBlob);
+			@RequestParam(value = "checkfile", required=false) String checkfile,
+			@RequestParam(value = "checkIsUse" , required=false) String checkIsUse) throws IOException{
+
 		byte[] content = null;
 		for(MultipartFile multipartFile : uploadFile) {
 			content = multipartFile.getBytes();
 		}
-		System.out.println(jobName + "\n" + workflowName + "\n" + note + "/n" + checkfile);
+		System.out.println(jobName + "\n" + workflowName + "\n" + note + "\n" +"체크파일: " +checkfile + "\n" + "체크 이즈유즈: " +checkIsUse);
 
 		restTemplate = new RestTemplate();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		JSONObject body = new JSONObject();
 		
+		if(checkIsUse == null) {
+			body.put("isUse", 0);
+		}
+		else{
+			body.put("isUse", 1);
+		}
+
+		
+		
 		if(checkfile.equals("checked")) {
-			
+			body.put("jobId", jobId);
 			body.put("jobName", jobName);
 			body.put("workflowName", workflowName);
 			body.put("note", note);
 			body.put("workflowBlob", content.toString());
 		}
 		else {
-
+			body.put("jobId", jobId);
 			body.put("jobName", jobName);
 			body.put("workflowName", workflowName);
 			body.put("note", note);
 			body.put("workflowBlob", workflowBlob.toString());
 		}
 
+		
+		
 
 
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
@@ -195,7 +211,6 @@ public class JobListController {
 		System.out.println("request : "+request);
 
 		HttpEntity<String> response = restTemplate.exchange(URL + "/update", HttpMethod.PUT, request, String.class);
-		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 		System.out.println("response (/update) = " + response);
 		return "redirect:joblist.do";
 	}

@@ -4,133 +4,121 @@ import java.util.Date;
 
 public class JobDetailDTO {
 	
-	public long jobId;
-    public String jobName;
-    public Boolean jobIsUse;
-    public String workflowName;
-    public String jobNote;
-    public Date jobSaveDate;
-    public String userName;
-    public String hostIp;
-    public String hostName;
-    public long scheduleID;
-	public String scheduleName;
-    public Boolean scheduleIsUse;
-    public Boolean scheduleType;
-    public Date oneTimeOccurDT;
-    public Date scheduleStartDT;
-    public Date scheduleEndDT;
-    public Date scheduleSaveDate;
-    public String cronExpression;
-    
-    
-    public String getCronExpression() {
-		return cronExpression;
-	}
-	public void setCronExpression(String cronExpression) {
-		this.cronExpression = cronExpression;
-	}
-	public String getScheduleName() {
-    	return scheduleName;
-    }
-    public void setScheduleName(String scheduleName) {
-    	this.scheduleName = scheduleName;
-    }
+	public long JobId;
+    public String JobName;
+    public Boolean JobIsUse;
+    public String WorkflowName;
+    public String JobNote;
+    public Date JobSaveDate;
+    public String UserName;
+    public long ScheduleId;
+	public String ScheduleName;
+    public Boolean ScheduleIsUse;
+    public Boolean ScheduleType;
+    public Date OneTimeOccurDT;
+    public Date ScheduleStartDT;
+    public Date ScheduleEndDT;
+    public Date ScheduleSaveDate;
+    public String CronExpression;
+	
 	public long getJobId() {
-		return jobId;
+		return JobId;
 	}
 	public void setJobId(long jobId) {
-		this.jobId = jobId;
+		JobId = jobId;
 	}
 	public String getJobName() {
-		return jobName;
+		return JobName;
 	}
 	public void setJobName(String jobName) {
-		this.jobName = jobName;
+		JobName = jobName;
 	}
 	public Boolean getJobIsUse() {
-		return jobIsUse;
+		return JobIsUse;
 	}
 	public void setJobIsUse(Boolean jobIsUse) {
-		this.jobIsUse = jobIsUse;
+		JobIsUse = jobIsUse;
 	}
 	public String getWorkflowName() {
-		return workflowName;
+		return WorkflowName;
 	}
 	public void setWorkflowName(String workflowName) {
-		this.workflowName = workflowName;
+		WorkflowName = workflowName;
 	}
 	public String getJobNote() {
-		return jobNote;
+		return JobNote;
 	}
 	public void setJobNote(String jobNote) {
-		this.jobNote = jobNote;
+		JobNote = jobNote;
 	}
 	public Date getJobSaveDate() {
-		return jobSaveDate;
+		return JobSaveDate;
 	}
 	public void setJobSaveDate(Date jobSaveDate) {
-		this.jobSaveDate = jobSaveDate;
+		JobSaveDate = jobSaveDate;
 	}
 	public String getUserName() {
-		return userName;
+		return UserName;
 	}
 	public void setUserName(String userName) {
-		this.userName = userName;
+		UserName = userName;
 	}
-	public String getHostIp() {
-		return hostIp;
+	public long getScheduleId() {
+		return ScheduleId;
 	}
-	public void setHostIp(String hostIp) {
-		this.hostIp = hostIp;
+	public void setScheduleId(long scheduleId) {
+		ScheduleId = scheduleId;
 	}
-	public String getHostName() {
-		return hostName;
+	public String getScheduleName() {
+		return ScheduleName;
 	}
-	public void setHostName(String hostName) {
-		this.hostName = hostName;
-	}
-	public long getScheduleID() {
-		return scheduleID;
-	}
-	public void setScheduleID(long scheduleID) {
-		this.scheduleID = scheduleID;
+	public void setScheduleName(String scheduleName) {
+		ScheduleName = scheduleName;
 	}
 	public Boolean getScheduleIsUse() {
-		return scheduleIsUse;
+		return ScheduleIsUse;
 	}
 	public void setScheduleIsUse(Boolean scheduleIsUse) {
-		this.scheduleIsUse = scheduleIsUse;
+		ScheduleIsUse = scheduleIsUse;
 	}
 	public Boolean getScheduleType() {
-		return scheduleType;
+		return ScheduleType;
 	}
 	public void setScheduleType(Boolean scheduleType) {
-		this.scheduleType = scheduleType;
+		ScheduleType = scheduleType;
 	}
 	public Date getOneTimeOccurDT() {
-		return oneTimeOccurDT;
+		return OneTimeOccurDT;
 	}
 	public void setOneTimeOccurDT(Date oneTimeOccurDT) {
-		this.oneTimeOccurDT = oneTimeOccurDT;
+		OneTimeOccurDT = oneTimeOccurDT;
 	}
 	public Date getScheduleStartDT() {
-		return scheduleStartDT;
+		return ScheduleStartDT;
 	}
 	public void setScheduleStartDT(Date scheduleStartDT) {
-		this.scheduleStartDT = scheduleStartDT;
+		ScheduleStartDT = scheduleStartDT;
 	}
 	public Date getScheduleEndDT() {
-		return scheduleEndDT;
+		return ScheduleEndDT;
 	}
 	public void setScheduleEndDT(Date scheduleEndDT) {
-		this.scheduleEndDT = scheduleEndDT;
+		ScheduleEndDT = scheduleEndDT;
 	}
 	public Date getScheduleSaveDate() {
-		return scheduleSaveDate;
+		return ScheduleSaveDate;
 	}
 	public void setScheduleSaveDate(Date scheduleSaveDate) {
-		this.scheduleSaveDate = scheduleSaveDate;
+		ScheduleSaveDate = scheduleSaveDate;
 	}
+	public String getCronExpression() {
+		return CronExpression;
+	}
+	public void setCronExpression(String cronExpression) {
+		CronExpression = cronExpression;
+	}
+
+    
+
 
 }

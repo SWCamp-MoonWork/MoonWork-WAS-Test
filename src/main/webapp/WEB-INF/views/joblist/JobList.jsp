@@ -65,21 +65,7 @@
 				.ready(
 						function() {
 							
-							$('#re-fileUpload').change(
-									function() {
-										if ($(this).is(':checked')) {
-											$(".re-fileUpload").show();
-											$("#edit-checkfile").val("checked");
-											$("#edit-workflowBlob").attr("disabled", true);
-										}
-										else{
-											$(".re-fileUpload").hide();
-											$("#edit-checkfile").val("unchecked");
-											$("#edit-workflowBlob").removeAttr("disabled");
-										}
-										
 
-									});
 							
 							
 
@@ -106,55 +92,7 @@
 										}
 									});
 
-							$("#Cron-expression")
-									.keyup(
-											function() {
 
-												var cron = $(this).val();
-												if ($(this).val() === '') {
-													$('#cron-result')
-															.html(
-																	'<b class="CronIsVaildText" id="fail" style="font-size: 14px; color: orange">크론식을 입력해주세요</b>');
-												} else {
-													$
-															.ajax({
-																url : "/cronExpression.do",
-																type : "GET",
-																data : {
-																	"expression" : cron
-																},
-																contentType : "application/json; charset=UTF-8",
-																success : function(
-																		result) {
-																	if (result === true) {
-																		//$("#schedule-addbtn").removeAttr("disabled"); 
-																		$(
-																				'#cron-result')
-																				.html(
-																						'<b style="font-size: 14px; color: #39D452">올바른 크론식입니다.</b>');
-																	} else
-																		$(
-																				'#cron-result')
-																				.html(
-																						'<b class="CronIsVaildText" id="fail" style="font-size: 14px; color: #D42449">잘못된 크론식입니다.</b>');
-																	//$("#schedule-addbtn").attr("disabled",true); 
-																},
-																error : function(
-																		request,
-																		error) {
-																	alert("code: "
-																			+ request.status
-																			+ "\n"
-																			+ "message: "
-																			+ request.responseText
-																			+ "\n"
-																			+ "error: "
-																			+ error);
-
-																}
-															});
-												}
-											});
 						});
 	</script>
 	<div id="viewport">
@@ -417,7 +355,7 @@
 					action="${pageContext.request.contextPath}/createjob.do"
 					onsubmit="return addJob()" method="post"
 					enctype="multipart/form-data">
-					<div class="modal-body">
+					<div class="modal-body add-body">
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label job-text"><strong>Job
 									Name</strong></label> <input type="text" class="form-control" name="jobName"
@@ -430,8 +368,8 @@
 						</div>
 						<div class="mb-3">
 							<label for="formFileSm" class="form-label job-text"><strong>소스코드
-									첨부</strong></label> <input class="form-control form-control-sm fileadd"
-								name="workflowFile" type="file" onchange="fileUpload()">
+									첨부</strong></label> <input class="form-control form-control-sm file-add"
+								name="workflowFile" type="file">
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlTextarea1" 
@@ -476,7 +414,7 @@
 					enctype="multipart/form-data">
 				<div class="modal-body edit-body">
 					<div class="mb-3">
-						<input type="hidden" name="hide" value="edit-JobId"
+						<input type="hidden" name="jobId" value="edit-JobId"
 							id="edit-JobId"> <label for="exampleFormControlInput1"
 							class="form-label"><strong>Job Name</strong></label> <input
 							type="text" class="form-control" id="edit-JobName" value="" name="jobName"
@@ -489,13 +427,19 @@
 					</div>
 					<div class="mb-3">
 						<label
-							class="form-check-label" for="gridRadios1"><strong> 소스코드 재첨부 </strong></label>
-							<input class="form-check-input" type="checkbox" name="scheduleType"
-								id="re-fileUpload" value="true" checked> 
+							class="form-check-label" for="gridRadios1"><strong> IsUse </strong></label>
+							<input class="form-check-input" type="checkbox" name="checkIsUse"
+								id="edit-IsUse" value="truecheck" checked> 
 					</div>
+					<div class="mb-3">
+						<label
+							class="form-check-label" for="gridRadios1"><strong> 소스코드 재첨부 </strong></label>
+							<input class="form-check-input" type="checkbox" name="re-fileUpload"
+								id="re-fileUpload" value="true"> 
+					</div>
+
 					<div class="mb-3 re-fileUpload">
-						<input class="form-control form-control-sm" id="edit-file"
-							type="file" name="workflowFile">
+
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlTextarea1" class="form-label"><strong>Note</strong></label>
@@ -515,10 +459,26 @@
 				<script type="text/javascript">
 					// 버튼 클릭 시 모달 닫고 폼 전송 
 					function editJob() {
+						var fileOK = $('#edit-file').val();
+						
+						if($('#re-fileUpload').is(':checked')){
+							if(!fileOK){
+								alert("파일을 첨부해주세요.");
+								return false;
+							}
+							else{
+								alert("Job 수정 완료!");
+								$('#edit-form').modal('hide');
+								return true;
+							}
+						}
+						else{
+							alert("Job 수정 완료!");
+							$('#edit-form').modal('hide');
+							return true;
+						}
 
-						alert("Job 수정 완료!");
-						$('#edit-form').modal('hide')
-						return true;
+						
 					}
 				</script>
 			</div>
