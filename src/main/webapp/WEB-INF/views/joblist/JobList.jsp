@@ -362,14 +362,14 @@
 								placeholder="ex) 영업부 DB 마이그레이션" required>
 						</div>
 						<div class="mb-3">
-							<label for="exampleFormControlInput1" class="form-label job-text "><strong>Workflow
-									Name</strong></label> <input type="text" class="form-control"
-								name="workflowName" id="workflowName-add" placeholder="ex) DBmigration.java" required>
-						</div>
-						<div class="mb-3">
 							<label for="formFileSm" class="form-label job-text"><strong>소스코드
 									첨부</strong></label> <input class="form-control form-control-sm file-add"
 								name="workflowFile" type="file">
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label job-text "><strong>Workflow
+									Name</strong></label> <input type="text" class="form-control"
+								name="workflowName" id="workflowName-add" placeholder="ex) DBmigration.java" required>
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlTextarea1" 
@@ -421,11 +421,6 @@
 							required>
 					</div>
 					<div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
-								Name</strong></label> <input type="text" class="form-control" name="workflowName"
-							id="edit-WorkflowName" value="" required>
-					</div>
-					<div class="mb-3">
 						<label
 							class="form-check-label" for="gridRadios1"><strong> IsUse </strong></label>
 							<input class="form-check-input" type="checkbox" name="checkIsUse"
@@ -440,6 +435,11 @@
 
 					<div class="mb-3 re-fileUpload">
 
+					</div>
+					<div class="mb-3">
+						<label for="exampleFormControlInput1" class="form-label"><strong>Workflow
+								Name</strong></label> <input type="text" class="form-control" name="workflowName"
+							id="edit-WorkflowName" value="" required>
 					</div>
 					<div class="mb-3">
 						<label for="exampleFormControlTextarea1" class="form-label"><strong>Note</strong></label>

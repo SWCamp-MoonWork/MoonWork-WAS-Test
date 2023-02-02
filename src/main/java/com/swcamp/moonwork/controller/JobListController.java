@@ -1,18 +1,27 @@
 package com.swcamp.moonwork.controller;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.sql.Blob;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import org.quartz.CronExpression;
 import org.springframework.core.ParameterizedTypeReference;
@@ -38,6 +47,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.swcamp.moonwork.model.dto.JobDTO;
 import com.swcamp.moonwork.model.dto.JobDetailDTO;
 import com.swcamp.moonwork.model.dto.ScheduleDTO;
@@ -46,7 +56,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 public class JobListController {
-	private final String URL = "http://20.39.194.244:5000/v1/job";
+	private final String URL = "http://20.249.17.147:5000/v1/job";
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
@@ -93,20 +103,27 @@ public class JobListController {
 				new ParameterizedTypeReference<JobDetailDTO>() {
 				});
 		System.out.println("response (/GetJob_UserSchedule)= " + result);
-		System.out.println(result.getBody().JobId);
-		System.out.println(result.getBody().JobName);
-		System.out.println(result.getBody().WorkflowName);
-		System.out.println(result.getBody().JobIsUse);
-		System.out.println(result.getBody().ScheduleId);
 
 		return result;
 	}
+	
+
+    
+    public static String byteArrayToHexaString(byte[] bytes) {
+        StringBuilder builder = new StringBuilder();
+    		
+        for (byte data : bytes) {
+            builder.append(String.format("%02X ", data));
+        }
+    		
+        return builder.toString();
+    }
 
 	// Job 등록 컨트롤러
 	@RequestMapping(value = "/createjob.do", method = RequestMethod.POST)
 	public String jobAdd(Locale locale, Model model, @RequestParam("jobName") String jobName,
 			@RequestParam("workflowName") String workflowName, @RequestParam("note") String note,
-			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException {
+			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException, SerialException, SQLException {
 		StringBuilder resultline = new StringBuilder();
 		byte[] content = null;
 		for(MultipartFile multipartFile : uploadFile) {
@@ -132,6 +149,10 @@ public class JobListController {
 		}
 		
 
+		System.out.println("넣을 바이트 배열" + content);
+		
+		String encoded = Base64.getEncoder().encodeToString(content);
+		System.out.println(encoded);
 		restTemplate = new RestTemplate();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		
@@ -141,8 +162,9 @@ public class JobListController {
 		body.put("workflowName", workflowName);
 		body.put("note", note);
 		body.put("userId", 3);
-		System.out.println("뽑아낸 바이트배열 : " + content);
-		body.put("workflowBlob", content.toString());
+		body.put("workflowBlob", encoded);
+		
+		System.out.println("jsonobject: " + body.get("workflowBlob"));
 
 
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
@@ -171,12 +193,14 @@ public class JobListController {
 		for(MultipartFile multipartFile : uploadFile) {
 			content = multipartFile.getBytes();
 		}
-		System.out.println(jobName + "\n" + workflowName + "\n" + note + "\n" +"체크파일: " +checkfile + "\n" + "체크 이즈유즈: " +checkIsUse);
 
 		restTemplate = new RestTemplate();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		
 		JSONObject body = new JSONObject();
 		
+		
+		// checkIsUse가 null 이면 view단에서 IsUse에 체크를 하지 않았다는 뜻이므로 isUse를 false로 넣어준다.
 		if(checkIsUse == null) {
 			body.put("isUse", 0);
 		}
@@ -185,7 +209,7 @@ public class JobListController {
 		}
 
 		
-		
+		// checkfile이 checked 이면 view단에서 파일 첨부를 다시 하겠다는 뜻이므로 workflowBlob에 새로운 값을 넣어준다.
 		if(checkfile.equals("checked")) {
 			body.put("jobId", jobId);
 			body.put("jobName", jobName);
@@ -193,6 +217,7 @@ public class JobListController {
 			body.put("note", note);
 			body.put("workflowBlob", content.toString());
 		}
+		// 아니라면, hidden에 저장된 원래 workflowBlob값을 넣어 준다.
 		else {
 			body.put("jobId", jobId);
 			body.put("jobName", jobName);
@@ -200,10 +225,6 @@ public class JobListController {
 			body.put("note", note);
 			body.put("workflowBlob", workflowBlob.toString());
 		}
-
-		
-		
-
 
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
 		System.out.println("헤더" + headers);
@@ -239,30 +260,19 @@ public class JobListController {
 	// 크론식 유효성 검사
 	/*
 	 * 첫 조건은 Cron 식이 유효한 식인지 확인하는 isValidExpression이다. 파라메터는 String, 반환값은 boolean이다.
-	 * 3번째 줄 isValidExpression의 내부를 보면 
+	 * isValidExpression의 내부를 보면 
 	 * CronExpression을 생성하면서 파라메터의 String을 생성자로 주는데, 
 	 * 이 때 Exception이 발생하면 false, 제대로 생성되면 true를 반환하게 된다. 
-	 * 결국 5번째 줄 CronExpression 생성자를 내부에서 한번 해보고 결과를 넘겨주는 것이다.
-	 * 두번째 조건은 6번째 줄의 getNextValidTimeAfter이다.
-	 * CronExpression이 생성됐다면, getNextValidTimeAfter를 통해 다음 수행 예정 Date가 있는지를 체크하는 것이다. 
-	 * 없으면 null이 반환되기 때문에 null일 경우 다음 수행 예정이 없는 무의미한 Cron 식이라는 것이고, 있다면 사용할 수 있는 식으로 간주한다.
 	 */
 	//참고: https://povia.tistory.com/9
 	@ResponseBody
 	@RequestMapping(value = "/cronExpression.do", method = RequestMethod.GET)
 	public boolean isValidExpression(@RequestParam(value="expression")String expression){
-		//System.out.println(expression);
 	    boolean result = false;
 	    if(CronExpression.isValidExpression(expression)){
 	        try {
-	            //CronExpression targetExpression = new CronExpression(cron);
-	            //if(targetExpression.getNextValidTimeAfter(new Date(System.currentTimeMillis())) != null){
-	                //System.out.println("트루");
 	            	result = true;
-	                
-	            //}
 	        } catch (Exception e) {
-	        	//System.out.println("펄스");
 	            e.printStackTrace();
 	        }
 	    }
@@ -279,10 +289,6 @@ public class JobListController {
 		
 		if(scheduleType == true) {
 			
-			//String real_currentDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-			//String real_startDate = startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-			//String real_endDate = endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-			
 			restTemplate = new RestTemplate();
 			headers.add("accept", "application/json");
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -297,7 +303,6 @@ public class JobListController {
 			body.put("cronExpression", CronExpression);
 			body.put("userId", 3);
 			body.put("saveDate", currentDate.toString());
-			System.out.println(body);
 			
 			HttpEntity<?> request = new HttpEntity<>(body, headers);
 			System.out.println(request);
@@ -305,8 +310,6 @@ public class JobListController {
 			System.out.println("response (Schedule 등록/Loop) = " + response);
 		}
 		else if(scheduleType == false){
-			
-			System.out.println("Onetime 값 확인: " + jobId + scheduleName + scheduleType + startDate);
 			
 			restTemplate = new RestTemplate();
 			headers.add("accept", "application/json");
@@ -328,7 +331,7 @@ public class JobListController {
 			System.out.println("response (Schedule 등록/OneTime) = " + response);
 		}
 		else
-			System.out.println("대실패");
+			System.out.println("Fail");
 		
 		
 		return "redirect:joblist.do";

@@ -31,7 +31,7 @@ import net.sf.json.JSONObject;
 @Controller
 public class DashboardController {
 	
-	private final String URL = "http://20.39.194.244:5000/v1/job";
+	private final String URL = "http://20.249.17.147:5000/v1/job";
 	// ObjectMapper 란?
 	/*
 	 * JSON 컨텐츠를 Java 객체로 deserialization 하거나 

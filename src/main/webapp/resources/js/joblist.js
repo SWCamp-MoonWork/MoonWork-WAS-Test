@@ -11,30 +11,17 @@ function getContextPath() {
 	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
-// 업로드 한 파일 파일명 추출
-function fileUpload(name) {
-	var fileInput = name.val();
-	//alert(fileInput);
-	alert(name.value.substring(fileInput.lastIndexOf("\\") + 1));
-	//alert(resultFileName);
-	document.getElementById("#edit-WorkflowName").val(name.value.substring(fileInput.lastIndexOf("\\") + 1));
-	//workflowName.innerText = resultFileName;
-
-}
-
 
 $(document).ready(function() {
 
-
+	// 업로드한 파일명 추출
 	$(document).on("change", ".file-add", function() {
-
 		$(".add-body #workflowName-add").val($(this)[0].files[0].name);
 	});
-
 	$(document).on("change", "#edit-file", function() {
-
 		$(".edit-body #edit-WorkflowName").val($(this)[0].files[0].name);
 	});
+
 
 	// 날짜 형식 변환 함수
 	$.dateFomatting = function(inputDate) {
@@ -129,6 +116,8 @@ $(document).ready(function() {
 
 	});
 
+
+	// 소스코드 재첨부 체크박스 변경 시 이벤트
 	$('#re-fileUpload').change(
 		function() {
 			if ($(this).is(':checked')) {
@@ -143,15 +132,6 @@ $(document).ready(function() {
 			}
 		});
 
-
-	/*	$('#edit-IsUse').change(function(){
-			if($(this).is(':checked')){
-				$(this).val("truecheck");
-			}
-			else{
-				$(this).val("falsecheck");
-			}
-		});*/
 
 	// edit 버튼 클릭 시 띄워진 모달창에 해당 job의 데이터 출력
 	$(document).on("click", ".editbtn", function() {
@@ -235,6 +215,9 @@ $(document).ready(function() {
 		});
 	});
 
+
+	// 크론식 유효성 검사 함수
+	// ajax를 사용하여 사용자가 값을 입력할 때마다 이벤트를 감지해 컨트롤러와 통신한다.
 	$("#Cron-expression")
 		.keyup(
 			function() {
@@ -250,8 +233,8 @@ $(document).ready(function() {
 							url: url,
 							type: "GET",
 							data: {
-								"expression": cron
-							},
+								"expression" : cron
+								},
 							contentType: "application/json; charset=UTF-8",
 							success: function(
 								result) {
@@ -291,6 +274,7 @@ $(document).ready(function() {
 var myModal = document.getElementById('myModal')
 var myInput = document.getElementById('myInput')
 
+// 모달창 바깥을 클릭해도 창이 꺼지지 않도록 함
 myModal.addEventListener('shown.bs.modal', function() {
 	myInput.focus()
 })
@@ -320,10 +304,7 @@ function delbtn(arg0) {
 
 	}
 	else {
-		// They clicked no
+
 	}
 }
-
-
-//JobName 클릭 시 Ajax 사용해서 하단에 데이터 뿌려주기
 
