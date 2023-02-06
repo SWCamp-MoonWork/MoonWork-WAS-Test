@@ -211,9 +211,7 @@
 											<td><i class="fa-solid fa-sync" id="${row.jobId}"></i></td>
 											<td><a href="javascript:void(0);" class="jobdetail"
 												id="${row.jobId}">${row.jobName}</a></td>
-											<td id="state${row.jobId}">
-											
-											</td>
+											<td id="state${row.jobId}"></td>
 
 											<td class="actions">
 												<button type="button" class="btn editbtn"

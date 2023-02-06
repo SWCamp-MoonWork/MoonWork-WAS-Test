@@ -28,7 +28,7 @@ $(document).ready(function() {
 				console.log(e);
 			}
 		});
-	}, 1000); // End setTimeout(function()
+	}, 2000); // End setTimeout(function()
 
 	
 

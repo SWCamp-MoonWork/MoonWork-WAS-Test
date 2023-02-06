@@ -11,6 +11,44 @@ function getContextPath() {
 	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
+var myModal = document.getElementById('myModal')
+var myInput = document.getElementById('myInput')
+
+// 모달창 바깥을 클릭해도 창이 꺼지지 않도록 함
+myModal.addEventListener('shown.bs.modal', function() {
+	myInput.focus()
+})
+
+
+// 작업 삭제버튼
+function delbtn(arg0) {
+	if (window.confirm('정말 삭제하시겠습니까?')) {
+		// They clicked Yes
+		var id = $(arg0).val();
+		var url = getContextPath() + "/deletejob.do";
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: JSON.stringify({
+				"jobId": id
+			}),
+			contentType: "application/json; charset=UTF-8",
+			success: function(data) {
+				alert("작업이 삭제되었습니다.");
+				location.reload();
+			},
+			error: function(error) {
+				alert("에러....." + error);
+			}
+		});
+
+	}
+	else {
+
+	}
+}
+
+
 
 $(document).ready(function() {
 
@@ -19,16 +57,16 @@ $(document).ready(function() {
 	
 	// 최근 5개 작업의 성공 실패 여부 구하기
 	/* 
-	바깥 Ajax는 job 리스트를 쭉 가져온다.
+	바깥 Ajax는 job 리스트를 가져온다.
 	그 후 반복문으로 job의 id를 검색하면서 또다른 Ajax의 request Data에 넣어준다
-	안쪽 Ajax는 넘겨준 jobid에 해당하는 response를 List<RunsDTO>로 받게되는데
+	안쪽 Ajax는 컨트롤러로 넘겨준 jobid에 해당하는 response를 List<RunsDTO>로 받게되는데
 	받아온 리스트를 반복문을 사용해서 성공실패여부를 검색한다.
-	검색 결과가 10이면 성공했다는 의미이므로 append를 사용해서 초록색 아이콘을 넣어주고
+	검색 결과가 10이면 성공했다는 의미이므로 append를 사용해서 동적으로 초록색 아이콘을 넣어주고
 	11이면 실패했다는 의미이므로 빨간색 아이콘을 넣어준다.
 	나머지 값이 들어오면 성공 실패도 아니므로 흰색 아이콘을 넣어준다.
 	
 	하지만 Ajax안에 Ajax를 사용하는 것은 그다지 권장하지 않는 방법이라고 한다.
-	Promise를 사용하여 더 간단하고 클린하게 코드를 작성 할 수 있었지만 
+	Promise를 사용하여 더 간단하고 클린하게 코드를 작성 할 수 있지만 
 	기한 내에 눈으로 보여지는 완성물을 만들기 위해서 사용법이 잘 숙지되어있는 Ajax를 사용했다. 	
 	*/
 	$.ajax({	// job리스트 가져오기
@@ -47,15 +85,15 @@ $(document).ready(function() {
 						$.each (data, function (i, value){
 							if(data[i].State == '10'){
 								console.log("성공job");
-							$('#state' + result[index].jobId).append('<i class="fa-regular fa-circle-check fa-lg" style="color:green; margin-right:2px"></i>');
+							$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle-check fa-lg" style="color:green; margin-right:2px"></i>');
 							}
 							else if(data[i].State == '11'){
 								console.log("실패job");
-								$('#state' + result[index].jobId).append('<i class="fa-regular fa-circle-xmark fa-lg" style="color:red; margin-right:2px"></i>');
+								$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle-xmark fa-lg" style="color:red; margin-right:2px"></i>');
 							}
 							else{
 								console.log("여부 없음");
-								$('#state' + result[index].jobId).append('<i class="fa-regular fa-circle fa-lg" style="color:var(--color-black); margin-right:2px"></i>');
+								$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle fa-lg" style="color:var(--color-black); margin-right:2px"></i>');
 							}
 						});
 					},
@@ -336,40 +374,4 @@ $(document).ready(function() {
 });
 
 
-var myModal = document.getElementById('myModal')
-var myInput = document.getElementById('myInput')
-
-// 모달창 바깥을 클릭해도 창이 꺼지지 않도록 함
-myModal.addEventListener('shown.bs.modal', function() {
-	myInput.focus()
-})
-
-
-// 작업 삭제버튼
-function delbtn(arg0) {
-	if (window.confirm('정말 삭제하시겠습니까?')) {
-		// They clicked Yes
-		var id = $(arg0).val();
-		var url = getContextPath() + "/deletejob.do";
-		$.ajax({
-			url: url,
-			type: "POST",
-			data: JSON.stringify({
-				"jobId": id
-			}),
-			contentType: "application/json; charset=UTF-8",
-			success: function(data) {
-				alert("작업이 삭제되었습니다.");
-				location.reload();
-			},
-			error: function(error) {
-				alert("에러....." + error);
-			}
-		});
-
-	}
-	else {
-
-	}
-}
 
