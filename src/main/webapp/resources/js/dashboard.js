@@ -562,7 +562,6 @@ function getChartGraph() {
 		//dataType: "json",
 		success: function(data) {
 
-			console.log(data);
 			new Chart(document.getElementById('myChartThree'), {
 				type: 'line', //pie, line, doughnut, polarArea
 				data: {

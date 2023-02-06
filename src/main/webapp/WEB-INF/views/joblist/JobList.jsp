@@ -211,11 +211,9 @@
 											<td><i class="fa-solid fa-sync" id="${row.jobId}"></i></td>
 											<td><a href="javascript:void(0);" class="jobdetail"
 												id="${row.jobId}">${row.jobName}</a></td>
-											<td><i class="fa-regular fa-circle-check" style="color:green"></i>
-											<i class="fa-regular fa-circle-check" style="color:green"></i>
-											<i class="fa-regular fa-circle-check" style="color:green"></i>
-											<i class="fa-regular fa-circle-xmark" style="color:red"></i>
-											<i class="fa-regular fa-circle-xmark" style="color:red"></i></td>
+											<td id="state${row.jobId}">
+											
+											</td>
 
 											<td class="actions">
 												<button type="button" class="btn editbtn"

@@ -14,6 +14,71 @@ function getContextPath() {
 
 $(document).ready(function() {
 
+	const getCountURL = getContextPath() + "/getTotalJobList.do";
+	const runsState = getContextPath() + "/getRecentRuns.do";
+	
+	// 최근 5개 작업의 성공 실패 여부 구하기
+	/* 
+	바깥 Ajax는 job 리스트를 쭉 가져온다.
+	그 후 반복문으로 job의 id를 검색하면서 또다른 Ajax의 request Data에 넣어준다
+	안쪽 Ajax는 넘겨준 jobid에 해당하는 response를 List<RunsDTO>로 받게되는데
+	받아온 리스트를 반복문을 사용해서 성공실패여부를 검색한다.
+	검색 결과가 10이면 성공했다는 의미이므로 append를 사용해서 초록색 아이콘을 넣어주고
+	11이면 실패했다는 의미이므로 빨간색 아이콘을 넣어준다.
+	나머지 값이 들어오면 성공 실패도 아니므로 흰색 아이콘을 넣어준다.
+	
+	하지만 Ajax안에 Ajax를 사용하는 것은 그다지 권장하지 않는 방법이라고 한다.
+	Promise를 사용하여 더 간단하고 클린하게 코드를 작성 할 수 있었지만 
+	기한 내에 눈으로 보여지는 완성물을 만들기 위해서 사용법이 잘 숙지되어있는 Ajax를 사용했다. 	
+	*/
+	$.ajax({	// job리스트 가져오기
+		url: getCountURL,
+		type: "GET",
+		//async : false,
+		success: function(result) {	//result = job리스트
+			$.each(result, function(index, value) {
+				$.ajax({	// 특정 jobid에 따른 runs 데이터 가져오기
+					url: runsState,
+					type: "GET",
+					data: {
+						getjobid: result[index].jobId
+					},
+					success: function(data) {	// data = job아이디에 따른 runs 데이터
+						$.each (data, function (i, value){
+							if(data[i].State == '10'){
+								console.log("성공job");
+							$('#state' + result[index].jobId).append('<i class="fa-regular fa-circle-check fa-lg" style="color:green; margin-right:2px"></i>');
+							}
+							else if(data[i].State == '11'){
+								console.log("실패job");
+								$('#state' + result[index].jobId).append('<i class="fa-regular fa-circle-xmark fa-lg" style="color:red; margin-right:2px"></i>');
+							}
+							else{
+								console.log("여부 없음");
+								$('#state' + result[index].jobId).append('<i class="fa-regular fa-circle fa-lg" style="color:var(--color-black); margin-right:2px"></i>');
+							}
+						});
+					},
+					error: function(request, error) {
+						alert("runsState 에러 code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+					}
+				});
+			});
+		},
+		error: function(request, error) {
+			alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+		}
+	});
+
+
+
+
+
+
+
+
+
+
 	// 업로드한 파일명 추출
 	$(document).on("change", ".file-add", function() {
 		$(".add-body #workflowName-add").val($(this)[0].files[0].name);
@@ -44,12 +109,12 @@ $(document).ready(function() {
 	// jobName 클릭 시 해당 job 정보와 스케줄 정보 출력
 	$(".jobdetail").click(function() {
 		// 클릭한 a태그의 id값 가져오기
-		var id = $(this).attr('id');
+		const id = $(this).attr('id');
 		// getContextPath() : 현재 경로 찾기
-		var url = getContextPath() + "/jobdetails.do";
+		const detailurl = getContextPath() + "/jobdetails.do";
 
 		$.ajax({
-			url: url,
+			url: detailurl,
 			type: "GET",
 			data: {
 				"jobId": id
@@ -136,12 +201,12 @@ $(document).ready(function() {
 	// edit 버튼 클릭 시 띄워진 모달창에 해당 job의 데이터 출력
 	$(document).on("click", ".editbtn", function() {
 		var selectId = $(this).data('id');
-		var url = getContextPath() + "/jobdetails.do";
+		const editurl = getContextPath() + "/jobdetails.do";
 		var url_selectJobid = getContextPath() + "/selectjobid.do";
 
 		// id, name, workflowname, note 데이터 가져오기
 		$.ajax({
-			url: url,
+			url: editurl,
 			type: "GET",
 			data: {
 				"jobId": selectId
@@ -194,9 +259,9 @@ $(document).ready(function() {
 	// schedule 버튼 클릭 시 띄워진 모달창에 해당 schedule의 데이터 출력
 	$(document).on("click", ".schedulebtn", function() {
 		var selectId = $(this).data('id');
-		var url = getContextPath() + "/jobdetails.do";
+		const scheduleurl = getContextPath() + "/jobdetails.do";
 		$.ajax({
-			url: url,
+			url: scheduleurl,
 			type: "GET",
 			data: {
 				"jobId": selectId
@@ -221,7 +286,7 @@ $(document).ready(function() {
 	$("#Cron-expression")
 		.keyup(
 			function() {
-				var url = getContextPath() + "/cronExpression.do";
+				const cronurl = getContextPath() + "/cronExpression.do";
 				var cron = $(this).val();
 				if ($(this).val() === '') {
 					$('#cron-result')
@@ -230,11 +295,11 @@ $(document).ready(function() {
 				} else {
 					$
 						.ajax({
-							url: url,
+							url: cronurl,
 							type: "GET",
 							data: {
-								"expression" : cron
-								},
+								"expression": cron
+							},
 							contentType: "application/json; charset=UTF-8",
 							success: function(
 								result) {

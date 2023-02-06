@@ -44,12 +44,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.swcamp.moonwork.model.dto.JobDTO;
 import com.swcamp.moonwork.model.dto.JobDetailDTO;
+import com.swcamp.moonwork.model.dto.RunsDTO;
 import com.swcamp.moonwork.model.dto.ScheduleDTO;
 
 import net.sf.json.JSONObject;
@@ -57,6 +60,7 @@ import net.sf.json.JSONObject;
 @Controller
 public class JobListController {
 	private final String URL = "http://20.249.17.147:5000/v1/job";
+	private final String RUNURL = "http://20.249.17.147:5000/v1/run";
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
@@ -70,6 +74,8 @@ public class JobListController {
 		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
+		
+		
 		List<JobDTO> list = result.getBody();
 
 		model.addAttribute("jobs", list);
@@ -202,10 +208,10 @@ public class JobListController {
 		
 		// checkIsUse가 null 이면 view단에서 IsUse에 체크를 하지 않았다는 뜻이므로 isUse를 false로 넣어준다.
 		if(checkIsUse == null) {
-			body.put("isUse", 0);
+			body.put("isUse", false);
 		}
 		else{
-			body.put("isUse", 1);
+			body.put("isUse", true);
 		}
 
 		
@@ -345,7 +351,7 @@ public class JobListController {
 		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/getstate"  , HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
-		System.out.println("response (/getstate)= " + result);
+		//System.out.println("response (/getstate)= " + result);
 
 		return result;
 	}
@@ -363,4 +369,37 @@ public class JobListController {
 	}
 	
 	
+	//잡 목록 가져오기 return list<jobDTO> 
+	@ResponseBody
+	@RequestMapping(value= "/getTotalJobList.do", method= RequestMethod.GET)
+	public List<JobDTO> GetTotalJobCount(Model model) throws JsonParseException, JsonMappingException, IOException {
+		
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<JobDTO>>() {
+				});
+		
+		List<JobDTO> list = result.getBody();
+		
+		
+		
+		return list;
+	}
+	
+	
+	//작업의 최근 5개 상태 가져오기
+	@ResponseBody
+	@RequestMapping(value= "/getRecentRuns.do", method= RequestMethod.GET)
+	public List<RunsDTO> GetRecentRuns(Model model ,@RequestParam("getjobid") String jobid) throws JsonParseException, JsonMappingException, IOException {
+		
+		//String resId = param.get("jobId").toString();
+
+		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(RUNURL + "/" + jobid + "/getrunrecord", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<RunsDTO>>() {
+				});
+		
+		List<RunsDTO> list = result.getBody();
+
+		return list;
+
+	}
 }
