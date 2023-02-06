@@ -12,6 +12,14 @@ public class JobDTO {
     public Date SaveDate;
     public long UserId;
     public String UserName;
+    public String State;
+    
+    public String getState() {
+		return State;
+	}
+	public void setState(String state) {
+		State = state;
+	}
     
     public String getUserName() {
 		return UserName;

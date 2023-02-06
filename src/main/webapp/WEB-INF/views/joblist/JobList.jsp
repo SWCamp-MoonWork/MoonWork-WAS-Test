@@ -170,7 +170,7 @@
 				<div class="row">
 					<div class="col-sm-12"
 						style="display: flex; justify-content: space-between;">
-						<button type="button" class="btn btn-primary"
+						<button type="button" class="btn addbtn"
 							data-bs-toggle="modal" data-bs-target="#addModal">Add
 							Job</button>
 						<div class="wrap"
@@ -193,7 +193,9 @@
 								<thead>
 									<tr>
 										<td>No</td>
+										<td>State</td>
 										<td>Name</td>
+										<td>Last 5 jobs status</td>
 										<td>Action</td>
 										<td>IsUse</td>
 										<td>SaveDate</td>
@@ -206,18 +208,24 @@
 									<c:forEach var="row" items="${jobs}">
 										<tr>
 											<td>${row.jobId}</td>
+											<td><i class="fa-solid fa-sync" id="${row.jobId}"></i></td>
 											<td><a href="javascript:void(0);" class="jobdetail"
 												id="${row.jobId}">${row.jobName}</a></td>
+											<td><i class="fa-regular fa-circle-check" style="color:green"></i>
+											<i class="fa-regular fa-circle-check" style="color:green"></i>
+											<i class="fa-regular fa-circle-check" style="color:green"></i>
+											<i class="fa-regular fa-circle-xmark" style="color:red"></i>
+											<i class="fa-regular fa-circle-xmark" style="color:red"></i></td>
 
 											<td class="actions">
-												<button type="button" class="btn btn-info editbtn"
+												<button type="button" class="btn editbtn"
 													data-bs-toggle="modal" data-bs-target="#editModal"
 													data-id="${row.jobId}">Edit</button>
 
-												<button type="button" class="btn btn-warning schedulebtn"
+												<button type="button" class="btn schedulebtn"
 													data-bs-toggle="modal" data-bs-target="#scheduleModal"
 													data-id="${row.jobId}">Schedule</button>
-												<button type="button" class="btn btn-success"
+												<button type="button" class="btn runsbtn"
 													data-bs-toggle="modal" data-bs-target="#runsModal"
 													data-id="${row.jobId}">Runs</button>
 											</td>
@@ -234,7 +242,7 @@
 											<td><fmt:formatDate value="${row.saveDate}"
 													pattern="yyyy-MM-dd HH:mm" /></td>
 											<td>${row.userName}</td>
-											<td class="actions"><button class="btn btn-danger"
+											<td class="actions"><button class="btn delebtn"
 													value="${row.jobId}" id="delbtn"
 													onclick="javascript:delbtn(this)">Delete</button></td>
 										</tr>
@@ -805,6 +813,7 @@
 	<!-- jsGrid -->
 	<script src="<%=request.getContextPath()%>/resources/js/jsgrid.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/joblist.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/columnEvent.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

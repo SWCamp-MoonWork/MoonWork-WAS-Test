@@ -3,6 +3,11 @@ let bg = null;
 
 let fire = null;
 
+// 현재 경로 구하기 
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+}
 
 
 // 체크박스 체크 시 아이콘 변경
@@ -16,6 +21,17 @@ $(document).ready(function() {
 			$(".toggle__handler").html("light_mode");
 		}
 	});
+
+
+	//ChartJS 데이터 뿌려주기
+
+	getChartGraph();
+
+
+
+
+
+
 });
 
 // 테마 변경
@@ -531,56 +547,77 @@ $(function() {
  * ChartJs Code
  */
 
-let myChartThree = document.getElementById('myChartThree')
-	.getContext('2d');
 
-let barChartThree = new Chart(myChartThree, {
-	type: 'line', //pie, line, doughnut, polarArea
-	data: {
-		labels: ['AM 06:00', 'AM 08:00', 'AM 10:00', 'PM 12:00', 'PM 14:00', 'PM 16:00', 'PM 18:00', 'PM 20:00', 'PM 22:00'],
-		datasets: [{
-			label: 'Run Duration',
-			data: [100, 500, 250, 350, 700, 200, 450, 600, 150],
-			borderColor: '#39d353',
-			fill: true,
-			backgroundColor: 'rgba(	57,	211, 83, 0.1)'
-		}]
-	},
-	options: {
-		responsive: false,
-		legend: {
-			labels: {
-				fontColor: "rgba(128, 128, 128, 1)",
-				fontSize: 14
-			}
+function getChartGraph() {
+
+
+	let x_list = [];
+	let y_list = [];
+	var URL = getContextPath() + "/getChartGraph.do";
+
+	$.ajax({
+		url: URL,
+		type: "GET",
+		//data: "",
+		//dataType: "json",
+		success: function(data) {
+
+			console.log(data);
+			new Chart(document.getElementById('myChartThree'), {
+				type: 'line', //pie, line, doughnut, polarArea
+				data: {
+					labels: ['AM 06:00', 'AM 08:00', 'AM 10:00', 'PM 12:00', 'PM 14:00', 'PM 16:00', 'PM 18:00', 'PM 20:00', 'PM 22:00'],
+					datasets: [{
+						label: 'Run Duration',
+						data: [500, 500, 250, 350, 700, 200, 450, 600, 150],
+						borderColor: '#39d353',
+						fill: true,
+						backgroundColor: 'rgba(	57,	211, 83, 0.1)'
+					}]
+				},
+				options: {
+					responsive: false,
+					legend: {
+						labels: {
+							fontColor: "rgba(128, 128, 128, 1)",
+							fontSize: 14
+						}
+					},
+					scales: {
+						yAxes: [{
+							ticks: {
+								min: 0,
+								beginAtZero: true,
+								stepSize: 100,
+								fontColor: "rgba(128, 128, 128, 1)",
+								fontSize: 14,
+							},
+							gridLines: {
+								color: "rgba(128, 128, 128, 1)",
+								lineWidth: 0.5
+							}
+						}],
+						xAxes: [{
+							ticks: {
+								fontColor: "rgba(128, 128, 128, 1)",
+								fontSize: 14
+							},
+							gridLines: {
+								color: "rgba(128, 128, 128, 1)",
+								lineWidth: 0.5
+							}
+						}]
+					}
+				}
+			});
 		},
-		scales: {
-			yAxes: [{
-				ticks: {
-					min: 0,
-					beginAtZero: true,
-					stepSize: 100,
-					fontColor: "rgba(128, 128, 128, 1)",
-					fontSize: 14,
-				},
-				gridLines: {
-					color: "rgba(128, 128, 128, 1)",
-					lineWidth: 0.5
-				}
-			}],
-			xAxes: [{
-				ticks: {
-					fontColor: "rgba(128, 128, 128, 1)",
-					fontSize: 14
-				},
-				gridLines: {
-					color: "rgba(128, 128, 128, 1)",
-					lineWidth: 0.5
-				}
-			}]
+		error:function(e){
+			console.log(e);
 		}
-	}
-});
+	}) 	//ajax
+}	//getChartGraph
 
+
+//	.getContext('2d');
 
 

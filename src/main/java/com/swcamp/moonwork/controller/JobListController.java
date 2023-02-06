@@ -337,4 +337,30 @@ public class JobListController {
 		return "redirect:joblist.do";
 	}
 
+	// Job 상태값 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/getstate.do", method = RequestMethod.GET)
+	public ResponseEntity<List<JobDTO>> GetStateJob(Locale locale, Model model) {
+
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/getstate"  , HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<JobDTO>>() {
+				});
+		System.out.println("response (/getstate)= " + result);
+
+		return result;
+	}
+	
+	
+	// 그래프에 띄워줄 데이터 값 가져오기
+	@ResponseBody
+	@RequestMapping(value= "/getChartGraph.do", method= RequestMethod.GET)
+	public String GetChartGraph(Model model) {
+		
+		//API 호출 코드
+		
+		
+		return "잘갔다.";
+	}
+	
+	
 }

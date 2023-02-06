@@ -419,15 +419,71 @@ background:var(--color-background);
 	color: #FFFFFF;
 }
 
-.read .btn-primary {
+.read .addbtn {
 	display: inline-block;
 	text-decoration: none;
-	background-color: #0080ff;
+	background-color: none;
+	border-color: var(--color-primary);
 	font-weight: bold;
 	font-size: 14px;
-	color: #FFFFFF;
+	color: var(--color-black);
 	padding: 10px 15px;
 	margin: 15px 0;
+}
+.read .addbtn:hover{
+	color: var(--color-primary);
+}
+.read .editbtn {
+	display: inline-block;
+	text-decoration: none;
+	background-color: none;
+	border-color: var(--color-info);
+	font-weight: bold;
+	font-size: 14px;
+	color: var(--color-black);
+	padding: 10px 15px;
+}
+.read .editbtn:hover{
+	color: var(--color-info);
+}
+.read .schedulebtn {
+	display: inline-block;
+	text-decoration: none;
+	background-color: none;
+	border-color: var(--color-warning);
+	font-weight: bold;
+	font-size: 14px;
+	color: var(--color-black);
+	padding: 10px 15px;
+}
+.read .schedulebtn:hover{
+	color: var(--color-warning);
+}
+.read .runsbtn {
+	display: inline-block;
+	text-decoration: none;
+	background-color: none;
+	border-color: var(--color-success);
+	font-weight: bold;
+	font-size: 14px;
+	color: var(--color-black);
+	padding: 10px 15px;
+}
+.read .runsbtn:hover{
+	color: var(--color-success);
+}
+.read .delebtn {
+	display: inline-block;
+	text-decoration: none;
+	background-color: none;
+	border-color: var(--color-danger);
+	font-weight: bold;
+	font-size: 14px;
+	color: var(--color-black);
+	padding: 10px 15px;
+}
+.read .delebtn:hover{
+	color: var(--color-danger);
 }
 
 .search {
