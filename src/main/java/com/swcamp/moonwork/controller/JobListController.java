@@ -342,6 +342,23 @@ public class JobListController {
 		
 		return "redirect:joblist.do";
 	}
+	
+	// 최근 20개의 Runs 데이터 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/GetLastTwentyRunsData.do", method = RequestMethod.GET)
+	public List<RunsDTO> GetLastTwentyRunsData(@RequestParam(value="jobId") String jobId){
+		
+		
+		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(URL + "/getstate"  , HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<RunsDTO>>() {
+				});
+		
+		List<RunsDTO> runslist = result.getBody();
+		
+		return runslist;
+	}
+	
+	
 
 	// Job 상태값 가져오기
 	@ResponseBody

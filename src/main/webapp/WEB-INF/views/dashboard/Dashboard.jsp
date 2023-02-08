@@ -40,44 +40,15 @@ String test = "info";
 %>
 <body>
 	<div id="viewport">
-		<!-- Sidebar -->
-		<div id="sidebar" class="ham-con">
-			<header>
-				<a href="#" class="d-flex">MoonWork</a>
-			</header>
-			<ul
-				class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
-				id="menu">
-				<li><a href="${pageContext.request.contextPath}/dashboard.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-solid fa-chart-line"></i>Dashboard
-				</a></li>
-				<li><a href="${pageContext.request.contextPath}/joblist.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-solid fa-list-ul"></i>Job List
-				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobhistory.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-solid fa-clock-rotate-left"></i>Run History
-				</a></li>
-				<li><a href="${pageContext.request.contextPath}/hosts.do"
-					class="nav-link px-0 align-middle"> <i class="fa-solid fa-tv"></i>Hosts
-				</a></li>
-			</ul>
-			<footer>
-				<p>MoonWork v0.0.1</p>
-			</footer>
-		</div>
+
 		<!-- Content -->
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					<ul class="navbar-nav hambuger">
-						<li class="ham-btn"><a class="menu-trigger" href="#"> <span></span>
-								<span></span> <span></span>
-						</a></li>
-					</ul>
+
 					<a href="#" class="d-flex moonwork">MoonWork</a>
+					
+
 
 					<div
 						class="collapse navbar-collapse text-decoration-none user-info"
@@ -105,18 +76,68 @@ String test = "info";
 					</div>
 				</div>
 			</nav>
-			<div class="row">
-				<div class="col-sm-1">
-					<a href="#" class="d-flex menu-area">Dashboard</a>
-				</div>
-			</div>
-			<div class="container-fluid dashboard">
+		<div id="hidden-menu">
+			<ul
+				class="nav nav-pills "
+				id="menu" >
+
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/dashboard.do"
+					class="nav-link px-0 align-middle">Dashboard
+				</a></li>
+				<li class="hidden-hover" ><a href="${pageContext.request.contextPath}/joblist.do"
+					class="nav-link px-0 align-middle">Job List
+				</a></li>
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/jobhistory.do"
+					class="nav-link px-0 align-middle">Runs History
+				</a></li>
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/hosts.do"
+					class="nav-link px-0 align-middle">Hosts
+				</a></li>
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/users.do"
+					class="nav-link px-0 align-middle">Users
+				</a></li>
+			</ul>
+		</div>
+		<!-- Sidebar -->
+		<div id="sidebar" class="ham-con">
+
+			<header>
+			</header>
+			<ul
+				class="nav nav-pills "
+				id="menu">
+				<li class="menu-hamburger" style="border-bottom:1px solid var(--color-shadow)"><a href="#"
+					class="nav-link px-0 align-middle menu-trigger "> <i class="fa-solid fa-bars fa-lg hamburger"></i>
+				</a></li>
+				<li class="menu-hover" style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/dashboard.do"
+					class="nav-link px-0 align-middle "> <i
+						class="fa-solid fa-chart-line"></i>
+				</a></li>
+				<li class="menu-hover"  ><a href="${pageContext.request.contextPath}/joblist.do"
+					class="nav-link px-0 align-middle "> <i class="fa-regular fa-rectangle-list"></i>
+				</a></li>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/jobhistory.do"
+					class="nav-link px-0 align-middle "> <i
+						class="fa-solid fa-clock-rotate-left"></i>
+				</a></li>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/hosts.do"
+					class="nav-link px-0 align-middle "> <i class="fa-solid fa-tv"></i>
+				</a></li>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/users.do"
+					class="nav-link px-0 align-middle "> <i class="fa-regular fa-user"></i>
+				</a></li>
+			</ul>
+		</div>
+			
+			
+
+			<div class="container-fluid dashboard" >
 
 				<div class="row row-cols-1 row-cols-md-5 justify-content-center"
-					style="padding: 15px 15px">
+					style="">
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
@@ -139,7 +160,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
@@ -162,7 +183,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
@@ -185,7 +206,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px; border-radius: 30px;">
+							style="width: 330px; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
@@ -209,11 +230,11 @@ String test = "info";
 
 					<div class="col">
 
-						<div class="card mb-1"
-							style="width: 330px; height: 100px; border-radius: 30px;">
+						<div class="card mb-2"
+							style="width: 330px; height: 96px;">
 							<div class="row g-0">
 								<div class="col-md-4"
-									style="line-height: 100px; text-align: center">
+									style="line-height: 96px; text-align: center">
 									<i class="fa-solid fa-circle-check fa-fade fa-3x" 
 									style="color:#39D452; --fa-animation-duration: 2s; vertical-align: middle; "></i>
 
@@ -232,10 +253,10 @@ String test = "info";
 						</div>
 
 						<div class="card"
-							style="width: 330px; height: 100px; border-radius: 30px;">
+							style="width: 330px; height: 96px;">
 							<div class="row g-0">
 								<div class="col-md-4"
-									style="line-height: 100px; text-align: center">
+									style="line-height: 96px; text-align: center">
 									<i class="fa-solid fa-triangle-exclamation fa-fade fa-3x" 
 									style="color:#D42449; --fa-animation-duration: 2s; vertical-align: middle; "></i>
 
@@ -256,21 +277,21 @@ String test = "info";
 				</div>
 
 
-				<div class="row" style="padding: 10px 20px 0px 20px">
-					<div class="col-sm-7">
-						<div class="row mb-1"
-							style="padding-right: 10px; padding-left: 0px; white-space: nowrap; background:var(--color-white)">
+				<div class="row " style="padding:0px 10px 10px 10px">
+					<div class="col-md-8">
+						<div class="row mb-3 dashboard-View"
+							style="  background:var(--color-white);">
 							<h6>
-								<strong>Runs Count View (Calendar)</strong>
+								<strong>일별 Job 실행 횟수 (2023)</strong>
 							</h6>
 							<div id='myChart'></div>
-						<div class="row" style="position:absolute; background:var(--color-white); width:1000px; height:30px; margin-top: 200px; z-index:1000">
+						<div class="row" style="position:absolute; background:var(--color-white); left: 48%;width:160px; height:30px; margin-top: 200px; z-index:1000">
 						
 						</div>
 						</div>
 
-						<div class="row" style="z-index:1000">
-							<div style="width: 20px; height: 20px">
+						<div class="row dashboard-View" style="z-index:1000">
+							<div style="width: 10px; height: 10px">
 								<i id="tooltip-info"
 									class="fa-regular fa-circle-question fa-lg "
 									data-bs-toggle="tooltip" data-bs-placement="right"
@@ -279,10 +300,10 @@ String test = "info";
 							<canvas id="myChartThree" height="300px"></canvas>
 						</div>
 					</div>
-					<div class="col-sm-5" style="height: 200px;">
-						<div class="row justify-content-center">
+					<div class="col-md-4" style="padding-left:28px">
+						<div class="row mb-3 dashboard-View justify-content-center">
 							<h6>
-								<strong>Simple Hosts View </strong>
+								<strong>호스트 요약 정보</strong>
 
 							</h6>
 							<table class="type04">
@@ -320,12 +341,12 @@ String test = "info";
 								</tr>
 							</table>
 						</div>
-						<div class="row" style=" padding-top: 5px;">
+						<div class="row dashboard-View" style="">
 							<h6 style="height:30px">
-								<strong>Job of the selected host </strong>
+								<strong>호스트가 담당하고 있는 작업 </strong>
 							</h6>
 							<div class="job-of-host" 
-							style="height:220px ;background: var(--color-table); 
+							style="height:265px ;background: var(--color-table); 
 							border: 1px solid var(--color-table); border-radius: 20px;">
 							<table style="margin:auto; padding: 10px 10px 10px 10px; width:100%;">
 									<thead>

@@ -42,10 +42,7 @@
 						function() {
 							sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
 							
-							
-							$('.joblist-table').resizable({
-								handles : "s", //리사이즈 되는 모서리는 남쪽(south)으로 고정
-							});
+
 
 							$("#search-Keyword")
 									.keyup(
@@ -96,44 +93,14 @@
 						});
 	</script>
 	<div id="viewport">
-		<!-- Sidebar -->
-		<div id="sidebar" class="ham-con">
-			<header>
-				<a href="#" class="d-flex">Menu</a>
-			</header>
-			<ul
-				class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
-				id="menu">
-				<li><a href="${pageContext.request.contextPath}/dashboard.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-solid fa-chart-line"></i>Dashboard
-				</a></li>
-				<li><a href="${pageContext.request.contextPath}/joblist.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-solid fa-list-ul"></i>Job List
-				</a></li>
-				<li><a href="${pageContext.request.contextPath}/jobhistory.do"
-					class="nav-link px-0 align-middle"> <i
-						class="fa-solid fa-clock-rotate-left"></i>Run History
-				</a></li>
-				<li><a href="${pageContext.request.contextPath}/hosts.do"
-					class="nav-link px-0 align-middle"> <i class="fa-solid fa-tv"></i>Hosts
-				</a></li>
-			</ul>
-			<footer>
-				<p>MoonWork v0.0.1</p>
-			</footer>
-		</div>
+
 		<!-- Content -->
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					<ul class="navbar-nav hambuger">
-						<li class="ham-btn"><a class="menu-trigger" href="#"> <span></span>
-								<span></span> <span></span>
-						</a></li>
-					</ul>
+
 					<a href="#" class="d-flex moonwork">MoonWork</a>
+					
 					<div
 						class="collapse navbar-collapse text-decoration-none user-info"
 						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
@@ -161,18 +128,72 @@
 					</div>
 				</div>
 			</nav>
-			<div class="row">
-				<div class="col-sm-1">
-					<a href="#" class="d-flex menu-area">Job List</a>
-				</div>
-			</div>
+			
+		<div id="hidden-menu">
+			<ul
+				class="nav nav-pills "
+				id="menu" >
+
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/dashboard.do"
+					class="nav-link px-0 align-middle">Dashboard
+				</a></li>
+				<li class="hidden-hover" ><a href="${pageContext.request.contextPath}/joblist.do"
+					class="nav-link px-0 align-middle">Job List
+				</a></li>
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/jobhistory.do"
+					class="nav-link px-0 align-middle">Runs History
+				</a></li>
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/hosts.do"
+					class="nav-link px-0 align-middle">Hosts
+				</a></li>
+				<li class="hidden-hover"><a href="${pageContext.request.contextPath}/users.do"
+					class="nav-link px-0 align-middle">Users
+				</a></li>
+			</ul>
+		</div>
+		<!-- Sidebar -->
+		<div id="sidebar" class="ham-con">
+
+			<header>
+			</header>
+			<ul
+				class="nav nav-pills "
+				id="menu">
+				<li class="menu-hamburger" style="border-bottom:1px solid var(--color-shadow)"><a href="#"
+					class="nav-link px-0 align-middle menu-trigger "> <i class="fa-solid fa-bars fa-lg hamburger"></i>
+				</a></li>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/dashboard.do"
+					class="nav-link px-0 align-middle "> <i
+						class="fa-solid fa-chart-line"></i>
+				</a></li>
+				<li class="menu-hover"  style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/joblist.do"
+					class="nav-link px-0 align-middle "> <i class="fa-regular fa-rectangle-list"></i>
+				</a></li>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/jobhistory.do"
+					class="nav-link px-0 align-middle "> <i
+						class="fa-solid fa-clock-rotate-left"></i>
+				</a></li>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/hosts.do"
+					class="nav-link px-0 align-middle "> <i class="fa-solid fa-tv"></i>
+				</a></li>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/users.do"
+					class="nav-link px-0 align-middle "> <i class="fa-regular fa-user"></i>
+				</a></li>
+			</ul>
+		</div>
+
 			<div class="container-fluid read">
 				<div class="row">
+				
 					<div class="col-sm-12"
 						style="display: flex; justify-content: space-between;">
+						<div class="btnwrap">
+						<button type="button" class="btn refreshbtn">Refresh
+							</button>
 						<button type="button" class="btn addbtn"
 							data-bs-toggle="modal" data-bs-target="#addModal">Add
 							Job</button>
+						</div>
 						<div class="wrap"
 							style="margin-top: auto; margin-bottom: auto; width: 30rem;">
 							<div class="search">
@@ -188,14 +209,15 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="joblist-table"
-							style="width: 100%; height: 300px; overflow: auto; border: 1px solid gray">
+							style="width: 100%; height: 700px; overflow: auto; border: 1px solid var(--color-shadow); border-radius:10px">
 							<table id="job-table">
 								<thead>
 									<tr>
 										<td>No</td>
 										<td>State</td>
+										<td>Execution</td>
 										<td>Name</td>
-										<td>Last 5 jobs status</td>
+										<td>Last 5 Jobs State</td>
 										<td>Action</td>
 										<td>IsUse</td>
 										<td>SaveDate</td>
@@ -208,8 +230,9 @@
 									<c:forEach var="row" items="${jobs}">
 										<tr>
 											<td>${row.jobId}</td>
-											<td><i class="fa-solid fa-sync" id="${row.jobId}"></i></td>
-											<td><a href="javascript:void(0);" class="jobdetail"
+											<td><i class="fa-solid fa-sync" id="loading${row.jobId}"></i></td>
+											<td><a href="javascript:void(0)" class="execution" id="${row.jobId}"><i class="fa-solid fa-play"></i></a></td>
+											<td><a href="#detailModal" class="jobdetail" data-bs-toggle="modal"
 												id="${row.jobId}">${row.jobName}</a></td>
 											<td id="state${row.jobId}"></td>
 
@@ -250,8 +273,40 @@
 						</div>
 					</div>
 				</div>
+				<!-- 
+				<div class="row" style="padding: 10px 10px 0px">
+					<div class="col-md-12 job-count-detail">
+						<div class="count-div total-jobs">
+						<h5>총 작업</h5><span>50</span>
+						</div>
+						<div class="count-div now-run">
+						<h5>현재 실행중</h5><span>50</span>
+						</div>
+						<div class="count-div isuse-count">
+						<h5>활성화</h5><span>50</span>
+						</div>
+					</div>
+					
+				</div>
+					 -->
 
-				<div class="row" style="padding: 50px 50px 50px 50px">
+			</div>
+		</div>
+	</div>
+	
+	<!-- JobDetailModal -->
+	<div class="modal fade" id="detailModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true"
+		data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="exampleModalLabel">Job Detail</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="padding:auto">
+				<div class="row">
 					<div class="col-sm-12" >
 
 						<div class="container-fluid detail-form">
@@ -266,7 +321,7 @@
 								<label for="detail-label-head" class="form-label"><i class="fa-regular fa-clipboard" style="color:var(--color-info)"></i>&nbsp;&nbsp;&nbsp;<strong>Note</strong></label><br>
 							</div>
 						</div>
-							<form class="row">
+							<div class="row">
 								<div class="col-md-2">
 									<label for="detail-label" class="form-label detail-label">JobId</label><br>
 									<label for="detail-label" class="form-label detail-label">JobName</label><br>
@@ -303,9 +358,9 @@
 											&nbsp;<i class="fa-regular fa-trash-can" style="color: var(--color-danger)"></i>
 								</label>
 
-
-							<div class="col-md-12">
-								<table>
+								</div>
+							<div class="col-md-12 read" style="border: 1px solid var(--color-shadow);  border-radius:10px">
+								 <table>
 									<thead>
 										<tr>
 											<td>ScheduleId</td>
@@ -313,10 +368,7 @@
 											<td>IsUse</td>
 											<td>ScheduleType</td>
 											<td>CronExpression</td>
-											<td>OneTimeOccurDT</td>
-											<td>ScheduleStartDT</td>
-											<td>ScheduleEndDT</td>
-											<td>ScheduleSaveDate</td>
+
 										</tr>
 									</thead>
 									<tbody>
@@ -326,20 +378,48 @@
 											<td id="scheduleIsUse"></td>
 											<td id="scheduleType"></td>
 											<td id="cronExpression"></td>
+
+										</tr>
+									</tbody>
+								</table>
+								
+								<div class="col-md-12 read">
+									<table>
+									<thead>
+									<tr>
+											<td>OneTimeOccurDT</td>
+											<td>ScheduleStartDT</td>
+											<td>ScheduleEndDT</td>
+											<td>ScheduleSaveDate</td>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+									
 											<td id="oneTimeOccurDT"></td>
 											<td id="scheduleStartDT"></td>
 											<td id="scheduleEndDT"></td>
 											<td id="scheduleSaveDate"></td>
-										</tr>
+									
+									</tr>
+									
 									</tbody>
-								</table>
-							</div>
+									
+									</table>
+								
 								</div>
-							</form>
+							
+							</div>
+							</div>
 						</div>
 
 					</div>
 				</div>
+
+
+
+
+</div>
 			</div>
 		</div>
 	</div>
@@ -684,7 +764,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Runs Status</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Last 20 Runs State</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -692,30 +772,28 @@
 					<div class="container-fluid">
 						<div class="row read"
 							style="width: 100%; height: 15vh; overflow: auto">
-							<div class="col-sm-12">
-								<table>
+							<div class="col-sm-12" style="width:100%; height:200vh; overflow:auto;">
+								<table style="height:200vh">
 									<thead>
 										<tr>
 											<td>RunId</td>
-											<td>HostName</td>
-											<td>HostIp</td>
+											<td>WorkflowName</td>
 											<td>StartDT</td>
 											<td>EndDT</td>
+											<td>Duration</td>
 											<td>RunState</td>
-											<td>SaveDate</td>
-											
+											<td>ResultData</td>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td id="scheduleID"></td>
-											<td id="scheduleName"></td>
-											<td id="scheduleIsUse"></td>
-											<td id="scheduleType"></td>
-											<td id="oneTimeOccurDT"></td>
-											<td id="scheduleStartDT"></td>
-											<td id="scheduleEndDT"></td>
-											
+											<td id="RunId"></td>
+											<td id="WorkflowName"></td>
+											<td id="StartDT"></td>
+											<td id="EndDT"></td>
+											<td id="Duration"></td>
+											<td id="State"></td>
+											<td id="ResultData"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -725,68 +803,7 @@
 							<div class="col-sm-12">
 								<canvas id="modalchart" width="1100vw" height="300vh"></canvas>
 								<script>
-									let runchart = document.getElementById(
-											'modalchart').getContext('2d');
-
-									let chart = new Chart(
-											runchart,
-											{
-												type : 'line', //pie, line, doughnut, polarArea
-												data : {
-													labels : [ 'AM 06:00',
-															'AM 08:00',
-															'AM 10:00',
-															'PM 12:00',
-															'PM 14:00',
-															'PM 16:00',
-															'PM 18:00',
-															'PM 20:00',
-															'PM 22:00' ],
-													datasets : [ {
-														label : 'Run Duration',
-														data : [ 100, 500, 250,
-																350, 700, 200,
-																450, 600, 150 ],
-														borderColor : '#7B4ED4',
-														fill : true,
-														backgroundColor : 'rgba(123, 78, 212, 0.1)'
-													} ]
-												},
-												options : {
-													responsive : false,
-													legend : {
-														labels : {
-															fontColor : "rgba(128, 128, 128, 1)",
-															fontSize : 14
-														}
-													},
-													scales : {
-														yAxes : [ {
-															ticks : {
-																min : 0,
-																beginAtZero : true,
-																stepSize : 100,
-																fontColor : "rgba(128, 128, 128, 1)",
-																fontSize : 14,
-															},
-															gridLines : {
-																color : "rgba(128, 128, 128, 1)",
-																lineWidth : 0.5
-															}
-														} ],
-														xAxes : [ {
-															ticks : {
-																fontColor : "rgba(128, 128, 128, 1)",
-																fontSize : 14
-															},
-															gridLines : {
-																color : "rgba(128, 128, 128, 1)",
-																lineWidth : 0.5
-															}
-														} ]
-													}
-												}
-											});
+									
 								</script>
 							</div>
 						</div>

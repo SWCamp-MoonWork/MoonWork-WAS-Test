@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MoonWork_Job Schedule</title>
+<title>MoonWork_Users</title>
 <script nonce="undefined"
 	src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
@@ -30,15 +32,30 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
-<style>
-#myChart {
-	height: 100%;
-	width: 100%;
-	min-height: 150px;
-}
-</style>
 </head>
 <body>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							sessionStorage.setItem("contextpath", "${pageContext.request.contextPath}");
+							
+
+
+							$("#search-Keyword")
+									.keyup(
+											function() {
+												var key = $(this).val();
+												$("#job-table > tbody > tr")
+														.hide();
+												var temp = $("#job-table > tbody > tr > td:nth-child(-n+7):contains('"
+														+ key + "')");
+												$(temp).parent().show();
+											});
+
+						});
+	</script>
+
 	<div id="viewport">
 
 		<!-- Content -->
@@ -123,60 +140,111 @@
 				<li class="menu-hover"  ><a href="${pageContext.request.contextPath}/joblist.do"
 					class="nav-link px-0 align-middle "> <i class="fa-regular fa-rectangle-list"></i>
 				</a></li>
-				<li class="menu-hover" style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/jobhistory.do"
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/jobhistory.do"
 					class="nav-link px-0 align-middle "> <i
 						class="fa-solid fa-clock-rotate-left"></i>
 				</a></li>
 				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/hosts.do"
 					class="nav-link px-0 align-middle "> <i class="fa-solid fa-tv"></i>
 				</a></li>
-				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/users.do"
+				<li class="menu-hover" style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/users.do"
 					class="nav-link px-0 align-middle "> <i class="fa-regular fa-user"></i>
 				</a></li>
 			</ul>
 		</div>
 
 
-			<div class="container-fluid history">
-				<div class="row mb-3">
-					<div class="col-md-1">
-						<div class="form-group">
-							<label for="Search" class="control-label small font-italic">&nbsp;</label>
-							<input type="button" value="Search" @onclick="DateTimeChanged"
-								class="btn btn-primary w-100" />
+			<div class="container-fluid read">
+				<div class="row">
+				
+					<div class="col-sm-12"
+						style="display: flex; justify-content: space-between;">
+						<div class="btnwrap">
+						<button type="button" class="btn refreshbtn">Refresh
+							</button>
+						<button type="button" class="btn addbtn"
+							data-bs-toggle="modal" data-bs-target="#addModal">Create
+							User</button>
+						</div>
+						<div class="wrap"
+							style="margin-top: auto; margin-bottom: auto; width: 30rem;">
+							<div class="search">
+								<input type="text" class="searchTerm" id="search-Keyword"
+									placeholder="검색어를 입력해주세요 (Any Column)">
+								<button type="submit" class="searchButton">
+									<i class="fa fa-search"></i>
+								</button>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-2">
-						<div class="form-group">
-							<label for="startdate" class="control-label small font-italic"><strong>From:</strong>
-							</label> <input name="startdate" type="datetime-local"
-								class="form-control border-dark" @bind="@from"
-								@bind:format="yyyy-MM-ddTHH:mm:ss" />
-						</div>
-					</div>
-					<div class="col-md-2">
-						<div class="form-group">
-							<label for="enddate" class="control-label small font-italic"><strong>To:</strong>
-							</label> <input name="enddate" type="datetime-local"
-								class="form-control border-dark" @bind="@to"
-								@bind:format="yyyy-MM-ddTHH:mm" />
-						</div>
-					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="joblist-table"
+							style="width: 100%; height: 700px; overflow: auto; border: 1px solid var(--color-shadow); border-radius:10px">
+							<table id="job-table">
+								<thead>
+									<tr>
+										<td>No</td>
+										<td>Name</td>
+										<td>Id</td>
+										<td>Password</td>
+										<td>IsUse</td>
+										<td>Last Login</td>
+										<td>Action</td>
 
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="row" items="${users}">
+										<tr>
+											<!-- 유저번호 -->
+											<td></td>
+											<!-- 유저이름 -->
+											<td><a 
+												id="${row.jobId}">${row.jobName}</a></td>
+											<!-- 유저아이디 -->
+											<td></td>
+											<!-- 유저패스워드 -->
+											<td></td>
+
+											<c:if test="${row.isUse eq true}">
+												<td>
+												<input type="checkbox" name="isUsecheck" value="${row.isUse}" checked onClick="return false;">
+												</td>
+											</c:if>
+											<c:if test="${row.isUse eq false}">
+												<td>
+												<input type="checkbox" name="isUsecheck" value="${row.isUse}" onClick="return false;">
+												</td>
+											</c:if>
+											<td class="actions">
+												<button type="button" class="btn editbtn"
+													data-bs-toggle="modal" data-bs-target="#editModal"
+													data-id="${row.jobId}">Edit</button>
+												<button class="btn delebtn"
+													value="${row.jobId}" id="delbtn"
+													onclick="javascript:delbtn(this)">Delete</button>
+											</td>
+										</tr>
+
+									</c:forEach>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 
-				<div id='RunHistoryChart'></div>
-
-	<script
-			src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
-				<script
-					src='<%=request.getContextPath()%>/resources/js/jobhistory.js'></script>
 
 			</div>
 
+
+
+	<script src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
+	<script src='<%=request.getContextPath()%>/resources/js/jobhistory.js'></script>
 		</div>
 	</div>
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

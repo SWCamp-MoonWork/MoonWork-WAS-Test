@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swcamp.moonwork.model.dao.MemberDAO;
+import com.swcamp.moonwork.model.dto.HostDTO;
 import com.swcamp.moonwork.model.dto.JobDTO;
 import com.swcamp.moonwork.model.dto.MemberDTO;
 
@@ -32,6 +33,7 @@ import net.sf.json.JSONObject;
 public class DashboardController {
 	
 	private final String URL = "http://20.249.17.147:5000/v1/job";
+	private final String HOSTURL = "http://20.249.17.147:5000/v1/host";
 	// ObjectMapper 란?
 	/*
 	 * JSON 컨텐츠를 Java 객체로 deserialization 하거나 
@@ -71,6 +73,13 @@ public class DashboardController {
 		// 오늘 시작된 작업의 개수 가져오기
 		HttpEntity<String> res_TodayStartedJobs = restTemplate.exchange(URL + "/startschedule" , HttpMethod.GET, request, String.class);
 		System.out.println("response (/startschedule) = " + res_TodayStartedJobs);
+		
+		
+		ResponseEntity<List<HostDTO>> getHostResult = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<HostDTO>>() {
+				});
+		
+		List<HostDTO> list = getHostResult.getBody();
 		
 		try {
 			// 각각의 COUNT(*) 값 뽑기

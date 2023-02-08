@@ -51,6 +51,20 @@ public class RunsDTO {
 	public void setSaveDate(Date saveDate) {
 		SaveDate = saveDate;
 	}
+	public String getResultData() {
+		return ResultData;
+	}
+	public void setResultData(String resultData) {
+		ResultData = resultData;
+	}
+	
+    public long getDuration() {
+		return Duration;
+	}
+	public void setDuration(long duration) {
+		Duration = duration;
+	}
+	
 	public long RunId;
     public String WorkflowName;
     public Date StartDT;
@@ -58,7 +72,11 @@ public class RunsDTO {
     public String State;
     public long JobId;
     public long HostId;
-    public Date SaveDate;
+    public long Duration;
+
+
+	public String ResultData;
+	public Date SaveDate;
 
 	
 }

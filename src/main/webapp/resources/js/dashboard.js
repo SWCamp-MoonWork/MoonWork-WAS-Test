@@ -21,6 +21,9 @@ $(document).ready(function() {
 			$(".toggle__handler").html("light_mode");
 		}
 	});
+	
+	
+	
 
 
 	//ChartJS 데이터 뿌려주기
@@ -85,30 +88,34 @@ var h = 0;
 $(burger).on("click", function() {
 	if (h == 0) {
 		$('#sidebar').animate({
+			left: '7%',
+			opacity: 1
+		}, 400);
+		$('#hidden-menu').animate({
 			left: '0',
 			opacity: 1
-		}, 500);
+		}, 400);
 		$(this).addClass('active-1');
+		$('.hamburger').removeClass('fa-bars');
+		$('.hamburger').addClass('fa-xmark');
+		$('#sidebar .nav li').removeClass('menu-hover');
+
 		h++;
 	} else if (h == 1) {
 		$('#sidebar').animate({
-			left: '-20%',
-			opacity: 0
-		}, 500);
+			left: '0',
+			opacity: 1
+		}, 400);
+		$('#hidden-menu').animate({
+			left: '-7%',
+			opacity: 1
+		}, 400);
 		$(this).removeClass('active-1');
+		$('.hamburger').removeClass('fa-xmark');
+		$('.hamburger').addClass('fa-bars');
+
 		h--;
 	}
-	$(window).scroll(function() {
-		sct = $(window).scrollTop();
-		if (sct > 30) {
-			$('#sidebar').css({
-				opacity: 0,
-				left: '-20%'
-			}, 500);
-			$(burger).removeClass('active-1');
-			h = 0;
-		}
-	});
 })
 
 // css 값 가져오기

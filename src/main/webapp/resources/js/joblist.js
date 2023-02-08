@@ -11,50 +11,13 @@ function getContextPath() {
 	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
-var myModal = document.getElementById('myModal')
-var myInput = document.getElementById('myInput')
-
-// 모달창 바깥을 클릭해도 창이 꺼지지 않도록 함
-myModal.addEventListener('shown.bs.modal', function() {
-	myInput.focus()
-})
-
-
-// 작업 삭제버튼
-function delbtn(arg0) {
-	if (window.confirm('정말 삭제하시겠습니까?')) {
-		// They clicked Yes
-		var id = $(arg0).val();
-		var url = getContextPath() + "/deletejob.do";
-		$.ajax({
-			url: url,
-			type: "POST",
-			data: JSON.stringify({
-				"jobId": id
-			}),
-			contentType: "application/json; charset=UTF-8",
-			success: function(data) {
-				alert("작업이 삭제되었습니다.");
-				location.reload();
-			},
-			error: function(error) {
-				alert("에러....." + error);
-			}
-		});
-
-	}
-	else {
-
-	}
-}
-
 
 
 $(document).ready(function() {
 
 	const getCountURL = getContextPath() + "/getTotalJobList.do";
 	const runsState = getContextPath() + "/getRecentRuns.do";
-	
+
 	// 최근 5개 작업의 성공 실패 여부 구하기
 	/* 
 	바깥 Ajax는 job 리스트를 가져온다.
@@ -82,20 +45,20 @@ $(document).ready(function() {
 						getjobid: result[index].jobId
 					},
 					success: function(data) {	// data = job아이디에 따른 runs 데이터
-						$.each (data, function (i, value){
-							if(data[i].State == '10'){
+						for (var i = 0; i < 5; i++) {
+							if (data[i].State == '10') {
 								console.log("성공job");
-							$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle-check fa-lg" style="color:green; margin-right:2px"></i>');
+								$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle-check fa-lg" style="color:green; margin-right:2px"></i>');
 							}
-							else if(data[i].State == '11'){
+							else if (data[i].State == '11') {
 								console.log("실패job");
 								$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle-xmark fa-lg" style="color:red; margin-right:2px"></i>');
 							}
-							else{
+							else {
 								console.log("여부 없음");
 								$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle fa-lg" style="color:var(--color-black); margin-right:2px"></i>');
 							}
-						});
+						};
 					},
 					error: function(request, error) {
 						alert("runsState 에러 code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
@@ -141,6 +104,73 @@ $(document).ready(function() {
 		var resultDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 
 		return resultDate;
+	}
+
+
+	// RunsChart 생성 함수
+	$.drawingRunsChart = function(runsData) {
+		let runchart = document.getElementById(
+			'modalchart').getContext('2d');
+			
+		let labelsOfRunsId = [];
+		
+		
+		for(var i = 0; i<20; i++){
+			labelsOfRunsId.push("test"+i);
+		}	
+		
+
+		let chart = new Chart(
+			runchart,
+			{
+				type: 'bar', //pie, line, doughnut, polarArea
+				data: {
+					labels: labelsOfRunsId,
+					datasets: [{
+						label: 'Run Duration',
+						data: [100, 500, 250,
+							350, 700, 200,
+							450, 600, 150],
+						borderColor: '#7B4ED4',
+						fill: true,
+						backgroundColor: 'rgba(123, 78, 212, 0.5)'
+					}]
+				},
+				options: {
+					responsive: false,
+					legend: {
+						labels: {
+							fontColor: "rgba(128, 128, 128, 1)",
+							fontSize: 14
+						}
+					},
+					scales: {
+						yAxes: [{
+							ticks: {
+								min: 0,
+								beginAtZero: true,
+								stepSize: 100,
+								fontColor: "rgba(128, 128, 128, 1)",
+								fontSize: 14,
+							},
+							gridLines: {
+								color: "rgba(128, 128, 128, 1)",
+								lineWidth: 0.5
+							}
+						}],
+						xAxes: [{
+							ticks: {
+								fontColor: "rgba(128, 128, 128, 1)",
+								fontSize: 14
+							},
+							gridLines: {
+								color: "rgba(128, 128, 128, 1)",
+								lineWidth: 0.5
+							}
+						}]
+					}
+				}
+			});
 	}
 
 
@@ -319,6 +349,41 @@ $(document).ready(function() {
 	});
 
 
+	// Runs 버튼 클릭 시 jobid에 해당하는 Runs 데이터의 최근 20개 가져오기
+	$(document).on("click", ".runsbtn", function() {
+		
+		$.drawingRunsChart();
+		var selectId = $(this).data('id');
+		const runsurl = getContextPath() + "/GetLastTwentyRunsData.do";
+		$.ajax({
+			url: runsurl,
+			type: "GET",
+			data: {
+				"jobId": selectId
+			},
+			contentType: "application/json; charset=UTF-8",
+			success: function(runsData) {
+				for (var i = 0; i < runsData.length; i++) {
+					$('#RunId').text(runsData[i].RunId);
+					$('#WorkflowName').text(runsData[i].WorkflowName);
+					$('#StartDT').text(runsData[i].StartDT);
+					$('#EndDT').text(runsData[i].EndDT);
+					$('#Duration').text(runsData[i].Duration);
+					$('#State').text(runsData[i].State);
+					$('#ResultData').html('<button type="button" class="RunsResultData" id=' + runsData[i].RunId + '>보기</button>')
+				}
+				
+				$.drawingRunsChart(runsData);
+				
+
+			},
+			error: function(request, error) {
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+
+
 	// 크론식 유효성 검사 함수
 	// ajax를 사용하여 사용자가 값을 입력할 때마다 이벤트를 감지해 컨트롤러와 통신한다.
 	$("#Cron-expression")
@@ -371,7 +436,92 @@ $(document).ready(function() {
 				}
 			});
 
+
+
+
+	//작업이 실행중인지 아닌지에 대한 상태를 실시간으로 가져오기
+	var targeturl = getContextPath() + "/getstate.do";
+	setInterval(function() {
+		$.ajax({
+			url: targeturl,
+			type: 'GET',
+			//data: JSON.stringify(param),
+			contentType: "application/json; charset=UTF-8",
+			success: function(result) {
+
+				for (var i = 0; i < result.length; i++) {
+					if (result[i].State == 1) {
+						$('#loading' + result[i].JobId).addClass('fa-spin');
+					}
+					else {
+						$('#loading' + result[i].JobId).removeClass('fa-spin');
+					}
+				}
+			},
+			error: function(e) {
+				console.log(e);
+			}
+		});
+	}, 2000); // End setTimeout(function()
+
+
+	// 이게맞나..? 일단 보류
+	$(document).on("click", ".refreshbtn", function() {
+
+		$.ajax({
+			url: getContextPath() + "/joblist.do",
+			type: 'GET',
+			success: function(result) {
+
+				console.log("새로고침 성공");
+			},
+			error: function(e) {
+				console.log(e);
+			}
+		});
+
+
+	});
+
+
 });
 
 
 
+
+var myModal = document.getElementById('myModal')
+var myInput = document.getElementById('myInput')
+
+// 모달창 바깥을 클릭해도 창이 꺼지지 않도록 함
+myModal.addEventListener('shown.bs.modal', function() {
+	myInput.focus()
+})
+
+
+// 작업 삭제버튼
+function delbtn(arg0) {
+	if (window.confirm('정말 삭제하시겠습니까?')) {
+		// They clicked Yes
+		var id = $(arg0).val();
+		var url = getContextPath() + "/deletejob.do";
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: JSON.stringify({
+				"jobId": id
+			}),
+			contentType: "application/json; charset=UTF-8",
+			success: function(data) {
+				alert("작업이 삭제되었습니다.");
+				location.reload();
+			},
+			error: function(error) {
+				alert("에러....." + error);
+			}
+		});
+
+	}
+	else {
+
+	}
+}
