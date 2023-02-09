@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="<%=request.getContextPath()%>/resources/img/moonwork_favicon.ico">
 <meta charset="UTF-8">
 <title>MoonWork_Users</title>
 <script nonce="undefined"
@@ -62,15 +63,8 @@
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-				<ul class="navbar-nav hambuger">
-				<li class="ham-btn">
-                    <a class="menu-trigger" href="#">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </a>
-                </li>
-                </ul>
+									<a class="moonwork-img"><img src="<%=request.getContextPath()%>/resources/img/moonwork_logo.png"
+											width="23px" height="23px"></a>
 					<a href="#" class="d-flex moonwork">MoonWork</a>
 
 					<div
@@ -130,7 +124,7 @@
 			<ul
 				class="nav nav-pills "
 				id="menu">
-				<li class="menu-hamburger" style="border-bottom:1px solid var(--color-shadow)"><a href="#"
+				<li class="menu-hamburger"><a href="#"
 					class="nav-link px-0 align-middle menu-trigger "> <i class="fa-solid fa-bars fa-lg hamburger"></i>
 				</a></li>
 				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/dashboard.do"
@@ -147,8 +141,8 @@
 				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/hosts.do"
 					class="nav-link px-0 align-middle "> <i class="fa-solid fa-tv"></i>
 				</a></li>
-				<li class="menu-hover" style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/users.do"
-					class="nav-link px-0 align-middle "> <i class="fa-regular fa-user"></i>
+				<li class="menu-hover"><a href="${pageContext.request.contextPath}/users.do"
+					class="nav-link px-0 align-middle "  style="color: var(--color-primary)"> <i class="fa-regular fa-user"></i>
 				</a></li>
 			</ul>
 		</div>
@@ -160,10 +154,10 @@
 					<div class="col-sm-12"
 						style="display: flex; justify-content: space-between;">
 						<div class="btnwrap">
-						<button type="button" class="btn refreshbtn">Refresh
+						<button type="button" class="btn refreshbtn" style="background-color: var(--color-white)">Refresh
 							</button>
-						<button type="button" class="btn addbtn"
-							data-bs-toggle="modal" data-bs-target="#addModal">Create
+						<button type="button" class="btn addbtn" style="background-color: var(--color-white)"
+							data-bs-toggle="modal" data-bs-target="#createModal">Create
 							User</button>
 						</div>
 						<div class="wrap"
@@ -181,7 +175,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="joblist-table"
-							style="width: 100%; height: 700px; overflow: auto; border: 1px solid var(--color-shadow); border-radius:10px">
+							style="width: 100%; height: 800px; overflow: auto; border: 1px solid var(--color-shadow); border-radius:10px">
 							<table id="job-table">
 								<thead>
 									<tr>
@@ -199,31 +193,31 @@
 									<c:forEach var="row" items="${users}">
 										<tr>
 											<!-- 유저번호 -->
-											<td></td>
+											<td>${row.userId}</td>
 											<!-- 유저이름 -->
 											<td><a 
-												id="${row.jobId}">${row.jobName}</a></td>
+												id="${row.userId}">${row.name}</a></td>
 											<!-- 유저아이디 -->
-											<td></td>
+											<td>${row.userName}</td>
 											<!-- 유저패스워드 -->
-											<td></td>
+											<td>${row.password}</td>
 
-											<c:if test="${row.isUse eq true}">
+											<c:if test="${row.isActive eq true}">
 												<td>
-												<input type="checkbox" name="isUsecheck" value="${row.isUse}" checked onClick="return false;">
+												<input type="checkbox" name="isUsecheck" value="${row.isActive}" checked onClick="return false;">
 												</td>
 											</c:if>
-											<c:if test="${row.isUse eq false}">
+											<c:if test="${row.isActive eq false}">
 												<td>
-												<input type="checkbox" name="isUsecheck" value="${row.isUse}" onClick="return false;">
+												<input type="checkbox" name="isUsecheck" value="${row.isActive}" onClick="return false;">
 												</td>
 											</c:if>
 											<td class="actions">
 												<button type="button" class="btn editbtn"
 													data-bs-toggle="modal" data-bs-target="#editModal"
-													data-id="${row.jobId}">Edit</button>
+													data-id="${row.userId}">Edit</button>
 												<button class="btn delebtn"
-													value="${row.jobId}" id="delbtn"
+													value="${row.userId}" id="delbtn"
 													onclick="javascript:delbtn(this)">Delete</button>
 											</td>
 										</tr>
@@ -239,6 +233,69 @@
 
 			</div>
 
+
+	<!-- AddModal -->
+	<div class="modal fade" id="createModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true"
+		data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="exampleModalLabel">Create User</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<form name="createform" id="create-form"
+					action="${pageContext.request.contextPath}/createuser.do"
+					onsubmit="return createJob()" method="post"
+					enctype="multipart/form-data">
+					<div class="modal-body add-body">
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label job-text"><strong>User ID
+									</strong></label> <input type="text" class="form-control" id="userName-text" name="userName"
+								required>
+							
+						</div>
+						<div class="mb-3">
+							<label for="formFileSm" class="form-label job-text"><strong>Password
+									</strong></label> <input class="form-control form-control-sm file-add"
+								name="userPassword" type="text">
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label job-text "><strong>Name
+									</strong></label> <input type="text" class="form-control"
+								name="Name" required>
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label job-text "><strong>User Email
+									</strong></label> <input type="email" class="form-control"
+								name="userEmail"  placeholder="example@gmail.com" required>
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlTextarea1" 
+								class="form-label job-text"><strong>Note</strong></label>
+							<textarea class="form-control" name="note" rows="3"></textarea>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Create</button>
+					</div>
+				</form>
+				<script type="text/javascript">
+					// 버튼 클릭 시 모달 닫고 폼 전송 
+					function createJob() {
+
+						alert("User 추가 완료!");
+						$('#create-form').modal('hide')
+						return true;
+					}
+				</script>
+			</div>
+		</div>
+	</div>
 
 
 	<script src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>

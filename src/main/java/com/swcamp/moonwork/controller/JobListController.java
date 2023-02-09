@@ -70,6 +70,46 @@ public class JobListController {
 	// Job List 띄우기
 	@RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
 	public String joblist(Locale locale, Model model) {
+		
+		int TotalJobsCount = 0;
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<JobDTO>>() {
+				});
+		List<JobDTO> list = result.getBody();
+		
+		
+    	//헤더 생성
+		headers.add("accept", "application/json");
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<?> request = new HttpEntity<>(null, headers);
+		
+		// 총 작업의 개수 가져오기
+		HttpEntity<String> res_TotalJobsCount = restTemplate.exchange(URL + "/totalnum" , HttpMethod.GET, request, String.class);
+		System.out.println("response (/totalnum) = " + res_TotalJobsCount);
+		
+		try {
+			// 각각의 COUNT(*) 값 뽑기
+			// objectMapper.readValue를 사용해서 API에서 응답받은 JSON 형식의 Body를 Map<String, Integer>타입으로 역직렬화
+			// .get() 메소드를 사용해서 값 가져오기
+			Map<String, Integer> map_TotalJobsCount = objectMapper.readValue(res_TotalJobsCount.getBody(), Map.class);
+			TotalJobsCount = map_TotalJobsCount.get("COUNT(*)");
+
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// model에 저장 후 jsp로 전달
+		model.addAttribute("TotalJobsCount", TotalJobsCount);
+
+		model.addAttribute("jobs", list);
+
+		return "joblist/JobList";
+	}
+	
+	// Job Refresh
+	@RequestMapping(value = "/jobrefresh.do", method = RequestMethod.GET)
+	public String jobrefresh(Locale locale, Model model) {
 
 		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
@@ -80,7 +120,7 @@ public class JobListController {
 
 		model.addAttribute("jobs", list);
 
-		return "joblist/JobList";
+		return "Success";
 	}
 	
 	// 특정 Id에 대한 Job List
@@ -349,11 +389,12 @@ public class JobListController {
 	public List<RunsDTO> GetLastTwentyRunsData(@RequestParam(value="jobId") String jobId){
 		
 		
-		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(URL + "/getstate"  , HttpMethod.GET, null,
+		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(RUNURL + "/" + jobId + "/getduration"  , HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<RunsDTO>>() {
 				});
 		
 		List<RunsDTO> runslist = result.getBody();
+		System.out.println("response (최근 20개의 Runs 데이터 가져오기) = " + result);
 		
 		return runslist;
 	}

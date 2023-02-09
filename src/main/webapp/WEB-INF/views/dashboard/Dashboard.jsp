@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="<%=request.getContextPath()%>/resources/img/moonwork_favicon.ico">
 <meta charset="UTF-8" name="viewport"
 	content="width=device-width, initial-scale=1">
 <title>MoonWork_Dashboard</title>
@@ -45,15 +46,16 @@ String test = "info";
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-
-					<a href="#" class="d-flex moonwork">MoonWork</a>
+					<a class="moonwork-img"><img src="<%=request.getContextPath()%>/resources/img/moonwork_logo.png"
+											width="23px" height="23px"></a>
+					<a class="d-flex moonwork">MoonWork</a>
 					
 
 
 					<div
 						class="collapse navbar-collapse text-decoration-none user-info"
 						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
-					<input type="checkbox" id="dn"> <label for="dn"
+					<input type="checkbox" id="dn" > <label for="dn" style="background-color:var(--color-light); border-radius:10px;"
 						class="toggle2"> <span class="material-icons toggle__handler">light_mode</span>
 					</label>
 					<div class="dropdown" style="padding-right: 30px">
@@ -106,11 +108,11 @@ String test = "info";
 			<ul
 				class="nav nav-pills "
 				id="menu">
-				<li class="menu-hamburger" style="border-bottom:1px solid var(--color-shadow)"><a href="#"
+				<li class="menu-hamburger" ><a href="#"
 					class="nav-link px-0 align-middle menu-trigger "> <i class="fa-solid fa-bars fa-lg hamburger"></i>
 				</a></li>
-				<li class="menu-hover" style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/dashboard.do"
-					class="nav-link px-0 align-middle "> <i
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/dashboard.do"
+					class="nav-link px-0 align-middle " style="color: var(--color-primary)"> <i
 						class="fa-solid fa-chart-line"></i>
 				</a></li>
 				<li class="menu-hover"  ><a href="${pageContext.request.contextPath}/joblist.do"
@@ -133,11 +135,10 @@ String test = "info";
 
 			<div class="container-fluid dashboard" >
 
-				<div class="row row-cols-1 row-cols-md-5 justify-content-center"
-					style="">
+				<div class="row row-cols-1 row-cols-md-5 justify-content-center">
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px;">
+							style="width: 103%; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
@@ -160,7 +161,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px;">
+							style="width: 103%; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
@@ -183,7 +184,7 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px;">
+							style="width: 103%; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
@@ -206,13 +207,13 @@ String test = "info";
 					</div>
 					<div class="col">
 						<div class="card mb-3"
-							style="width: 330px; height: 200px;">
+							style="width: 103%; height: 200px;">
 							<div class="row g-0">
 
 								<div class="col-md-12">
 									<div class="card-body">
 										<h5 class="card-title ">
-											<i class="fa-regular fa-circle-play fa-lg" style="color: var(--color-info)"></i><strong>&nbsp;&nbsp;&nbsp;Today Started Jobs</strong>
+											<i class="fa-regular fa-circle-play fa-lg" style="color: var(--color-info)"></i><strong>&nbsp;&nbsp;&nbsp;Today Started Runs</strong>
 										</h5>
 										<p class="card-text card-count"
 											style="text-align: center; font-size: 70px; margin-top:15px">${TodayStartedJobs}</p>
@@ -231,7 +232,7 @@ String test = "info";
 					<div class="col">
 
 						<div class="card mb-2"
-							style="width: 330px; height: 96px;">
+							style="width: 101%; height: 96px;">
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 96px; text-align: center">
@@ -253,7 +254,7 @@ String test = "info";
 						</div>
 
 						<div class="card"
-							style="width: 330px; height: 96px;">
+							style="width: 101%; height: 96px;">
 							<div class="row g-0">
 								<div class="col-md-4"
 									style="line-height: 96px; text-align: center">
@@ -284,20 +285,22 @@ String test = "info";
 							<h6>
 								<strong>일별 Job 실행 횟수 (2023)</strong>
 							</h6>
-							<div id='myChart'></div>
+							<div id="myCalendarChart">
+
+							</div>
 						<div class="row" style="position:absolute; background:var(--color-white); left: 48%;width:160px; height:30px; margin-top: 200px; z-index:1000">
 						
 						</div>
 						</div>
 
-						<div class="row dashboard-View" style="z-index:1000">
+						<div class="row  dashboard-View" style="z-index:1000">
 							<div style="width: 10px; height: 10px">
 								<i id="tooltip-info"
 									class="fa-regular fa-circle-question fa-lg "
 									data-bs-toggle="tooltip" data-bs-placement="right"
 									title="그래프에 들어갈 내용(미정)"></i>
 							</div>
-							<canvas id="myChartThree" height="300px"></canvas>
+							<canvas id="myChartThree" height="278px"></canvas>
 						</div>
 					</div>
 					<div class="col-md-4" style="padding-left:28px">
@@ -353,8 +356,8 @@ String test = "info";
 										<tr style="font-weight:bold">
 											<td>JobId</td>
 											<td>JobName</td>
-											<td>StartRunDT</td>
-											<td>StartEndDT</td>
+											<td>Last Run</td>
+											<td>Next Run</td>
 										</tr>
 									</thead>
 									<tbody>

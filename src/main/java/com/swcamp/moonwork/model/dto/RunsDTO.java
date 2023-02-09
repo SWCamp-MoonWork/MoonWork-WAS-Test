@@ -58,10 +58,10 @@ public class RunsDTO {
 		ResultData = resultData;
 	}
 	
-    public long getDuration() {
+    public String getDuration() {
 		return Duration;
 	}
-	public void setDuration(long duration) {
+	public void setDuration(String duration) {
 		Duration = duration;
 	}
 	
@@ -72,11 +72,10 @@ public class RunsDTO {
     public String State;
     public long JobId;
     public long HostId;
-    public long Duration;
-
-
+    public String Duration;
 	public String ResultData;
 	public Date SaveDate;
+
 
 	
 }

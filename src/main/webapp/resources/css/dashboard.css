@@ -22,7 +22,8 @@
 
 /* Ligth Mode */
 :root {
-	
+
+
 --color-primary: #007bff;
 --color-secondary: #6c757d;
 --color-success: #28a745;
@@ -32,7 +33,8 @@
 --color-green: #39D353;
 --color-purple: #7B4ED4;
 --color-dark: #343a40;
---color-light: #f8f9fa;
+/*--color-light: #f8f9fa;*/
+--color-light: rgba(233, 238, 245, 1);
 --color-background: #fff;
 --color-dark-variant: #677483;
 --color-white: #fff;
@@ -47,7 +49,7 @@
 
 
 --color-chart:#007bff;
---box-shadow: 0 0.5rem 5rem var(--color-shadow);
+--box-shadow: 0 0.2rem 2rem var(--color-white);
 
 }
 
@@ -108,7 +110,7 @@ margin-bottom:0;
 }
 
 #content .navbar{
-	z-index:1000;
+	z-index:999;
 	height: 40px;
 	background: var(--color-white);
 	display:flex;
@@ -126,12 +128,21 @@ margin-bottom:0;
     justify-content: flex-end;
 }
 
+#content .moonwork-img{
+	width:25px;
+	height:auto;
+	line-height:auto;
+	text-align:center;
+	justify-content : center;
+}
+
 #content .moonwork{
 	text-decoration: none;
 	font-family:'GongGothicMedium';
 	font-size:20px;
 	Color: var(--color-dark);
-	padding-left: 0.2%;
+	margin-left: 1%;
+	padding-top: 5px;
 }
 
 #content .menu-area{
@@ -157,11 +168,13 @@ margin-bottom:0;
 }
 
 #content .history{
-	padding: 20px 100px 50px;
+	padding: 50px 80px 30px;
+	margin-left:25px;
 }
 
 #content .hosts{
-	padding: 20px 100px 50px;
+	padding: 35px 100px 50px;
+	margin-left:25px;
 }
 
 
@@ -188,10 +201,10 @@ margin-bottom:0;
 	  position: fixed;
 	z-index: 900;
 	  width: 100%;
-  max-width: 140px;
+  max-width: 180px;
   height: 100%;
-  left: -6%;
-    background-color: var(--color-white);
+  left: -10%;
+    background: var(--color-white);
 }
 
 
@@ -200,7 +213,7 @@ margin-bottom:0;
   text-align: center;
   vertical-align: middle;
   text-decoration:none;
-  padding-top:46px;
+  padding-top:50px;
 
 }
 #hidden-menu .nav li{
@@ -208,10 +221,10 @@ width:100%;
 display:inline-block;
 vertical-align:middle;
   justify-content : center;
-  text-align: center;
+  text-align: left;
+  padding-left: 15px;
   vertical-align: middle;
-line-height:30px;
-border-top: 1px solid var(--color-shadow);
+line-height:29px;
 }
 /*
 #hidden-menu .nav li:hover{
@@ -221,25 +234,28 @@ background-color: var(--color-shadow);
 }
 */
 #hidden-menu a {
+	font-family: 'GmarketSansMedium';
 	text-decoration : none;
 	color: var(--color-dark);
+	font-size:11px;
+	font-weight:bold;
 }
 
-#hidden-menu .nav .hidden-hover:hover{
+#hidden-menu a:hover{
 	
-background-color: rgba(75, 137, 220, 0.1)
+color: var(--color-black)
 
 }
 
 #sidebar {
-  z-index: 900;
+  z-index: 1000;
   position: fixed;
   width: 100%;
-  max-width: 60px;
+  max-width: 50px;
   height: 100%;
   left: 0%;
   background-color: var(--color-white);
-  border-right: 0.5px solid var(--color-shadow);
+
 }
 
 
@@ -616,4 +632,21 @@ background:var(--color-white);
 	font-size: 20px;
 }
 
+#runsModal .runsData-table th{
+	position: sticky;
+    top: 0px;
+}
 
+.history .w-100{
+
+	text-decoration: none;
+	background-color: none;
+	border-color: var(--color-primary);
+	font-weight: bold;
+	font-size: 14px;
+	color: var(--color-black);
+}
+
+.history .w-100:hover{
+	color: var(--color-primary);
+}

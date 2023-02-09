@@ -12,11 +12,50 @@ function getContextPath() {
 }
 
 
+//보류
+function login() {
+
+	var userName = $('#userName').val();
+	var password = $('#password').val();
+
+	const loginurl = getContextPath() + "/login.do";
+
+	$.ajax({
+		url: loginurl,
+		type: "GET",
+		data: {
+			"userName": userName,
+			"password": password
+		},
+		success: function(result) {
+
+			if (result == 'success') {
+				console.log("된다");
+				return true;
+			}
+			else if (result == 'fail') {
+				console.log("안된다");
+				return false;
+			}
+			else {
+				alert("error");
+			}
+
+		},
+		error: function(request, error) {
+			alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+		}
+	});
+
+}
+
 
 $(document).ready(function() {
 
-	const getCountURL = getContextPath() + "/getTotalJobList.do";
-	const runsState = getContextPath() + "/getRecentRuns.do";
+	//$.GetRecentFiveJobState();
+
+
+
 
 	// 최근 5개 작업의 성공 실패 여부 구하기
 	/* 
@@ -32,6 +71,10 @@ $(document).ready(function() {
 	Promise를 사용하여 더 간단하고 클린하게 코드를 작성 할 수 있지만 
 	기한 내에 눈으로 보여지는 완성물을 만들기 위해서 사용법이 잘 숙지되어있는 Ajax를 사용했다. 	
 	*/
+	//$.GetRecentFiveJobState = function(){
+	const getCountURL = getContextPath() + "/getTotalJobList.do";
+	const runsState = getContextPath() + "/getRecentRuns.do";
+
 	$.ajax({	// job리스트 가져오기
 		url: getCountURL,
 		type: "GET",
@@ -70,6 +113,9 @@ $(document).ready(function() {
 			alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
 		}
 	});
+
+	//}
+
 
 
 
@@ -111,14 +157,17 @@ $(document).ready(function() {
 	$.drawingRunsChart = function(runsData) {
 		let runchart = document.getElementById(
 			'modalchart').getContext('2d');
-			
+
 		let labelsOfRunsId = [];
-		
-		
-		for(var i = 0; i<20; i++){
-			labelsOfRunsId.push("test"+i);
-		}	
-		
+		let duration = [];
+
+
+		for (var i = 0; i < 20; i++) {
+			labelsOfRunsId.push(runsData[i].RunId);
+			duration.push(parseInt(runsData[i].Duration));
+		}
+
+
 
 		let chart = new Chart(
 			runchart,
@@ -128,9 +177,7 @@ $(document).ready(function() {
 					labels: labelsOfRunsId,
 					datasets: [{
 						label: 'Run Duration',
-						data: [100, 500, 250,
-							350, 700, 200,
-							450, 600, 150],
+						data: duration,
 						borderColor: '#7B4ED4',
 						fill: true,
 						backgroundColor: 'rgba(123, 78, 212, 0.5)'
@@ -171,6 +218,8 @@ $(document).ready(function() {
 					}
 				}
 			});
+
+
 	}
 
 
@@ -351,8 +400,8 @@ $(document).ready(function() {
 
 	// Runs 버튼 클릭 시 jobid에 해당하는 Runs 데이터의 최근 20개 가져오기
 	$(document).on("click", ".runsbtn", function() {
-		
-		$.drawingRunsChart();
+
+		let runsState;
 		var selectId = $(this).data('id');
 		const runsurl = getContextPath() + "/GetLastTwentyRunsData.do";
 		$.ajax({
@@ -364,18 +413,27 @@ $(document).ready(function() {
 			contentType: "application/json; charset=UTF-8",
 			success: function(runsData) {
 				for (var i = 0; i < runsData.length; i++) {
-					$('#RunId').text(runsData[i].RunId);
-					$('#WorkflowName').text(runsData[i].WorkflowName);
-					$('#StartDT').text(runsData[i].StartDT);
-					$('#EndDT').text(runsData[i].EndDT);
-					$('#Duration').text(runsData[i].Duration);
-					$('#State').text(runsData[i].State);
-					$('#ResultData').html('<button type="button" class="RunsResultData" id=' + runsData[i].RunId + '>보기</button>')
-				}
-				
-				$.drawingRunsChart(runsData);
-				
 
+					if (runsData[i].State == '10') {
+						runsState = '성공';
+					}
+					else {
+						runsState = '실패';
+					}
+
+					$('.runsData-tbody').append(
+						'<tr>' +
+						'<td>' + runsData[i].RunId + '</td>' +
+						'<td>' + runsData[i].WorkflowName + '</td>' +
+						'<td>' + $.dateFomatting(runsData[i].StartDT) + '</td>' +
+						'<td>' + $.dateFomatting(runsData[i].EndDT) + '</td>' +
+						'<td>' + runsData[i].Duration + '</td>' +
+						'<td>' + runsState + '</td>' +
+						'<td><button type="button" class="RunsResultData" id=' + runsData[i].RunId + '>보기</button></td>' +
+						'<tr>'
+					);
+				}
+				$.drawingRunsChart(runsData);
 			},
 			error: function(request, error) {
 				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);

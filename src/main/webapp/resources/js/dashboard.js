@@ -21,12 +21,15 @@ $(document).ready(function() {
 			$(".toggle__handler").html("light_mode");
 		}
 	});
-	
-	
-	
+
+
+
 
 
 	//ChartJS 데이터 뿌려주기
+
+
+	darkmodeGo();
 
 	getChartGraph();
 
@@ -34,40 +37,135 @@ $(document).ready(function() {
 
 
 
-
 });
+
+let dashboard_light = {
+				type: 'calendar',
+				backgroundColor: null,	//null : 배경색없음
+				options: {
+					year: {
+						text: '2023',
+						visible: false
+					},
+					startMonth: 1,
+					endMonth: 12,
+					palette: ['none', '#39d353'],
+					month: {
+						item: {
+							fontColor: 'grey',
+							fontSize: 13
+
+						}
+					},
+					weekday: {
+						values: ['', 'Mon', '', 'Wed', '', 'Fri', ''],
+						item: {
+							fontColor: 'grey',
+							fontSize: 12
+						}
+					},
+					day: {
+						borderColor: 'white',
+						borderWidth: 5,
+						inactive: { // Use this object to style the cells of all inactive days.
+							backgroundColor: 'rgba(233, 238, 245, 1)'
+						}
+					},
+					values: [
+						['2023-01-01', 3],
+						['2023-01-04', 12],
+						['2023-01-05', 3],
+						['2023-01-06', 4]
+					]
+				}
+			};
+
+			zingchart.loadModules('calendar', function() {
+
+				zingchart.render({
+					id: 'myCalendarChart',
+					data: dashboard_light,
+					height: 200,
+					width: '100%'
+				});
+			});
+			
+			
+let modeofcalendar;
 
 // 테마 변경
 function darkmodeGo() {
+
 	const darkModeToggle = document.getElementById('dn'); // 체크박스 정의
 	if (!darkModeToggle) { return !1 } // 체크 박스 없을 시 작동 종료
 	const Realbody = document.querySelector('body');
 	darkModeToggle.addEventListener('change', function(event) {//체크박스의 변화 감지 리스너
 		if (!Realbody.classList.contains('dark-theme-variables')) { // 바디에 다크모드 클래스가 없으면
 			Realbody.classList.add('dark-theme-variables'); // 다크모드 추가
-			localStorage.setItem('whatMode', darkModeToggle.checked); //whatMode라는 이름의 아이템에 체크박스의 체크 여부를 저장하기     
+			localStorage.setItem('whatMode', darkModeToggle.checked); //whatMode라는 이름의 아이템에 체크박스의 체크 여부를 저장하기  
+			
+
 		}
 		else { // 바디에 다크모드 클래스가 있으면
 			Realbody.classList.remove('dark-theme-variables'); // 다크모드 클래스를 제거
-
+			modeofcalendar = 'light';
 			localStorage.setItem('whatMode', darkModeToggle.checked); //whatMode라는 이름의 아이템에 체크박스의 체크 여부를 저장하기     
+
 		}
 	})
 }
-darkmodeGo()
-document.addEventListener('DOMContentLoaded', function() {
-	const Realbody = document.querySelector('body');
-	const whatMode = localStorage.getItem('whatMode'); //whatMode 아이템 값 불러오기
-	if (whatMode === "false") { // 체크 여부가 false라면, 라이트모드입니다. 이 때 false는 문자열 타입이므로 "" 안에 적어야 합니다.
-		return !1; // 라이트모드이므로 아무런 행동을 할 필요가 없습니다.
-	}
-	else { // 다크모드라면 
-		const darkModeToggle = document.getElementById('dn'); //체크박스를 획득
-		darkModeToggle.checked = true; // 체크박스에 체크를 해주기
-		Realbody.classList.add('dark-theme-variables'); // 다크모드를 body에 걸어주기
 
-	}
-})
+function openMenu() {
+	$('#hidden-menu').animate({
+		left: '2%',
+		opacity: 1
+	}, 400);
+	$('.dashboard').animate({
+		padding: '35px 20px 50px 230px'
+	}, 400);
+	$('.read').animate({
+		padding: '20px 40px 30px 205px'
+	}, 400);
+	$('.history').animate({
+		padding: '50px 60px 30px 220px'
+	}, 400);
+	$('.hosts').animate({
+		padding: '35px 50px 50px 230px'
+	}, 400);
+	//$('.dashboard').css({"padding-left": "15%"});
+	$(this).addClass('active-1');
+	$('.hamburger').removeClass('fa-bars');
+	$('.hamburger').addClass('fa-xmark');
+	$('#sidebar .nav li').removeClass('menu-hover');
+}
+
+function closeMenu() {
+	$('#hidden-menu').animate({
+		left: '-10%',
+		opacity: 1
+	}, 400);
+	$('.dashboard').animate({
+		padding: '35px 100px 50px'
+	}, 400);
+	$('.read').animate({
+		padding: '20px 80px 30px'
+	}, 400);
+	$('.history').animate({
+		padding: '50px 80px 30px'
+	}, 400);
+	$('.hosts').animate({
+		padding: '35px 100px 50px'
+	}, 400);
+	$(this).removeClass('active-1');
+	$('.hamburger').removeClass('fa-xmark');
+	$('.hamburger').addClass('fa-bars');
+	$('#sidebar .nav li').addClass('menu-hover');
+}
+
+
+
+
+
 
 
 
@@ -83,168 +181,70 @@ burger.each(function(index) {
 	})
 });
 
-var h = 0;
 
+// localStorage 에 숫자를 넣으면 setItem을 해도 계속 똑같은 값만 나온다.
+// localStorage는 string 데이터 타입만 지원하기 떄문에 숫자를 넣으려면 json 타입으로 넣어야한다.
 $(burger).on("click", function() {
-	if (h == 0) {
-		$('#sidebar').animate({
-			left: '7%',
-			opacity: 1
-		}, 400);
-		$('#hidden-menu').animate({
-			left: '0',
-			opacity: 1
-		}, 400);
-		$(this).addClass('active-1');
-		$('.hamburger').removeClass('fa-bars');
-		$('.hamburger').addClass('fa-xmark');
-		$('#sidebar .nav li').removeClass('menu-hover');
 
-		h++;
-	} else if (h == 1) {
-		$('#sidebar').animate({
-			left: '0',
-			opacity: 1
-		}, 400);
-		$('#hidden-menu').animate({
-			left: '-7%',
-			opacity: 1
-		}, 400);
-		$(this).removeClass('active-1');
-		$('.hamburger').removeClass('fa-xmark');
-		$('.hamburger').addClass('fa-bars');
 
-		h--;
+	if (localStorage.getItem('menuToggle') === 'close') {
+		openMenu();
+		localStorage.setItem('menuToggle', 'open');
+		console.log("open" + localStorage.getItem('menuToggle'));
+
+	} else {
+		closeMenu();
+
+		localStorage.setItem('menuToggle', 'close');
+		console.log("close" + localStorage.getItem('menuToggle'));
 	}
 })
 
-// css 값 가져오기
+
+document.addEventListener('DOMContentLoaded', function() {
+
+	const Realbody = document.querySelector('body');
+	const whatMode = localStorage.getItem('whatMode'); //whatMode 아이템 값 불러오기
+	if (whatMode === "false") { // 체크 여부가 false라면, 라이트모드입니다. 이 때 false는 문자열 타입이므로 "" 안에 적어야 합니다.
+
+		//$("#myCalendarChart").empty();
+		//CalendarChartLight();
+		//return !1; // 라이트모드이므로 아무런 행동을 할 필요가 없습니다.
+	}
+	else { // 다크모드라면 
+		const darkModeToggle = document.getElementById('dn'); //체크박스를 획득
+		darkModeToggle.checked = true; // 체크박스에 체크를 해주기
+		Realbody.classList.add('dark-theme-variables'); // 다크모드를 body에 걸어주기
+		//$("#myCalendarChart").empty();
+		//CalendarChartDark();
+
+
+
+	}
+})
+
+document.addEventListener('DOMContentLoaded', function() {
+
+
+	if (localStorage.getItem('menuToggle') === 'close') {
+		console.log("menu close")
+		return !1;
+	}
+	else {
+		console.log("menu open]")
+		openMenu();
+	}
+})
+
+
+
+
+
+
 
 // Zing차트 (대시보드)
 //ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
-let dashboard = {
-	type: 'calendar',
-	backgroundColor: null,	//null : 배경색없음
-	options: {
-		year: {
-			text: '2023',
-			visible: false
-		},
-		startMonth: 1,
-		endMonth: 12,
-		palette: ['none', '#39d353'],
-		month: {
-			item: {
-				fontColor: 'grey',
-				fontSize: 13
 
-			}
-		},
-		weekday: {
-			values: ['', 'Mon', '', 'Wed', '', 'Fri', ''],
-			item: {
-				fontColor: 'grey',
-				fontSize: 12
-			}
-		},
-		day: {
-			borderColor: 'grey',
-			borderWidth: 2,
-			inactive: { // Use this object to style the cells of all inactive days.
-				backgroundColor: '#343a40'
-			}
-		},
-		values: [
-			['2023-01-01', 3],
-			['2023-01-04', 12],
-			['2023-01-05', 3],
-			['2023-01-06', 4],
-			['2023-01-07', 9],
-			['2023-01-08', 11],
-			['2023-01-11', 5],
-			['2023-01-12', 5],
-			['2023-02-13', 9],
-			['2023-02-10', 9],
-			['2023-02-13', 11],
-			['2023-02-11', 5],
-			['2023-02-04', 5],
-			['2023-02-20', 9],
-			['2023-02-28', 9],
-			['2023-02-01', 11],
-			['2023-03-07', 9],
-			['2023-03-09', 9],
-			['2023-03-15', 11],
-			['2023-03-16', 5],
-			['2023-03-19', 5],
-			['2023-03-23', 9],
-			['2023-03-26', 9],
-			['2023-03-01', 11],
-			['2023-04-04', 5],
-			['2023-04-17', 5],
-			['2023-04-27', 9],
-			['2023-04-06', 9],
-			['2023-05-08', 11],
-			['2023-05-14', 5],
-			['2023-05-15', 5],
-			['2023-05-10', 9],
-			['2023-05-03', 9],
-			['2023-06-01', 11],
-			['2023-06-14', 5],
-			['2023-06-16', 5],
-			['2023-06-19', 9],
-			['2023-06-20', 9],
-			['2023-07-13', 9],
-			['2023-07-10', 9],
-			['2023-07-13', 11],
-			['2023-07-11', 5],
-			['2023-08-04', 5],
-			['2023-08-20', 9],
-			['2023-08-28', 9],
-			['2023-08-01', 11],
-			['2023-08-04', 5],
-			['2023-08-17', 5],
-			['2023-08-27', 9],
-			['2023-08-06', 9],
-			['2023-09-20', 9],
-			['2023-10-01', 11],
-			['2023-10-14', 5],
-			['2023-10-16', 5],
-			['2023-10-19', 9],
-			['2023-10-20', 9],
-			['2023-10-13', 9],
-			['2023-10-10', 9],
-			['2023-10-13', 11],
-			['2023-10-11', 5],
-			['2023-11-04', 5],
-			['2023-11-20', 9],
-			['2023-11-28', 9],
-			['2023-11-01', 11],
-			['2023-11-04', 5],
-			['2023-11-17', 5],
-			['2023-11-27', 9],
-			['2023-12-06', 9],
-			['2023-12-08', 11],
-			['2023-12-14', 5],
-			['2023-12-15', 5],
-			['2023-12-10', 9],
-			['2023-12-03', 9],
-			['2023-12-01', 11],
-			['2023-12-14', 5],
-			['2023-12-16', 5],
-			['2023-12-19', 9],
-			['2023-12-20', 9],
-		]
-	}
-};
-
-zingchart.loadModules('calendar', function() {
-	zingchart.render({
-		id: 'myChart',
-		data: dashboard,
-		height: 200,
-		width: '100%'
-	});
-});
 
 
 // Zing차트 (런 히스토리)
@@ -582,7 +582,8 @@ function getChartGraph() {
 					}]
 				},
 				options: {
-					responsive: false,
+					responsive: true,
+					maintainAspectRatio: false,
 					legend: {
 						labels: {
 							fontColor: "rgba(128, 128, 128, 1)",
@@ -617,7 +618,7 @@ function getChartGraph() {
 				}
 			});
 		},
-		error:function(e){
+		error: function(e) {
 			console.log(e);
 		}
 	}) 	//ajax

@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swcamp.moonwork.model.dao.MemberDAO;
+
 import com.swcamp.moonwork.model.dto.HostDTO;
 import com.swcamp.moonwork.model.dto.JobDTO;
-import com.swcamp.moonwork.model.dto.MemberDTO;
+
 
 import net.sf.json.JSONObject;
 
@@ -45,8 +45,7 @@ public class DashboardController {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
-    @Autowired
-    MemberDAO memberDao;	// 인터페이스 객체
+
     
     //대시보드 메인
     @RequestMapping("/dashboard.do")
@@ -109,14 +108,5 @@ public class DashboardController {
     }
     
     
-    // jsgrid 데이터 띄우기
-    @RequestMapping(value = "/jsgrid.do", method= {RequestMethod.GET , RequestMethod.POST})
-    @ResponseBody
-    public List<MemberDTO> jsgrid(Model model) {
 
- 	List<MemberDTO> list = memberDao.list();
-
- 	   
- 	   return list;
-    }
 }

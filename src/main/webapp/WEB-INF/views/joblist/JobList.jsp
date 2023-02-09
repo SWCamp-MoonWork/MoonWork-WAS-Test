@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="<%=request.getContextPath()%>/resources/img/moonwork_favicon.ico">
 <meta charset="UTF-8">
 <title>MoonWork_Job List</title>
 <script
@@ -98,7 +99,8 @@
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-
+					<a class="moonwork-img"><img src="<%=request.getContextPath()%>/resources/img/moonwork_logo.png"
+											width="23px" height="23px"></a>
 					<a href="#" class="d-flex moonwork">MoonWork</a>
 					
 					<div
@@ -159,15 +161,15 @@
 			<ul
 				class="nav nav-pills "
 				id="menu">
-				<li class="menu-hamburger" style="border-bottom:1px solid var(--color-shadow)"><a href="#"
+				<li class="menu-hamburger"><a href="#"
 					class="nav-link px-0 align-middle menu-trigger "> <i class="fa-solid fa-bars fa-lg hamburger"></i>
 				</a></li>
 				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/dashboard.do"
 					class="nav-link px-0 align-middle "> <i
 						class="fa-solid fa-chart-line"></i>
 				</a></li>
-				<li class="menu-hover"  style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/joblist.do"
-					class="nav-link px-0 align-middle "> <i class="fa-regular fa-rectangle-list"></i>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/joblist.do"
+					class="nav-link px-0 align-middle"  style="color: var(--color-primary)"> <i class="fa-regular fa-rectangle-list"></i>
 				</a></li>
 				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/jobhistory.do"
 					class="nav-link px-0 align-middle "> <i
@@ -188,10 +190,10 @@
 					<div class="col-sm-12"
 						style="display: flex; justify-content: space-between;">
 						<div class="btnwrap">
-						<button type="button" class="btn refreshbtn">Refresh
+						<button type="button" class="btn refreshbtn" style="background-color: var(--color-white)">Refresh
 							</button>
 						<button type="button" class="btn addbtn"
-							data-bs-toggle="modal" data-bs-target="#addModal">Add
+							data-bs-toggle="modal" data-bs-target="#addModal" style="background-color: var(--color-white)">Add
 							Job</button>
 						</div>
 						<div class="wrap"
@@ -219,7 +221,7 @@
 										<td>Name</td>
 										<td>Last 5 Jobs State</td>
 										<td>Action</td>
-										<td>IsUse</td>
+										<td>Activate</td>
 										<td>SaveDate</td>
 										<td>Saver</td>
 										<td>Delete</td>
@@ -273,22 +275,22 @@
 						</div>
 					</div>
 				</div>
-				<!-- 
-				<div class="row" style="padding: 10px 10px 0px">
-					<div class="col-md-12 job-count-detail">
+				
+				<div class="row" style="padding: 10px 10px 0px;">
+					<div class="col-md-12 job-count-detail" style=" background-color: var(--color-white)">
 						<div class="count-div total-jobs">
-						<h5>총 작업</h5><span>50</span>
+						<h5>Total Job Count</h5><span>${TotalJobsCount}</span>
 						</div>
 						<div class="count-div now-run">
-						<h5>현재 실행중</h5><span>50</span>
+						<h5>Running Count</h5><span></span>
 						</div>
 						<div class="count-div isuse-count">
-						<h5>활성화</h5><span>50</span>
+						<h5>Activate Count</h5><span></span>
 						</div>
 					</div>
 					
 				</div>
-					 -->
+			
 
 			</div>
 		</div>
@@ -771,30 +773,22 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row read"
-							style="width: 100%; height: 15vh; overflow: auto">
-							<div class="col-sm-12" style="width:100%; height:200vh; overflow:auto;">
-								<table style="height:200vh">
+							style="width: 100%; height: 40vh; overflow: auto">
+							<div class="col-sm-12" style="width:100%; height:auto; overflow:auto;">
+								<table class="runsData-table" style="height:auto">
 									<thead>
 										<tr>
-											<td>RunId</td>
-											<td>WorkflowName</td>
-											<td>StartDT</td>
-											<td>EndDT</td>
-											<td>Duration</td>
-											<td>RunState</td>
-											<td>ResultData</td>
+											<th>RunId</th>
+											<th>WorkflowName</th>
+											<th>StartDT</th>
+											<th>EndDT</th>
+											<th>Duration(sec)</th>
+											<th>RunState</th>
+											<th>ResultData</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td id="RunId"></td>
-											<td id="WorkflowName"></td>
-											<td id="StartDT"></td>
-											<td id="EndDT"></td>
-											<td id="Duration"></td>
-											<td id="State"></td>
-											<td id="ResultData"></td>
-										</tr>
+									<tbody class="runsData-tbody">
+
 									</tbody>
 								</table>
 							</div>

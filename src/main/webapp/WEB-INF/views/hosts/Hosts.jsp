@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="<%=request.getContextPath()%>/resources/img/moonwork_favicon.ico">
 <meta charset="UTF-8">
 <title>MoonWork_Hosts</title>
 
@@ -47,16 +48,12 @@
 		<div id="content">
 			<nav class="navbar navbar-expand-lg">
 				<div class="container-fluid">
-					<ul class="navbar-nav hambuger">
-						<li class="ham-btn"><a class="menu-trigger" href="#"> <span></span>
-								<span></span> <span></span>
-						</a></li>
-					</ul>
-					<a href="#" class="d-flex moonwork">MoonWork</a>
-					<a href="#" class="d-flex menu-area">Hosts</a>					<div
+					<a class="moonwork-img"><img src="<%=request.getContextPath()%>/resources/img/moonwork_logo.png"
+											width="23px" height="23px"></a>
+					<a href="#" class="d-flex moonwork">MoonWork</a><div
 						class="collapse navbar-collapse text-decoration-none user-info"
 						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
-					<input type="checkbox" id="dn"> <label for="dn"
+					<input type="checkbox" id="dn" "> <label for="dn"
 						class="toggle2"> <span class="material-icons toggle__handler">light_mode</span>
 					</label>
 					<div class="dropdown" style="padding-right: 30px">
@@ -110,7 +107,7 @@
 			<ul
 				class="nav nav-pills "
 				id="menu">
-				<li class="menu-hamburger" style="border-bottom:1px solid var(--color-shadow)"><a href="#"
+				<li class="menu-hamburger" ><a href="#"
 					class="nav-link px-0 align-middle menu-trigger "> <i class="fa-solid fa-bars fa-lg hamburger"></i>
 				</a></li>
 				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/dashboard.do"
@@ -124,8 +121,8 @@
 					class="nav-link px-0 align-middle "> <i
 						class="fa-solid fa-clock-rotate-left"></i>
 				</a></li>
-				<li class="menu-hover" style="background-color: rgba(75, 137, 220, 0.3)"><a href="${pageContext.request.contextPath}/hosts.do"
-					class="nav-link px-0 align-middle "> <i class="fa-solid fa-tv"></i>
+				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/hosts.do"
+					class="nav-link px-0 align-middle " style="color: var(--color-primary)"> <i class="fa-solid fa-tv"></i>
 				</a></li>
 				<li class="menu-hover" ><a href="${pageContext.request.contextPath}/users.do"
 					class="nav-link px-0 align-middle "> <i class="fa-regular fa-user"></i>
