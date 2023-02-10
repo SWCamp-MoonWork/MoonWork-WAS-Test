@@ -23,75 +23,73 @@ $(document).ready(function() {
 	});
 
 
+	$.dateFomatting = function(inputDate) {
+		var dateString = new Date(inputDate);
 
+		var year = dateString.getFullYear();
+		var month = ('0' + (dateString.getMonth() + 1)).slice(-2);
+		var day = ('0' + dateString.getDate()).slice(-2);
+
+		var hours = ('0' + dateString.getHours()).slice(-2);
+		var minutes = ('0' + dateString.getMinutes()).slice(-2);
+		var seconds = ('0' + dateString.getSeconds()).slice(-2);
+
+		var resultDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+		return resultDate;
+	}
 
 
 	//ChartJS 데이터 뿌려주기
-
-
-	darkmodeGo();
 
 	getChartGraph();
 
 
 
+	$(".hostdetail").click(function() {
+
+		const id = $(this).attr('id');
+		const hostdetailurl = getContextPath() + "/getjobofhost.do";
+		console.log("클릭");
+		$.ajax({
+			url: hostdetailurl,
+			type: 'GET',
+			data: {
+				"hostId": id
+			},
+			contentType: "application/json; charset=UTF-8",
+			success: function(result) {
+				console.log("아작스 진입");
+				$('.jobofhost-body').empty();
+				for (var i = 0; i < result.length; i++) {
+
+					$('.jobofhost-body').append(
+						'<tr>' +
+						'<td>' + result[i].JobId + '</td>' +
+						'<td>' + result[i].JobName + '</td>' +
+						'<td>' + $.dateFomatting(result[i].LastRun) + '</td>' +
+						'<td>' + $.dateFomatting(result[i].NextRun) + '</td>' +
+						'<tr>'
+					);
+				}
+
+			},
+			error: function(request, error) {
+				console.log("에러");
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+
+
+		});
+
+
+	});
+
 
 
 });
 
-let dashboard_light = {
-				type: 'calendar',
-				backgroundColor: null,	//null : 배경색없음
-				options: {
-					year: {
-						text: '2023',
-						visible: false
-					},
-					startMonth: 1,
-					endMonth: 12,
-					palette: ['none', '#39d353'],
-					month: {
-						item: {
-							fontColor: 'grey',
-							fontSize: 13
 
-						}
-					},
-					weekday: {
-						values: ['', 'Mon', '', 'Wed', '', 'Fri', ''],
-						item: {
-							fontColor: 'grey',
-							fontSize: 12
-						}
-					},
-					day: {
-						borderColor: 'white',
-						borderWidth: 5,
-						inactive: { // Use this object to style the cells of all inactive days.
-							backgroundColor: 'rgba(233, 238, 245, 1)'
-						}
-					},
-					values: [
-						['2023-01-01', 3],
-						['2023-01-04', 12],
-						['2023-01-05', 3],
-						['2023-01-06', 4]
-					]
-				}
-			};
-
-			zingchart.loadModules('calendar', function() {
-
-				zingchart.render({
-					id: 'myCalendarChart',
-					data: dashboard_light,
-					height: 200,
-					width: '100%'
-				});
-			});
-			
-			
-let modeofcalendar;
 
 // 테마 변경
 function darkmodeGo() {
@@ -103,7 +101,7 @@ function darkmodeGo() {
 		if (!Realbody.classList.contains('dark-theme-variables')) { // 바디에 다크모드 클래스가 없으면
 			Realbody.classList.add('dark-theme-variables'); // 다크모드 추가
 			localStorage.setItem('whatMode', darkModeToggle.checked); //whatMode라는 이름의 아이템에 체크박스의 체크 여부를 저장하기  
-			
+
 
 		}
 		else { // 바디에 다크모드 클래스가 있으면
@@ -200,28 +198,26 @@ $(burger).on("click", function() {
 	}
 })
 
-
+darkmodeGo()
 document.addEventListener('DOMContentLoaded', function() {
 
 	const Realbody = document.querySelector('body');
 	const whatMode = localStorage.getItem('whatMode'); //whatMode 아이템 값 불러오기
 	if (whatMode === "false") { // 체크 여부가 false라면, 라이트모드입니다. 이 때 false는 문자열 타입이므로 "" 안에 적어야 합니다.
 
-		//$("#myCalendarChart").empty();
-		//CalendarChartLight();
-		//return !1; // 라이트모드이므로 아무런 행동을 할 필요가 없습니다.
+		return !1; // 라이트모드이므로 아무런 행동을 할 필요가 없습니다.
 	}
 	else { // 다크모드라면 
 		const darkModeToggle = document.getElementById('dn'); //체크박스를 획득
 		darkModeToggle.checked = true; // 체크박스에 체크를 해주기
 		Realbody.classList.add('dark-theme-variables'); // 다크모드를 body에 걸어주기
-		//$("#myCalendarChart").empty();
-		//CalendarChartDark();
+
 
 
 
 	}
 })
+
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -244,6 +240,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Zing차트 (대시보드)
 //ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+let dashboard_light = {
+	type: 'calendar',
+	backgroundColor: null,	//null : 배경색없음
+	options: {
+		year: {
+			text: '2023',
+			visible: false
+		},
+		startMonth: 1,
+		endMonth: 12,
+		palette: ['none', '#39d353'],
+		month: {
+			item: {
+				fontColor: 'grey',
+				fontSize: 13
+
+			}
+		},
+		weekday: {
+			values: ['', 'Mon', '', 'Wed', '', 'Fri', ''],
+			item: {
+				fontColor: 'grey',
+				fontSize: 12
+			}
+		},
+		day: {
+			borderColor: 'white',		//light : white  dark : #202528
+			borderWidth: 5,
+			inactive: { // Use this object to style the cells of all inactive days.
+				backgroundColor: 'rgba(233, 238, 245, 1)'		//light : rgba(233, 238, 245, 1) dark: #000
+			}
+		},
+		values: [
+			['2023-01-01', 3],
+			['2023-01-04', 12],
+			['2023-01-05', 3],
+			['2023-01-06', 4],
+			['2023-01-01', 3],
+			['2023-01-10', 12],
+			['2023-02-07', 3],
+			['2023-02-08', 4],
+			['2023-02-01', 3],
+			['2023-02-06', 12],
+			['2023-02-03', 3],
+			['2023-02-05', 4],
+			['2023-02-02', 3],
+			['2023-03-14', 12],
+			['2023-03-17', 3],
+			['2023-03-18', 4],
+			['2023-03-25', 3],
+			['2023-04-26', 12],
+			['2023-04-21', 3],
+			['2023-04-08', 4],
+			['2023-04-04', 3],
+			['2023-04-11', 12],
+			['2023-04-13', 3],
+			['2023-04-28', 4],
+			['2023-04-30', 3],
+			['2023-05-12', 12],
+			['2023-05-01', 3],
+			['2023-05-04', 4],
+			['2023-05-05', 3],
+			['2023-07-07', 12],
+			['2023-07-10', 3],
+			['2023-07-17', 4],
+			['2023-08-20', 3],
+			['2023-08-27', 12],
+			['2023-09-17', 3],
+			['2023-09-06', 4],
+			['2023-10-04', 3],
+			['2023-10-02', 12],
+			['2023-10-01', 3],
+			['2023-11-07', 4],
+			['2023-11-01', 3],
+			['2023-11-11', 12],
+			['2023-11-14', 3],
+			['2023-12-16', 4],
+			['2023-12-18', 3],
+			['2023-12-20', 12],
+			['2023-12-22', 3],
+			['2023-12-02', 4],
+			['2023-12-01', 3],
+			['2023-12-04', 12],
+			['2023-12-05', 3],
+			['2023-12-06', 4],
+		]
+	}
+};
+
+zingchart.loadModules('calendar', function() {
+
+	zingchart.render({
+		id: 'myCalendarChart',
+		data: dashboard_light,
+		height: 200,
+		width: '100%'
+	});
+});
 
 
 
@@ -578,18 +672,32 @@ function getChartGraph() {
 						data: [500, 500, 250, 350, 700, 200, 450, 600, 150],
 						borderColor: '#39d353',
 						fill: true,
+						lineTension : 0,
 						backgroundColor: 'rgba(	57,	211, 83, 0.1)'
+					},{
+						lable: false,
+						type : 'line',         // 'line' type
+                    	fill : false,         // 채우기 없음
+                    	lineTension : 0.1,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
+                    	//pointRadius : 0,    // 각 지점에 포인트 주지 않음
+                    	backgroundColor: 'rgb(255, 153, 0)',
+                    	borderColor: 'rgb(255, 153, 0)',
+                    	data: [40, 50, 60, 70, 80, 90, 30, 20, 60]
+						
+						
+						
 					}]
 				},
 				options: {
 					responsive: true,
 					maintainAspectRatio: false,
-					legend: {
+					legend: false,
+					/*legend: {
 						labels: {
 							fontColor: "rgba(128, 128, 128, 1)",
 							fontSize: 14
 						}
-					},
+					},*/
 					scales: {
 						yAxes: [{
 							ticks: {

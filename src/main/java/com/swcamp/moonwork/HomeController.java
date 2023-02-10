@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +31,7 @@ import net.sf.json.JSONObject;
 
 @Controller
 public class HomeController {
+	
 	private final String USERURL = "http://20.249.17.147:5000/v1/user";
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	RestTemplate restTemplate = new RestTemplate();
@@ -42,8 +46,11 @@ public class HomeController {
     
     
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-    public String login(Locale locale, Model model, @RequestParam("userName") String userName,
+    public String login(HttpServletRequest httpRequest, Locale locale, Model model, @RequestParam("userName") String userName,
 			@RequestParam("password") String password) {
+    	
+    	HttpSession session = httpRequest.getSession();
+    	
     	System.out.println(userName);
     	System.out.println(password);
 		headers = new HttpHeaders();
@@ -61,12 +68,28 @@ public class HomeController {
 		System.out.println(response.getBody());
 		if(response.getBody().equals("로그인 실패")) {
 			System.out.println("fail");
+			
+			session.setAttribute("signIn", null);
+			
 			return "redirect:home.do";
 		}
-		else 
+		else {
+			HttpEntity<UserDTO> successLogin = restTemplate.postForEntity(USERURL + "/getuserinfo", request, UserDTO.class);
+			
+			UserDTO userdto = successLogin.getBody();
+			
+			session.setAttribute("Name", userdto.Name);
+			session.setAttribute("userId", userdto.UserId);
+			System.out.println(userdto.Name);
 			System.out.println("success");
 			return "redirect:dashboard.do";
-		
+		}
+    }
+    
+    @RequestMapping("/logout.do")
+    public String logout(HttpSession session) {
+    	session.invalidate();
+    	return "redirect:login.do";
     }
  
 }

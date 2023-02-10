@@ -9,16 +9,16 @@ public class JobDetailDTO {
     public Boolean JobIsUse;
     public String WorkflowName;
     public String JobNote;
-    public Date JobSaveDate;
+    public String JobSaveDate;
     public String UserName;
     public long ScheduleId;
 	public String ScheduleName;
     public Boolean ScheduleIsUse;
     public Boolean ScheduleType;
-    public Date OneTimeOccurDT;
-    public Date ScheduleStartDT;
-    public Date ScheduleEndDT;
-    public Date ScheduleSaveDate;
+    public String OneTimeOccurDT;
+    public String ScheduleStartDT;
+    public String ScheduleEndDT;
+    public String ScheduleSaveDate;
     public String CronExpression;
 	
 	public long getJobId() {
@@ -51,10 +51,10 @@ public class JobDetailDTO {
 	public void setJobNote(String jobNote) {
 		JobNote = jobNote;
 	}
-	public Date getJobSaveDate() {
+	public String getJobSaveDate() {
 		return JobSaveDate;
 	}
-	public void setJobSaveDate(Date jobSaveDate) {
+	public void setJobSaveDate(String jobSaveDate) {
 		JobSaveDate = jobSaveDate;
 	}
 	public String getUserName() {
@@ -87,28 +87,28 @@ public class JobDetailDTO {
 	public void setScheduleType(Boolean scheduleType) {
 		ScheduleType = scheduleType;
 	}
-	public Date getOneTimeOccurDT() {
+	public String getOneTimeOccurDT() {
 		return OneTimeOccurDT;
 	}
-	public void setOneTimeOccurDT(Date oneTimeOccurDT) {
+	public void setOneTimeOccurDT(String oneTimeOccurDT) {
 		OneTimeOccurDT = oneTimeOccurDT;
 	}
-	public Date getScheduleStartDT() {
+	public String getScheduleStartDT() {
 		return ScheduleStartDT;
 	}
-	public void setScheduleStartDT(Date scheduleStartDT) {
+	public void setScheduleStartDT(String scheduleStartDT) {
 		ScheduleStartDT = scheduleStartDT;
 	}
-	public Date getScheduleEndDT() {
+	public String getScheduleEndDT() {
 		return ScheduleEndDT;
 	}
-	public void setScheduleEndDT(Date scheduleEndDT) {
+	public void setScheduleEndDT(String scheduleEndDT) {
 		ScheduleEndDT = scheduleEndDT;
 	}
-	public Date getScheduleSaveDate() {
+	public String getScheduleSaveDate() {
 		return ScheduleSaveDate;
 	}
-	public void setScheduleSaveDate(Date scheduleSaveDate) {
+	public void setScheduleSaveDate(String scheduleSaveDate) {
 		ScheduleSaveDate = scheduleSaveDate;
 	}
 	public String getCronExpression() {

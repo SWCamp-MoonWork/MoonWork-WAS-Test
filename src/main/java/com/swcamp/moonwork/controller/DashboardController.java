@@ -16,8 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.swcamp.moonwork.model.dto.HostDTO;
 import com.swcamp.moonwork.model.dto.JobDTO;
-
+import com.swcamp.moonwork.model.dto.JobOfHostDTO;
 
 import net.sf.json.JSONObject;
 
@@ -74,7 +76,7 @@ public class DashboardController {
 		System.out.println("response (/startschedule) = " + res_TodayStartedJobs);
 		
 		
-		ResponseEntity<List<HostDTO>> getHostResult = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
+		ResponseEntity<List<HostDTO>> getHostResult = restTemplate.exchange(HOSTURL + "/list", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<HostDTO>>() {
 				});
 		
@@ -98,6 +100,7 @@ public class DashboardController {
 			e.printStackTrace();
 		}
 		// model에 저장 후 jsp로 전달
+		model.addAttribute("Hosts", list); 
 		model.addAttribute("TotalJobsCount", TotalJobsCount);
 		model.addAttribute("TodayNewJobs", TodayNewJobs);
 		model.addAttribute("NoScheduleJobs", NoScheduleJobs);
@@ -105,6 +108,22 @@ public class DashboardController {
 
  	
  	   return "dashboard/Dashboard";
+    }
+    
+    
+    //대시보드 메인
+    @ResponseBody
+    @RequestMapping("/getjobofhost.do")
+    public List<JobOfHostDTO> GetJobOfHost(Locale locale, Model model, @RequestParam(value="hostId") String hostId) {
+
+
+		ResponseEntity<List<JobOfHostDTO>> getHostResult = restTemplate.exchange(HOSTURL + "/" + hostId + "/getjobinfo", HttpMethod.GET, null,
+				new ParameterizedTypeReference<List<JobOfHostDTO>>() {
+				});
+		
+		List<JobOfHostDTO> list = getHostResult.getBody();
+ 	
+ 	   return list;
     }
     
     

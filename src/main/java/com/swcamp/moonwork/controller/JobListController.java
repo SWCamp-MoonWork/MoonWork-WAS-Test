@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.sql.Blob;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
@@ -70,13 +72,17 @@ public class JobListController {
 	// Job List 띄우기
 	@RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
 	public String joblist(Locale locale, Model model) {
-		
+		 LocalTime now = LocalTime.now();
 		int TotalJobsCount = 0;
+		int RunningCount = 0;
+		int ActivateCount = 0;
 		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
 		List<JobDTO> list = result.getBody();
-		
+		System.out.println(list.get(0).SaveDate.toString());
+		System.out.println(now);
+		System.out.println("response (/joblist_username)= " + result);
 		
     	//헤더 생성
 		headers.add("accept", "application/json");
@@ -86,6 +92,10 @@ public class JobListController {
 		// 총 작업의 개수 가져오기
 		HttpEntity<String> res_TotalJobsCount = restTemplate.exchange(URL + "/totalnum" , HttpMethod.GET, request, String.class);
 		System.out.println("response (/totalnum) = " + res_TotalJobsCount);
+		HttpEntity<String> res_RunningCount = restTemplate.exchange(URL + "/countrunningjob" , HttpMethod.GET, request, String.class);
+		System.out.println("response (/countrunningjob) = " + res_RunningCount);
+		HttpEntity<String> res_ActivateCount = restTemplate.exchange(URL + "/countusingjob" , HttpMethod.GET, request, String.class);
+		System.out.println("response (/countusingjob) = " + res_ActivateCount);
 		
 		try {
 			// 각각의 COUNT(*) 값 뽑기
@@ -93,6 +103,11 @@ public class JobListController {
 			// .get() 메소드를 사용해서 값 가져오기
 			Map<String, Integer> map_TotalJobsCount = objectMapper.readValue(res_TotalJobsCount.getBody(), Map.class);
 			TotalJobsCount = map_TotalJobsCount.get("COUNT(*)");
+			Map<String, Integer> map_RunningCount = objectMapper.readValue(res_RunningCount.getBody(), Map.class);
+			RunningCount = map_RunningCount.get("COUNT(*)");
+			Map<String, Integer> map_ActivateCount = objectMapper.readValue(res_ActivateCount.getBody(), Map.class);
+			ActivateCount = map_ActivateCount.get("COUNT(*)");
+
 
 			
 		} catch (IOException e) {
@@ -101,6 +116,8 @@ public class JobListController {
 		}
 		// model에 저장 후 jsp로 전달
 		model.addAttribute("TotalJobsCount", TotalJobsCount);
+		model.addAttribute("RunningCount", RunningCount);
+		model.addAttribute("ActivateCount", ActivateCount);
 
 		model.addAttribute("jobs", list);
 
@@ -167,9 +184,12 @@ public class JobListController {
 
 	// Job 등록 컨트롤러
 	@RequestMapping(value = "/createjob.do", method = RequestMethod.POST)
-	public String jobAdd(Locale locale, Model model, @RequestParam("jobName") String jobName,
+	public String jobAdd(HttpServletRequest httpRequest,Locale locale, Model model, @RequestParam("jobName") String jobName,
 			@RequestParam("workflowName") String workflowName, @RequestParam("note") String note,
 			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException, SerialException, SQLException {
+		
+		HttpSession session = httpRequest.getSession();
+		
 		StringBuilder resultline = new StringBuilder();
 		byte[] content = null;
 		for(MultipartFile multipartFile : uploadFile) {
@@ -207,8 +227,9 @@ public class JobListController {
 		body.put("jobName", jobName);
 		body.put("workflowName", workflowName);
 		body.put("note", note);
-		body.put("userId", 3);
+		body.put("userId", session.getAttribute("userId"));
 		body.put("workflowBlob", encoded);
+
 		
 		System.out.println("jsonobject: " + body.get("workflowBlob"));
 

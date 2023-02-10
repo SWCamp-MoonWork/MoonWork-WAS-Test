@@ -42,6 +42,10 @@
 </script>
 </head>
 <body>
+<%
+String userName = (String)session.getAttribute("Name");
+
+%>
 	<div id="viewport">
 
 		<!-- Content -->
@@ -53,7 +57,7 @@
 					<a href="#" class="d-flex moonwork">MoonWork</a><div
 						class="collapse navbar-collapse text-decoration-none user-info"
 						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
-					<input type="checkbox" id="dn" "> <label for="dn"
+					<input type="checkbox" id="dn" "> <label for="dn" style="background-color:var(--color-light); border-radius:10px;"
 						class="toggle2"> <span class="material-icons toggle__handler">light_mode</span>
 					</label>
 					<div class="dropdown" style="padding-right: 30px">
@@ -61,8 +65,8 @@
 							class="align-items-center text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
-							class="fa-solid fa-circle-user fa-lg"></i> <span
-							class="d-none d-sm-inline mx-1">Han</span>
+							class="fa-solid fa-circle-user fa-lg" style="color:rgba(0, 123, 255, 0.5)"></i> <span
+							class="d-none d-sm-inline mx-1"><%= userName %></span>
 						</a>
 						<ul class="dropdown-menu shadow"
 							aria-labelledby="dropdownUser1">

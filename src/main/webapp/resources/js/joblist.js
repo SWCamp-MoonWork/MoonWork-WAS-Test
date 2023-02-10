@@ -50,6 +50,17 @@ function login() {
 }
 
 
+function durationTimeSet(seconds) {
+var hour = parseInt(seconds/3600) < 10 ? '0'+ parseInt(seconds/3600) : parseInt(seconds/3600);
+var min = parseInt((seconds%3600)/60) < 10 ? '0'+ parseInt((seconds%3600)/60) : parseInt((seconds%3600)/60);
+var sec = seconds % 60 < 10 ? '0'+seconds % 60 : seconds % 60;
+
+
+return hour+":"+min+":" + sec;
+}
+
+
+
 $(document).ready(function() {
 
 	//$.GetRecentFiveJobState();
@@ -162,8 +173,17 @@ $(document).ready(function() {
 		let duration = [];
 
 
-		for (var i = 0; i < 20; i++) {
-			labelsOfRunsId.push(runsData[i].RunId);
+		for (var i = 0; i < runsData.length; i++) {
+			let startDT = new Date(runsData[i].StartDT);
+			
+			let hour = startDT.getHours();
+			let min = startDT.getMinutes();
+			let sec = startDT.getSeconds();
+			
+			
+			
+			console.log(hour + ':' + min + ':' + sec);
+			labelsOfRunsId.push(hour + ':' + min + ':' + sec);
 			duration.push(parseInt(runsData[i].Duration));
 		}
 
@@ -176,7 +196,7 @@ $(document).ready(function() {
 				data: {
 					labels: labelsOfRunsId,
 					datasets: [{
-						label: 'Run Duration',
+						//label: 'Run Duration',
 						data: duration,
 						borderColor: '#7B4ED4',
 						fill: true,
@@ -185,12 +205,7 @@ $(document).ready(function() {
 				},
 				options: {
 					responsive: false,
-					legend: {
-						labels: {
-							fontColor: "rgba(128, 128, 128, 1)",
-							fontSize: 14
-						}
-					},
+					legend: false,
 					scales: {
 						yAxes: [{
 							ticks: {
@@ -202,13 +217,15 @@ $(document).ready(function() {
 							},
 							gridLines: {
 								color: "rgba(128, 128, 128, 1)",
-								lineWidth: 0.5
+								lineWidth: 0.1
 							}
 						}],
 						xAxes: [{
+							categoryPercentage: 0.7,
+            				maxBarThickness: 20,
 							ticks: {
 								fontColor: "rgba(128, 128, 128, 1)",
-								fontSize: 14
+								fontSize: 20
 							},
 							gridLines: {
 								color: "rgba(128, 128, 128, 1)",
@@ -398,11 +415,13 @@ $(document).ready(function() {
 	});
 
 
+
 	// Runs 버튼 클릭 시 jobid에 해당하는 Runs 데이터의 최근 20개 가져오기
 	$(document).on("click", ".runsbtn", function() {
 
 		let runsState;
 		var selectId = $(this).data('id');
+		console.log(selectId);
 		const runsurl = getContextPath() + "/GetLastTwentyRunsData.do";
 		$.ajax({
 			url: runsurl,
@@ -413,7 +432,10 @@ $(document).ready(function() {
 			contentType: "application/json; charset=UTF-8",
 			success: function(runsData) {
 				for (var i = 0; i < runsData.length; i++) {
+					
+					let tt = durationTimeSet(runsData[i].Duration);
 
+					
 					if (runsData[i].State == '10') {
 						runsState = '성공';
 					}
@@ -427,7 +449,7 @@ $(document).ready(function() {
 						'<td>' + runsData[i].WorkflowName + '</td>' +
 						'<td>' + $.dateFomatting(runsData[i].StartDT) + '</td>' +
 						'<td>' + $.dateFomatting(runsData[i].EndDT) + '</td>' +
-						'<td>' + runsData[i].Duration + '</td>' +
+						'<td>' + tt + '</td>' +
 						'<td>' + runsState + '</td>' +
 						'<td><button type="button" class="RunsResultData" id=' + runsData[i].RunId + '>보기</button></td>' +
 						'<tr>'

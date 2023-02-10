@@ -15,16 +15,16 @@ public class RunsDTO {
 	public void setWorkflowName(String workflowName) {
 		WorkflowName = workflowName;
 	}
-	public Date getStartDT() {
+	public String getStartDT() {
 		return StartDT;
 	}
-	public void setStartDT(Date startDT) {
+	public void setStartDT(String startDT) {
 		StartDT = startDT;
 	}
-	public Date getEndDT() {
+	public String getEndDT() {
 		return EndDT;
 	}
-	public void setEndDT(Date endDT) {
+	public void setEndDT(String endDT) {
 		EndDT = endDT;
 	}
 	public String getState() {
@@ -67,8 +67,8 @@ public class RunsDTO {
 	
 	public long RunId;
     public String WorkflowName;
-    public Date StartDT;
-    public Date EndDT;
+    public String StartDT;
+    public String EndDT;
     public String State;
     public long JobId;
     public long HostId;

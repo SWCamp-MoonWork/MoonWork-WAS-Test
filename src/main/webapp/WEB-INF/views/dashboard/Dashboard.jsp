@@ -21,6 +21,8 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
 	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet"
@@ -36,10 +38,11 @@
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
 </head>
-<%
-String test = "info";
-%>
 <body>
+<%
+String userName = (String)session.getAttribute("Name");
+
+%>
 	<div id="viewport">
 
 		<!-- Content -->
@@ -63,8 +66,8 @@ String test = "info";
 							class="align-items-center text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
-							class="fa-solid fa-circle-user fa-lg"></i> <span
-							class="d-none d-sm-inline mx-1">Han</span>
+							class="fa-solid fa-circle-user fa-lg" style="color:rgba(0, 123, 255, 0.5)"></i> <span
+							class="d-none d-sm-inline mx-1"><%=userName %></span>
 						</a>
 						<ul class="dropdown-menu shadow" aria-labelledby="dropdownUser1">
 							<li><a class="dropdown-item" href="#">Profiles</a></li>
@@ -73,7 +76,7 @@ String test = "info";
 								<hr class="dropdown-divider">
 							</li>
 							<li><a class="dropdown-item"
-								href="${pageContext.request.contextPath}/home.do">Sign out</a></li>
+								href="${pageContext.request.contextPath}/logout.do">Sign out</a></li>
 						</ul>
 					</div>
 				</div>
@@ -283,7 +286,7 @@ String test = "info";
 						<div class="row mb-3 dashboard-View"
 							style="  background:var(--color-white);">
 							<h6>
-								<strong>일별 Job 실행 횟수 (2023)</strong>
+								<strong>Runs Count Calendar (2023)</strong>
 							</h6>
 							<div id="myCalendarChart">
 
@@ -306,47 +309,31 @@ String test = "info";
 					<div class="col-md-4" style="padding-left:28px">
 						<div class="row mb-3 dashboard-View justify-content-center">
 							<h6>
-								<strong>호스트 요약 정보</strong>
+								<strong>Host Details</strong>
 
 							</h6>
 							<table class="type04">
+							<c:forEach var="row" items="${Hosts}">
 								<tr>
-									<th scope="row"><strong>Master</strong></th>
-									<td>HostName - 1</td>
-									<td>192.168.0.0</td>
-									<td><a href="#"><img
+									<th scope="row">Worker</th>
+									<td>${row.hostName}</td>
+									<td>${row.hostIp}</td>
+									<td><a href="javascript:void(0)" id="${row.hostId}" class="hostdetail"><img
 											src="<%=request.getContextPath()%>/resources/img/detail.png"
 											width="30px" height="30px"></a></td>
 								</tr>
+							</c:forEach>
 								<tr>
-									<th scope="row">Worker</th>
-									<td>HostName - 2</td>
-									<td>192.168.0.0</td>
-									<td><a href="#"><img
-											src="<%=request.getContextPath()%>/resources/img/detail.png"
-											width="30px" height="30px"></a></td>
-								</tr>
-								<tr>
-									<th scope="row">Worker</th>
-									<td>HostName - 3</td>
-									<td>192.168.0.0</td>
-									<td><a href="#"><img
-											src="<%=request.getContextPath()%>/resources/img/detail.png"
-											width="30px" height="30px"></a></td>
-								</tr>
-								<tr>
-									<th scope="row">Worker</th>
-									<td>HostName - 4</td>
-									<td>192.168.0.0</td>
-									<td><a href="#"><img
-											src="<%=request.getContextPath()%>/resources/img/detail.png"
-											width="30px" height="30px"></a></td>
+									<th>&nbsp;</th>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
 								</tr>
 							</table>
 						</div>
 						<div class="row dashboard-View" style="">
 							<h6 style="height:30px">
-								<strong>호스트가 담당하고 있는 작업 </strong>
+								<strong>Job of Host</strong>
 							</h6>
 							<div class="job-of-host" 
 							style="height:265px ;background: var(--color-table); 
@@ -360,12 +347,12 @@ String test = "info";
 											<td>Next Run</td>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody class="jobofhost-body">
 										<tr>
-											<td>1</td>
-											<td>파이썬 웹 크롤링</td>
-											<td>2022/12/25</td>
-											<td>2023/12/31</td>
+											<td id="jobid-of-host"></td>
+											<td id="jobname-of-host"></td>
+											<td id="lastrun-of-host"></td>
+											<td id="nextrun-of-host"></td>
 										</tr>
 									</tbody>
 								</table>

@@ -56,7 +56,10 @@
 
 						});
 	</script>
+<%
+String userName = (String)session.getAttribute("Name");
 
+%>
 	<div id="viewport">
 
 		<!-- Content -->
@@ -70,7 +73,7 @@
 					<div
 						class="collapse navbar-collapse text-decoration-none user-info"
 						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
-					<input type="checkbox" id="dn"> <label for="dn"
+					<input type="checkbox" id="dn"> <label for="dn" style="background-color:var(--color-light); border-radius:10px;"
 						class="toggle2"> <span class="material-icons toggle__handler">light_mode</span>
 					</label>
 					<div class="dropdown" style="padding-right: 30px">
@@ -78,8 +81,8 @@
 							class="align-items-center text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
-							class="fa-solid fa-circle-user fa-lg"></i> <span
-							class="d-none d-sm-inline mx-1">Han</span>
+							class="fa-solid fa-circle-user fa-lg" style="color:rgba(0, 123, 255, 0.5)"></i> <span
+							class="d-none d-sm-inline mx-1"><%=userName %></span>
 						</a>
 						<ul class="dropdown-menu shadow"
 							aria-labelledby="dropdownUser1">
@@ -259,7 +262,7 @@
 						<div class="mb-3">
 							<label for="formFileSm" class="form-label job-text"><strong>Password
 									</strong></label> <input class="form-control form-control-sm file-add"
-								name="userPassword" type="text">
+								name="userPassword" type="password">
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label job-text "><strong>Name

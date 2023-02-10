@@ -37,6 +37,10 @@
 	crossorigin="anonymous">
 </head>
 <body>
+<%
+String userName = (String)session.getAttribute("Name");
+
+%>
 	<script>
 		$(document)
 				.ready(
@@ -106,7 +110,7 @@
 					<div
 						class="collapse navbar-collapse text-decoration-none user-info"
 						id="navbarNavDarkDropdown" style="padding-left: 30px"></div>
-					<input type="checkbox" id="dn"> <label for="dn"
+					<input type="checkbox" id="dn"> <label for="dn" style="background-color:var(--color-light); border-radius:10px;"
 						class="toggle2"> <span
 						class="material-icons toggle__handler">light_mode</span>
 					</label>
@@ -115,8 +119,8 @@
 							class="align-items-center text-decoration-none dropdown-toggle"
 							id="dropdownUser1" data-bs-toggle="dropdown"
 							aria-expanded="false"> <i
-							class="fa-solid fa-circle-user fa-lg"></i> <span
-							class="d-none d-sm-inline mx-1">Han</span>
+							class="fa-solid fa-circle-user fa-lg" style="color:rgba(0, 123, 255, 0.5)"></i> <span
+							class="d-none d-md-inline mx-1"><%=userName %></span>
 						</a>
 						<ul class="dropdown-menu shadow" aria-labelledby="dropdownUser1">
 							<li><a class="dropdown-item" href="#">Profiles</a></li>
@@ -260,9 +264,10 @@
 												<input type="checkbox" name="isUsecheck" value="${row.isUse}" onClick="return false;">
 												</td>
 											</c:if>
-											<td><fmt:formatDate value="${row.saveDate}"
+											  <td><fmt:formatDate value="${row.saveDate}"
 													pattern="yyyy-MM-dd HH:mm" /></td>
-											<td>${row.userName}</td>
+
+											<td>${row.name}</td>
 											<td class="actions"><button class="btn delebtn"
 													value="${row.jobId}" id="delbtn"
 													onclick="javascript:delbtn(this)">Delete</button></td>
@@ -282,10 +287,10 @@
 						<h5>Total Job Count</h5><span>${TotalJobsCount}</span>
 						</div>
 						<div class="count-div now-run">
-						<h5>Running Count</h5><span></span>
+						<h5>Running Count</h5><span>${RunningCount}</span>
 						</div>
 						<div class="count-div isuse-count">
-						<h5>Activate Count</h5><span></span>
+						<h5>Activate Count</h5><span>${ActivateCount}</span>
 						</div>
 					</div>
 					
@@ -763,7 +768,7 @@
 	<div class="modal fade" id="runsModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true"
 		data-bs-backdrop="static">
-		<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-dialog modal-dialog-centered modal-xl" style="width: 100%; max-width:1700px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Last 20 Runs State</h5>
@@ -793,12 +798,10 @@
 								</table>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row" style="width: 100%;">
 							<div class="col-sm-12">
-								<canvas id="modalchart" width="1100vw" height="300vh"></canvas>
-								<script>
-									
-								</script>
+								<canvas id="modalchart" width="1600vh" height="300vh"></canvas>
+
 							</div>
 						</div>
 					</div>
