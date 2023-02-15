@@ -13,8 +13,15 @@ public class HostDTO {
 	public String Note;
 	public Date SaveDate;
 	public long UserId;
+	public String PrivateIp;
 	
 	
+	public String getPrivateIp() {
+		return PrivateIp;
+	}
+	public void setPrivateIp(String privateIp) {
+		PrivateIp = privateIp;
+	}
 	public long getHostId() {
 		return HostId;
 	}

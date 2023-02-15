@@ -1,5 +1,6 @@
 package com.swcamp.moonwork.model.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class JobDTO {

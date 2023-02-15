@@ -36,8 +36,9 @@
 <link type="text/css" rel="stylesheet" href="<%= request.getContextPath()%>/resources/css/home.css" />
 </head>
 
-<body>
-	<h1>Welcome to MoonWork!</h1>
+<body style="  background-image: url('https://cdn.pixabay.com/photo/2020/02/15/03/47/alien-4849909_960_720.jpg');
+  background-size: cover;  overflow: hidden;">
+
 	<br>
 	<br>
 	<br>
@@ -45,12 +46,12 @@
 		<div class="form-container sign-in-container">
 			<form action="${pageContext.request.contextPath}/login.do" name="loginform" id="login-form"
 			method="post">
-				<h1>Sign in</h1>
+				<h1 style="color: #61CEFF">Sign in</h1>
 
-				<span>use your account</span> <input type="text" id="userName"
+				<span>use your account</span> <input type="text" id="userName" style="background-color: var(--color-white); border: 2px solid var(--color-light); border-radius: 10px"
 					placeholder="ID" name="userName"/> <input type="password" id="password"
-					placeholder="Password" name="password"/> <a href="#">Forgot your password?</a>
-				<button type="submit">Sign In</button>
+					placeholder="Password" name="password" style="background-color: var(--color-white); border: 2px solid var(--color-light); border-radius: 10px"/> <a href="#">Forgot your password?</a>
+				<button type="submit" style="background-color: #61CEFF; border: 2px solid var(--color-light); border-radius: 10px">Sign In</button>
 			</form>
 			<script type="text/javascript">
 			function getContextPath() {

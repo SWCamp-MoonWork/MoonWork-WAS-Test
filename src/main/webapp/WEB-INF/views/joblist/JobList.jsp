@@ -264,8 +264,9 @@ String userName = (String)session.getAttribute("Name");
 												<input type="checkbox" name="isUsecheck" value="${row.isUse}" onClick="return false;">
 												</td>
 											</c:if>
-											  <td><fmt:formatDate value="${row.saveDate}"
+											 <td><fmt:formatDate value="${row.saveDate}"
 													pattern="yyyy-MM-dd HH:mm" /></td>
+
 
 											<td>${row.name}</td>
 											<td class="actions"><button class="btn delebtn"
@@ -454,9 +455,25 @@ String userName = (String)session.getAttribute("Name");
 						</div>
 						<div class="mb-3">
 							<label for="formFileSm" class="form-label job-text"><strong>소스코드
-									첨부</strong></label> <input class="form-control form-control-sm file-add"
-								name="workflowFile" type="file">
+									첨부</strong></label> <input class="form-control form-control-sm file-add" id="workflowFile"
+								name="workflowFile" type="file" accept=".py, .sh, .zip, .tar.gz, .bash, .7z" onchange="validation(this);">
 						</div>
+						<script>
+						
+						function validation(file) {
+							var file_path = file.value;
+							var reg = /(.*?)\.(py|sh|bash|zip|tar.gz|7z)$/;
+							        // 허용되지 않은 확장자일 경우
+								if (file_path != "" && (file_path.match(reg) == null || reg.test(file_path) == false)) {
+									$("#workflowFile").val("");
+									alert("이미지 파일만 업로드 가능합니다.");
+								}
+							}
+
+
+
+
+						</script>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label job-text "><strong>Workflow
 									Name</strong></label> <input type="text" class="form-control"
@@ -800,7 +817,7 @@ String userName = (String)session.getAttribute("Name");
 						</div>
 						<div class="row" style="width: 100%;">
 							<div class="col-sm-12">
-								<canvas id="modalchart" width="1600vh" height="300vh"></canvas>
+								<canvas id="modalchart" width="1600px" height="300vh"></canvas>
 
 							</div>
 						</div>
@@ -812,6 +829,34 @@ String userName = (String)session.getAttribute("Name");
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">Close</button>
 				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- ResultDataModal -->
+	<div class="modal fade" id="resultDataModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true"
+		data-bs-backdrop="static">
+		<div class="modal-dialog modal-dialog-centered modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="exampleModalLabel">Result Data</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+					<div class="modal-body add-body">
+						<div class="mb-3">
+							<label for="exampleFormControlTextarea1" 
+								class="form-label job-text"><strong>Result Data</strong></label>
+							<textarea class="form-control" name="ResultDataNote" rows="20" readonly></textarea>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+					</div>
 			</div>
 		</div>
 	</div>

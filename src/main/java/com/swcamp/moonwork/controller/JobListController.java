@@ -26,6 +26,8 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
 import org.quartz.CronExpression;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -60,9 +62,20 @@ import com.swcamp.moonwork.model.dto.ScheduleDTO;
 import net.sf.json.JSONObject;
 
 @Controller
+@PropertySource(value = "classpath:/global.properties")
 public class JobListController {
-	private final String URL = "http://20.249.17.147:5000/v1/job";
-	private final String RUNURL = "http://20.249.17.147:5000/v1/run";
+	@Value("${serverip_job}")
+	private String ServerIp_job;
+	
+	@Value("${serverip_run}")
+	private String ServerIp_run;
+	
+	@Value("${serverip_host}")
+	private String ServerIp_host;
+	
+	@Value("${serverip_user}")
+	private String ServerIp_user;
+	
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
@@ -72,15 +85,18 @@ public class JobListController {
 	// Job List 띄우기
 	@RequestMapping(value = "/joblist.do", method = RequestMethod.GET)
 	public String joblist(Locale locale, Model model) {
+		
+		//System.out.println(ServerIp);
+		
 		 LocalTime now = LocalTime.now();
 		int TotalJobsCount = 0;
 		int RunningCount = 0;
 		int ActivateCount = 0;
-		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
+		
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(ServerIp_job + "/joblist_username", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
 		List<JobDTO> list = result.getBody();
-		System.out.println(list.get(0).SaveDate.toString());
 		System.out.println(now);
 		System.out.println("response (/joblist_username)= " + result);
 		
@@ -90,11 +106,11 @@ public class JobListController {
 		HttpEntity<?> request = new HttpEntity<>(null, headers);
 		
 		// 총 작업의 개수 가져오기
-		HttpEntity<String> res_TotalJobsCount = restTemplate.exchange(URL + "/totalnum" , HttpMethod.GET, request, String.class);
+		HttpEntity<String> res_TotalJobsCount = restTemplate.exchange(ServerIp_job + "/totalnum" , HttpMethod.GET, request, String.class);
 		System.out.println("response (/totalnum) = " + res_TotalJobsCount);
-		HttpEntity<String> res_RunningCount = restTemplate.exchange(URL + "/countrunningjob" , HttpMethod.GET, request, String.class);
+		HttpEntity<String> res_RunningCount = restTemplate.exchange(ServerIp_job + "/countrunningjob" , HttpMethod.GET, request, String.class);
 		System.out.println("response (/countrunningjob) = " + res_RunningCount);
-		HttpEntity<String> res_ActivateCount = restTemplate.exchange(URL + "/countusingjob" , HttpMethod.GET, request, String.class);
+		HttpEntity<String> res_ActivateCount = restTemplate.exchange(ServerIp_job + "/countusingjob" , HttpMethod.GET, request, String.class);
 		System.out.println("response (/countusingjob) = " + res_ActivateCount);
 		
 		try {
@@ -128,7 +144,7 @@ public class JobListController {
 	@RequestMapping(value = "/jobrefresh.do", method = RequestMethod.GET)
 	public String jobrefresh(Locale locale, Model model) {
 
-		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(ServerIp_job + "/joblist_username", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
 		
@@ -146,7 +162,7 @@ public class JobListController {
 	public ResponseEntity<JobDTO> selectjobid(Locale locale, Model model, @RequestParam(value="jobId") String jobId) {
 
 		System.out.println(jobId);
-		ResponseEntity<JobDTO> result = restTemplate.exchange(URL + "/" + jobId , HttpMethod.GET, null,
+		ResponseEntity<JobDTO> result = restTemplate.exchange(ServerIp_job + "/" + jobId , HttpMethod.GET, null,
 				new ParameterizedTypeReference<JobDTO>() {
 				});
 		System.out.println("response (/GetJobAllInfo)= " + result);
@@ -162,7 +178,7 @@ public class JobListController {
 		
 		//String resId = param.get("jobId").toString();
 		System.out.println(jobId);
-		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(URL + "/" + jobId + "/GetJob_UserSchedule", HttpMethod.GET, null,
+		ResponseEntity<JobDetailDTO> result = restTemplate.exchange(ServerIp_job + "/" + jobId + "/GetJob_UserSchedule", HttpMethod.GET, null,
 				new ParameterizedTypeReference<JobDetailDTO>() {
 				});
 		System.out.println("response (/GetJob_UserSchedule)= " + result);
@@ -189,8 +205,7 @@ public class JobListController {
 			@RequestParam(value = "workflowFile",required = false) MultipartFile[] uploadFile) throws IOException, SerialException, SQLException {
 		
 		HttpSession session = httpRequest.getSession();
-		
-		StringBuilder resultline = new StringBuilder();
+
 		byte[] content = null;
 		for(MultipartFile multipartFile : uploadFile) {
 			System.out.println("================uploadFile Info=================");
@@ -200,17 +215,8 @@ public class JobListController {
 			System.out.println("4. 크기 : " + multipartFile.getSize());
 			System.out.println("5. 파일 내용(바이트배열) : " + multipartFile.getBytes());
 			System.out.println("6. 실제파일내용");
-			String line = null;
-			int i = 1;
-			BufferedReader br = new BufferedReader(new InputStreamReader(multipartFile.getInputStream(), "UTF-8"));
-			while((line=br.readLine()) != null) {
-				System.out.println("Line" + i + "- " + line);
-				i++;
-				resultline.append(line);
-			}
+
 			content = multipartFile.getBytes();
-			br.close();
-			System.out.println("전체 문자열 : " + resultline);
 			System.out.println("================================================");
 		}
 		
@@ -218,7 +224,7 @@ public class JobListController {
 		System.out.println("넣을 바이트 배열" + content);
 		
 		String encoded = Base64.getEncoder().encodeToString(content);
-		System.out.println(encoded);
+
 		restTemplate = new RestTemplate();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		
@@ -239,7 +245,7 @@ public class JobListController {
 		System.out.println("========HttpEntity Request 값===========");
 		System.out.println("request : "+request);
 
-		HttpEntity<String> response = restTemplate.postForEntity(URL + "/create", request, String.class);
+		HttpEntity<String> response = restTemplate.postForEntity(ServerIp_job + "/create", request, String.class);
 		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 		System.out.println("response (/create)= " + response);
 		
@@ -298,7 +304,7 @@ public class JobListController {
 		System.out.println("========HttpEntity Request 값===========");
 		System.out.println("request : "+request);
 
-		HttpEntity<String> response = restTemplate.exchange(URL + "/update", HttpMethod.PUT, request, String.class);
+		HttpEntity<String> response = restTemplate.exchange(ServerIp_job + "/update", HttpMethod.PUT, request, String.class);
 		System.out.println("response (/update) = " + response);
 		return "redirect:joblist.do";
 	}
@@ -317,7 +323,7 @@ public class JobListController {
 		body.put("JobId", re);
 		
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
-		HttpEntity<String> response = restTemplate.exchange(URL + "/delete" + "/" + re, HttpMethod.DELETE, request, String.class);
+		HttpEntity<String> response = restTemplate.exchange(ServerIp_job + "/delete" + "/" + re, HttpMethod.DELETE, request, String.class);
 		System.out.println("response (/delete) = " + response);
 		
 		
@@ -349,11 +355,12 @@ public class JobListController {
 	
 	// Schedule 등록 컨트롤러
 	@RequestMapping(value = "/createschedule.do", method = RequestMethod.POST)
-	public String scheduleAdd(@RequestParam(value="jobId")String jobId, @RequestParam(value="scheduleName")String scheduleName, 
+	public String scheduleAdd(HttpServletRequest httpRequest, @RequestParam(value="jobId")String jobId, @RequestParam(value="scheduleName")String scheduleName, 
 			@RequestParam(value="scheduleType")boolean scheduleType, @RequestParam(value="startDate") @DateTimeFormat(iso = ISO.DATE_TIME)LocalDateTime startDate, 
 			 @RequestParam(value="endDate")@DateTimeFormat(iso = ISO.DATE_TIME)LocalDateTime endDate, @RequestParam(value="CronExpression")String CronExpression) {
 		LocalDateTime currentDate = LocalDateTime.now(); 
-		
+		HttpSession session = httpRequest.getSession();
+		System.out.println("됌");
 		if(scheduleType == true) {
 			
 			restTemplate = new RestTemplate();
@@ -368,12 +375,12 @@ public class JobListController {
 			body.put("scheduleStartDT", startDate.toString());
 			body.put("scheduleEndDT", endDate.toString());
 			body.put("cronExpression", CronExpression);
-			body.put("userId", 3);
+			body.put("userId", session.getAttribute("userId"));
 			body.put("saveDate", currentDate.toString());
 			
 			HttpEntity<?> request = new HttpEntity<>(body, headers);
 			System.out.println(request);
-			ResponseEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
+			ResponseEntity<String> response = restTemplate.postForEntity(ServerIp_job + "/" + jobId + "/Schedule", request, String.class);
 			System.out.println("response (Schedule 등록/Loop) = " + response);
 		}
 		else if(scheduleType == false){
@@ -390,11 +397,11 @@ public class JobListController {
 			body.put("scheduleStartDT", null);
 			body.put("scheduleEndDT", null);
 			body.put("cronExpression", null);
-			body.put("userId", 3);
+			body.put("userId", session.getAttribute("userId"));
 			body.put("saveDate", currentDate.toString());
 			
 			HttpEntity<?> request = new HttpEntity<>(body, headers);
-			ResponseEntity<String> response = restTemplate.postForEntity(URL + "/" + jobId + "/Schedule", request, String.class);
+			ResponseEntity<String> response = restTemplate.postForEntity(ServerIp_job + "/" + jobId + "/Schedule", request, String.class);
 			System.out.println("response (Schedule 등록/OneTime) = " + response);
 		}
 		else
@@ -410,7 +417,7 @@ public class JobListController {
 	public List<RunsDTO> GetLastTwentyRunsData(@RequestParam(value="jobId") String jobId){
 		
 		
-		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(RUNURL + "/" + jobId + "/getduration"  , HttpMethod.GET, null,
+		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(ServerIp_run + "/" + jobId + "/getduration"  , HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<RunsDTO>>() {
 				});
 		
@@ -427,7 +434,7 @@ public class JobListController {
 	@RequestMapping(value = "/getstate.do", method = RequestMethod.GET)
 	public ResponseEntity<List<JobDTO>> GetStateJob(Locale locale, Model model) {
 
-		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/getstate"  , HttpMethod.GET, null,
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(ServerIp_job + "/getstate"  , HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
 		//System.out.println("response (/getstate)= " + result);
@@ -436,24 +443,14 @@ public class JobListController {
 	}
 	
 	
-	// 그래프에 띄워줄 데이터 값 가져오기
-	@ResponseBody
-	@RequestMapping(value= "/getChartGraph.do", method= RequestMethod.GET)
-	public String GetChartGraph(Model model) {
-		
-		//API 호출 코드
-		
-		
-		return "잘갔다.";
-	}
-	
+
 	
 	//잡 목록 가져오기 return list<jobDTO> 
 	@ResponseBody
 	@RequestMapping(value= "/getTotalJobList.do", method= RequestMethod.GET)
 	public List<JobDTO> GetTotalJobCount(Model model) throws JsonParseException, JsonMappingException, IOException {
 		
-		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(URL + "/joblist_username", HttpMethod.GET, null,
+		ResponseEntity<List<JobDTO>> result = restTemplate.exchange(ServerIp_job + "/joblist_username", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<JobDTO>>() {
 				});
 		
@@ -472,7 +469,7 @@ public class JobListController {
 		
 		//String resId = param.get("jobId").toString();
 
-		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(RUNURL + "/" + jobid + "/getrunrecord", HttpMethod.GET, null,
+		ResponseEntity<List<RunsDTO>> result = restTemplate.exchange(ServerIp_run + "/" + jobid + "/getrunrecord", HttpMethod.GET, null,
 				new ParameterizedTypeReference<List<RunsDTO>>() {
 				});
 		
@@ -481,4 +478,22 @@ public class JobListController {
 		return list;
 
 	}
+	
+	//RunId에 따른 Run Result Data 가져오기
+	@ResponseBody
+	@RequestMapping(value= "/getResultData.do", method= RequestMethod.GET)
+	public RunsDTO GetResultData(Model model ,@RequestParam("RunId") String RunId) throws JsonParseException, JsonMappingException, IOException {
+		
+		//String resId = param.get("jobId").toString();
+
+		ResponseEntity<RunsDTO> result = restTemplate.exchange(ServerIp_run + "/" + RunId , HttpMethod.GET, null,
+				new ParameterizedTypeReference<RunsDTO>() {
+				});
+		
+		RunsDTO rundto = result.getBody();
+
+		return rundto;
+
+	}
+
 }

@@ -110,7 +110,7 @@ $(document).ready(function() {
 							}
 							else {
 								console.log("여부 없음");
-								$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle fa-lg" style="color:var(--color-black); margin-right:2px"></i>');
+								//$('#state' + data[i].jobId).append('<i class="fa-regular fa-circle fa-lg" style="color:var(--color-black); margin-right:2px"></i>');
 							}
 						};
 					},
@@ -166,19 +166,19 @@ $(document).ready(function() {
 
 	// RunsChart 생성 함수
 	$.drawingRunsChart = function(runsData) {
-		let runchart = document.getElementById(
+		var runchart = document.getElementById(
 			'modalchart').getContext('2d');
 
-		let labelsOfRunsId = [];
-		let duration = [];
+		var labelsOfRunsId = [];
+		var duration = [];
 
 
 		for (var i = 0; i < runsData.length; i++) {
-			let startDT = new Date(runsData[i].StartDT);
+			var startDT = new Date(runsData[i].StartDT);
 			
-			let hour = startDT.getHours();
-			let min = startDT.getMinutes();
-			let sec = startDT.getSeconds();
+			var hour = startDT.getHours();
+			var min = startDT.getMinutes();
+			var sec = startDT.getSeconds();
 			
 			
 			
@@ -186,12 +186,8 @@ $(document).ready(function() {
 			labelsOfRunsId.push(hour + ':' + min + ':' + sec);
 			duration.push(parseInt(runsData[i].Duration));
 		}
-
-
-
-		let chart = new Chart(
-			runchart,
-			{
+		
+		var chartjs = new Chart(runchart,{
 				type: 'bar', //pie, line, doughnut, polarArea
 				data: {
 					labels: labelsOfRunsId,
@@ -206,6 +202,9 @@ $(document).ready(function() {
 				options: {
 					responsive: false,
 					legend: false,
+					animation : {
+						duration:0
+					},
 					scales: {
 						yAxes: [{
 							ticks: {
@@ -235,7 +234,6 @@ $(document).ready(function() {
 					}
 				}
 			});
-
 
 	}
 
@@ -418,8 +416,10 @@ $(document).ready(function() {
 
 	// Runs 버튼 클릭 시 jobid에 해당하는 Runs 데이터의 최근 20개 가져오기
 	$(document).on("click", ".runsbtn", function() {
-
+		
+		var resulthtml;
 		let runsState;
+
 		var selectId = $(this).data('id');
 		console.log(selectId);
 		const runsurl = getContextPath() + "/GetLastTwentyRunsData.do";
@@ -431,7 +431,9 @@ $(document).ready(function() {
 			},
 			contentType: "application/json; charset=UTF-8",
 			success: function(runsData) {
-				for (var i = 0; i < runsData.length; i++) {
+				
+				if(runsData.length > 0){
+					for (var i = 0; i < runsData.length; i++) {
 					
 					let tt = durationTimeSet(runsData[i].Duration);
 
@@ -442,20 +444,54 @@ $(document).ready(function() {
 					else {
 						runsState = '실패';
 					}
-
-					$('.runsData-tbody').append(
-						'<tr>' +
+					
+					var htmls = '<tr id="resultRunsData-tr">' +
 						'<td>' + runsData[i].RunId + '</td>' +
 						'<td>' + runsData[i].WorkflowName + '</td>' +
 						'<td>' + $.dateFomatting(runsData[i].StartDT) + '</td>' +
 						'<td>' + $.dateFomatting(runsData[i].EndDT) + '</td>' +
 						'<td>' + tt + '</td>' +
 						'<td>' + runsState + '</td>' +
-						'<td><button type="button" class="RunsResultData" id=' + runsData[i].RunId + '>보기</button></td>' +
+						'<td><button type="button" class="btn RunsResultData" data-bs-toggle="modal" data-bs-target="#resultDataModal" data-id=' + runsData[i].RunId + '>보기</button></td>' +
 						'<tr>'
-					);
-				}
+
+				resulthtml += htmls
+
+					}
+				$('.runsData-tbody').html(resulthtml);
 				$.drawingRunsChart(runsData);
+				}
+				
+				else{
+				$('.runsData-tbody').empty();
+				$.drawingRunsChart(runsData);
+				}
+				
+
+			},
+			error: function(request, error) {
+				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
+			}
+		});
+	});
+	
+	$(document).on("click", ".RunsResultData", function() {
+		
+		var RunsId = $(this).data('id');
+		const resultDataUrl = getContextPath() + "/getResultData.do";
+		
+
+		$.ajax({
+			url: resultDataUrl,
+			type: "GET",
+			data: {
+				RunId : RunsId
+			},
+			contentType: "application/json; charset=UTF-8",
+			success: function(result) {
+				console.log(result.ResultData);
+				$("textarea[name=ResultDataNote]").text(result.ResultData);
+
 			},
 			error: function(request, error) {
 				alert("code: " + request.status + "\n" + "message: " + request.responseText + "\n" + "error: " + error);
@@ -487,7 +523,7 @@ $(document).ready(function() {
 							success: function(
 								result) {
 								if (result === true) {
-									//$("#schedule-addbtn").removeAttr("disabled"); 
+
 									$(
 										'#cron-result')
 										.html(
@@ -497,7 +533,7 @@ $(document).ready(function() {
 										'#cron-result')
 										.html(
 											'<b class="CronIsVaildText" id="fail" style="font-size: 14px; color: #D42449">잘못된 크론식입니다.</b>');
-								//$("#schedule-addbtn").attr("disabled",true); 
+ 
 							},
 							error: function(
 								request,

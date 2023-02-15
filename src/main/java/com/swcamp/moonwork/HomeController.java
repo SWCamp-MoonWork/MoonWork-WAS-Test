@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,9 +32,20 @@ import com.swcamp.moonwork.model.dto.UserDTO;
 import net.sf.json.JSONObject;
 
 @Controller
+@PropertySource(value = "classpath:/global.properties")
 public class HomeController {
+	@Value("${serverip_job}")
+	private String ServerIp_job;
 	
-	private final String USERURL = "http://20.249.17.147:5000/v1/user";
+	@Value("${serverip_run}")
+	private String ServerIp_run;
+	
+	@Value("${serverip_host}")
+	private String ServerIp_host;
+	
+	@Value("${serverip_user}")
+	private String ServerIp_user;
+	
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
@@ -62,7 +75,7 @@ public class HomeController {
 
 		
 		HttpEntity<?> request = new HttpEntity<>(body, headers);
-		HttpEntity<String> response = restTemplate.postForEntity(USERURL + "/login", request, String.class);
+		HttpEntity<String> response = restTemplate.postForEntity(ServerIp_user + "/login", request, String.class);
 		//objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
 		System.out.println("response (/login)= " + response);
 		System.out.println(response.getBody());
@@ -74,7 +87,7 @@ public class HomeController {
 			return "redirect:home.do";
 		}
 		else {
-			HttpEntity<UserDTO> successLogin = restTemplate.postForEntity(USERURL + "/getuserinfo", request, UserDTO.class);
+			HttpEntity<UserDTO> successLogin = restTemplate.postForEntity(ServerIp_user + "/getuserinfo", request, UserDTO.class);
 			
 			UserDTO userdto = successLogin.getBody();
 			

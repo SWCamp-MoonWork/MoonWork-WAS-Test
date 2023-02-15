@@ -291,19 +291,18 @@ String userName = (String)session.getAttribute("Name");
 							<div id="myCalendarChart">
 
 							</div>
-						<div class="row" style="position:absolute; background:var(--color-white); left: 48%;width:160px; height:30px; margin-top: 200px; z-index:1000">
+						<div class="row" style="position:absolute; background:var(--color-white); left: 52%;width:245px; height:30px; margin-top: 200px; z-index:1000">
 						
 						</div>
 						</div>
 
 						<div class="row  dashboard-View" style="z-index:1000">
-							<div style="width: 10px; height: 10px">
-								<i id="tooltip-info"
-									class="fa-regular fa-circle-question fa-lg "
-									data-bs-toggle="tooltip" data-bs-placement="right"
-									title="그래프에 들어갈 내용(미정)"></i>
-							</div>
-							<canvas id="myChartThree" height="278px"></canvas>
+
+							<h6>
+								<strong>Runs Duration of Jobs</strong>
+							</h6>
+							<canvas id="myChartThree" height="226px"></canvas>
+
 						</div>
 					</div>
 					<div class="col-md-4" style="padding-left:28px">
@@ -317,7 +316,7 @@ String userName = (String)session.getAttribute("Name");
 								<tr>
 									<th scope="row">Worker</th>
 									<td>${row.hostName}</td>
-									<td>${row.hostIp}</td>
+									<td>${row.privateIp}</td>
 									<td><a href="javascript:void(0)" id="${row.hostId}" class="hostdetail"><img
 											src="<%=request.getContextPath()%>/resources/img/detail.png"
 											width="30px" height="30px"></a></td>

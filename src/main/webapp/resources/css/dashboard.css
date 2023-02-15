@@ -650,3 +650,14 @@ background:var(--color-white);
 .history .w-100:hover{
 	color: var(--color-primary);
 }
+
+
+#resultRunsData-tr .RunsResultData{
+	border: 1px solid var(--color-jobdetail)
+	
+}
+
+#resultRunsData-tr .RunsResultData:hover{
+	background-color: var(--color-light)
+	
+}

@@ -182,13 +182,13 @@ String userName = (String)session.getAttribute("Name");
 							<table id="job-table">
 								<thead>
 									<tr>
-										<td>No</td>
+										<td>UserId</td>
+										<td>UserName</td>
 										<td>Name</td>
-										<td>Id</td>
-										<td>Password</td>
-										<td>IsUse</td>
-										<td>Last Login</td>
+										<td>Email</td>
+										<td>IsActive</td>
 										<td>Action</td>
+										<td>Last Login</td>
 
 									</tr>
 								</thead>
@@ -197,14 +197,12 @@ String userName = (String)session.getAttribute("Name");
 										<tr>
 											<!-- 유저번호 -->
 											<td>${row.userId}</td>
+											<!-- 유저아이디 -->
+											<td>${row.userName}</td>
 											<!-- 유저이름 -->
 											<td><a 
 												id="${row.userId}">${row.name}</a></td>
-											<!-- 유저아이디 -->
-											<td>${row.userName}</td>
-											<!-- 유저패스워드 -->
-											<td>${row.password}</td>
-
+											<td>${row.email }</td>
 											<c:if test="${row.isActive eq true}">
 												<td>
 												<input type="checkbox" name="isUsecheck" value="${row.isActive}" checked onClick="return false;">
@@ -220,8 +218,8 @@ String userName = (String)session.getAttribute("Name");
 													data-bs-toggle="modal" data-bs-target="#editModal"
 													data-id="${row.userId}">Edit</button>
 												<button class="btn delebtn"
-													value="${row.userId}" id="delbtn"
-													onclick="javascript:delbtn(this)">Delete</button>
+													value="${row.userId}" id="userdelbtn"
+													onclick="javascript:userdelbtn(this)">Delete</button>
 											</td>
 										</tr>
 
@@ -254,10 +252,14 @@ String userName = (String)session.getAttribute("Name");
 					enctype="multipart/form-data">
 					<div class="modal-body add-body">
 						<div class="mb-3">
-							<label for="exampleFormControlInput1" class="form-label job-text"><strong>User ID
+							<label for="exampleFormControlInput1" class="form-label job-text"><strong>UserName
 									</strong></label> <input type="text" class="form-control" id="userName-text" name="userName"
 								required>
-							
+						<div class="row mb-3">
+							<div class="col-sm-6" id="duplicate-Inspection">
+
+							</div>
+						</div>
 						</div>
 						<div class="mb-3">
 							<label for="formFileSm" class="form-label job-text"><strong>Password
@@ -270,7 +272,7 @@ String userName = (String)session.getAttribute("Name");
 								name="Name" required>
 						</div>
 						<div class="mb-3">
-							<label for="exampleFormControlInput1" class="form-label job-text "><strong>User Email
+							<label for="exampleFormControlInput1" class="form-label job-text "><strong>Email
 									</strong></label> <input type="email" class="form-control"
 								name="userEmail"  placeholder="example@gmail.com" required>
 						</div>
@@ -288,12 +290,17 @@ String userName = (String)session.getAttribute("Name");
 					</div>
 				</form>
 				<script type="text/javascript">
-					// 버튼 클릭 시 모달 닫고 폼 전송 
 					function createJob() {
+						var tagId = $('.usernameVaildText').attr('id');
 
-						alert("User 추가 완료!");
-						$('#create-form').modal('hide')
-						return true;
+							if (tagId == "fail") {
+								alert("아이디을 다시 입력해주세요.");
+								return false;
+							} else {
+								alert("유저 생성 완료!");
+								$('#create-form').modal('hide')
+								return true;
+							}
 					}
 				</script>
 			</div>
@@ -303,6 +310,7 @@ String userName = (String)session.getAttribute("Name");
 
 	<script src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
 	<script src='<%=request.getContextPath()%>/resources/js/jobhistory.js'></script>
+	<script src='<%=request.getContextPath()%>/resources/js/userEvent.js'></script>
 		</div>
 	</div>
 	<script

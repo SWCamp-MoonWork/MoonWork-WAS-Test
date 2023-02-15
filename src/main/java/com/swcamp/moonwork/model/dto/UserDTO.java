@@ -9,7 +9,9 @@ public class UserDTO {
 	public String Email;
 	public String Note;
 	public Boolean IsActive;
+
 	
+
 	public long getUserId() {
 		return UserId;
 	}
