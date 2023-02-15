@@ -71,7 +71,7 @@ public class DashboardController {
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
 
-
+	//tt
     //대시보드 메인
     @RequestMapping("/dashboard.do")
     public String dashboard(Locale locale, Model model) {
