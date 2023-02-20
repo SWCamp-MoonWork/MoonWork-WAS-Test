@@ -2,9 +2,10 @@ package com.swcamp.moonwork.model.dto;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChartDataDTO {
-	public List<String> y_data = new ArrayList<>();
+	public List<List<Long>> y_data = new ArrayList<>();
 	public List<String> x_data = new ArrayList<>();
 	
 	public String label;
@@ -22,10 +23,10 @@ public class ChartDataDTO {
 	public void setBorderColor(String borderColor) {
 		this.borderColor = borderColor;
 	}
-	public List<String> getY_data() {
+	public List<List<Long>> getY_data() {
 		return y_data;
 	}
-	public void setY_data(List<String> y_data) {
+	public void setY_data(List<List<Long>> y_data) {
 		this.y_data = y_data;
 	}
 	public List<String> getX_data() {

@@ -40,10 +40,6 @@ $(document).ready(function() {
 	}
 
 
-	//ChartJS 데이터 뿌려주기
-
-	getChartGraph();
-
 
 
 	$(".hostdetail").click(function() {
@@ -357,85 +353,5 @@ $(function() {
  */
 
 
-function getChartGraph() {
-
-	var boderColorArray = ["rgba(57, 211, 83, 0.5)", "#d33959", "#7c4ed4", "#88E031", "#D44D24", "#44D4AD", "#D48024"];
-	var backgroundColor= ["rgba(57, 211, 83, 0.3)", "rgba(211, 57, 89, 0.3)", "rgba(124, 78, 212, 0.3)"];
-
-	var URL = getContextPath() + "/getChartGraph.do";
-	var newDataSets=[];
-	
-	$.ajax({
-		url: URL,
-		type: "GET",
-		success: function(ChartData) {
-			console.log("성공" + ChartData);
-			for(var i = 0; i < ChartData.length; i++){
-				console.log("borderColor" + ChartData[i].borderColor);
-				console.log("label" + ChartData[i].label);
-				console.log("x_data" + ChartData[i].x_data);
-				console.log("y_list" + ChartData[i].y_data);
-				
-				newDataSets.push({
-					label: ChartData[i].label,
-					borderColor: boderColorArray[i],
-					data: ChartData[i].y_data,
-					fill: false
-				});
-			}// 컨트롤러에서 넘겨준 데이터 아주 잘찍힘
-			
-			
-			new Chart(document.getElementById('myChartThree'), {
-				type: 'line', //pie, line, doughnut, polarArea
-				data: {
-					labels: ChartData[0].x_data,				// 모든 작업의		
-					datasets: newDataSets
-					
-				},
-				options: {
-					responsive: false,
-					maintainAspectRatio: false,
-					legend: false,/*{
-						labels: {
-							fontColor: "rgba(128, 128, 128, 1)",
-							fontSize: 14
-						} 
-					},*/
-					scales: {
-						yAxes: [{
-							ticks: {
-								min: 0,
-								beginAtZero: true,
-								stepSize: 0.1,
-								fontColor: "rgba(128, 128, 128, 1)",
-								fontSize: 14,
-							},
-							gridLines: {
-								color: "rgba(128, 128, 128, 1)",
-								lineWidth: 0.5
-							}
-						}],
-						xAxes: [{
-							ticks: {
-								fontColor: "rgba(128, 128, 128, 1)",
-								fontSize: 14
-							},
-							gridLines: {
-								color: "rgba(128, 128, 128, 1)",
-								lineWidth: 0.5
-							}
-						}]
-					}
-				}
-			});
-		},
-		error: function(e) {
-			console.log(e);
-		}
-	}) 	//ajax
-}	//getChartGraph
-
-
-//	.getContext('2d');
 
 

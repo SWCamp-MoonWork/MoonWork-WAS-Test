@@ -6,6 +6,7 @@
 <link rel="icon" href="<%=request.getContextPath()%>/resources/img/moonwork_favicon.ico">
 <meta charset="UTF-8">
 <title>MoonWork_Job Schedule</title>
+		<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script nonce="undefined"
 	src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script src="https://kit.fontawesome.com/fe820bbe93.js"
@@ -141,27 +142,64 @@ String userName = (String)session.getAttribute("Name");
 					<div class="col-md-1">
 						<div class="form-group">
 							<label for="Search" class="control-label small font-italic">&nbsp;</label>
-							<input type="button" value="Search" @onclick="DateTimeChanged"
+							<input type="button" value="Search" onclick="getChartInDate();"
 								class="btn w-100"/>
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="startdate" class="control-label small font-italic"><strong>From:</strong>
-							</label> <input name="startdate" type="datetime-local"
+							</label> <input name="startdate" type="datetime-local" id="startDate"
 								class="form-control border-dark" @bind="@from"
 								@bind:format="yyyy-MM-ddTHH:mm:ss" />
 						</div>
 					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="enddate" class="control-label small font-italic"><strong>To:</strong>
-							</label> <input name="enddate" type="datetime-local"
+							</label> <input name="enddate" type="datetime-local" id="endDate"
 								class="form-control border-dark" @bind="@to"
 								@bind:format="yyyy-MM-ddTHH:mm" />
 						</div>
 					</div>
-
+					
+					<div class="col-md-1">
+						<div class="form-group">
+							<label for="Search" class="control-label small font-italic">&nbsp;</label>
+							<input type="button" value="최근 10분" id="last10" onclick="getChartOption(this.id);"
+								class="btn w-100 searchOption"/>
+						</div>
+					</div>
+					
+					<div class="col-md-1">
+						<div class="form-group">
+							<label for="Search" class="control-label small font-italic">&nbsp;</label>
+							<input type="button" value="최근 30분" id="last30" onclick="getChartOption(this.id);"
+								class="btn w-100 searchOption"/>
+						</div>
+					</div>
+					
+					<div class="col-md-1">
+						<div class="form-group">
+							<label for="Search" class="control-label small font-italic">&nbsp;</label>
+							<input type="button" value="최근 1시간" id="last60" onclick="getChartOption(this.id);"
+								class="btn w-100 searchOption"/>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="form-group">
+							<label for="Search" class="control-label small font-italic">&nbsp;</label>
+							<input type="button" value="최근 2시간" id="last120" onclick="getChartOption(this.id);"
+								class="btn w-100 searchOption"/>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="form-group">
+							<label for="Search" class="control-label small font-italic">&nbsp;</label>
+							<input type="button" value="최근 12시간" id="last720" onclick="getChartOption(this.id);"
+								class="btn w-100 searchOption"/>
+						</div>
+					</div>
 				</div>
 				<div class="row mb-3 RunHistoryChart" style="background-color:var(--color-white); padding: 20px; border-radius: 10px">
 					<div id='RunHistoryChart'></div>

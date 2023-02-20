@@ -651,6 +651,9 @@ background:var(--color-white);
 	color: var(--color-primary);
 }
 
+.history .searchOption{
+	border: 1px solid var(--color-black);
+}
 
 #resultRunsData-tr .RunsResultData{
 	border: 1px solid var(--color-jobdetail)

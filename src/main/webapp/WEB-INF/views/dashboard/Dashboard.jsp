@@ -8,6 +8,7 @@
 <meta charset="UTF-8" name="viewport"
 	content="width=device-width, initial-scale=1">
 <title>MoonWork_Dashboard</title>
+		<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script nonce="undefined"
 	src="https://cdn.zingchart.com/zingchart.min.js"></script>
@@ -299,10 +300,10 @@ String userName = (String)session.getAttribute("Name");
 						<div class="row  dashboard-View" style="z-index:1000">
 
 							<h6>
-								<strong>Runs Duration of Jobs</strong>
+								<strong>Runs Duration(ms) of Jobs</strong>
 							</h6>
-							<canvas id="myChartThree" height="226px"></canvas>
-
+							<div id='DashRunHistoryChart'></div>
+							
 						</div>
 					</div>
 					<div class="col-md-4" style="padding-left:28px">
@@ -335,7 +336,7 @@ String userName = (String)session.getAttribute("Name");
 								<strong>Job of Host</strong>
 							</h6>
 							<div class="job-of-host" 
-							style="height:265px ;background: var(--color-table); 
+							style="height:365px ;background: var(--color-table); 
 							border: 1px solid var(--color-table); border-radius: 20px;">
 							<table style="margin:auto; padding: 10px 10px 10px 10px; width:100%;">
 									<thead>
@@ -361,12 +362,13 @@ String userName = (String)session.getAttribute("Name");
 
 				</div>
 				<!-- ChartJs -->
-				<script src="<%=request.getContextPath()%>/resources/js/chartjs.js"></script>
+
 				<!-- zingChart calendar Chart-->
 				<script
 					src="<%=request.getContextPath()%>/resources/js/dashboard.js"></script>
 				<!-- jsGrid -->
 				<script src="<%=request.getContextPath()%>/resources/js/jsgrid.js"></script>
+				<script src="<%=request.getContextPath()%>/resources/js/chartjs.js"></script>
 				<script
 					src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 					integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

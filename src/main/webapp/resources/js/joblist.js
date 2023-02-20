@@ -51,12 +51,12 @@ function login() {
 
 
 function durationTimeSet(seconds) {
-var hour = parseInt(seconds/3600) < 10 ? '0'+ parseInt(seconds/3600) : parseInt(seconds/3600);
-var min = parseInt((seconds%3600)/60) < 10 ? '0'+ parseInt((seconds%3600)/60) : parseInt((seconds%3600)/60);
-var sec = seconds % 60 < 10 ? '0'+seconds % 60 : seconds % 60;
+	var hour = parseInt(seconds / 3600) < 10 ? '0' + parseInt(seconds / 3600) : parseInt(seconds / 3600);
+	var min = parseInt((seconds % 3600) / 60) < 10 ? '0' + parseInt((seconds % 3600) / 60) : parseInt((seconds % 3600) / 60);
+	var sec = seconds % 60 < 10 ? '0' + seconds % 60 : seconds % 60;
 
 
-return hour+":"+min+":" + sec;
+	return hour + ":" + min + ":" + sec;
 }
 
 
@@ -166,74 +166,8 @@ $(document).ready(function() {
 
 	// RunsChart 생성 함수
 	$.drawingRunsChart = function(runsData) {
-		var runchart = document.getElementById(
-			'modalchart').getContext('2d');
-
-		var labelsOfRunsId = [];
-		var duration = [];
 
 
-		for (var i = 0; i < runsData.length; i++) {
-			var startDT = new Date(runsData[i].StartDT);
-			
-			var hour = startDT.getHours();
-			var min = startDT.getMinutes();
-			var sec = startDT.getSeconds();
-			
-			
-			
-			console.log(hour + ':' + min + ':' + sec);
-			labelsOfRunsId.push(hour + ':' + min + ':' + sec);
-			duration.push(parseInt(runsData[i].Duration));
-		}
-		
-		var chartjs = new Chart(runchart,{
-				type: 'bar', //pie, line, doughnut, polarArea
-				data: {
-					labels: labelsOfRunsId,
-					datasets: [{
-						//label: 'Run Duration',
-						data: duration,
-						borderColor: '#7B4ED4',
-						fill: true,
-						backgroundColor: 'rgba(123, 78, 212, 0.5)'
-					}]
-				},
-				options: {
-					responsive: false,
-					legend: false,
-					animation : {
-						duration:0
-					},
-					scales: {
-						yAxes: [{
-							ticks: {
-								min: 0,
-								beginAtZero: true,
-								stepSize: 100,
-								fontColor: "rgba(128, 128, 128, 1)",
-								fontSize: 14,
-							},
-							gridLines: {
-								color: "rgba(128, 128, 128, 1)",
-								lineWidth: 0.1
-							}
-						}],
-						xAxes: [{
-							categoryPercentage: 0.7,
-            				maxBarThickness: 20,
-							ticks: {
-								fontColor: "rgba(128, 128, 128, 1)",
-								fontSize: 20
-							},
-							gridLines: {
-								color: "rgba(128, 128, 128, 1)",
-								lineWidth: 0.5
-							}
-						}]
-					}
-				}
-			});
 
 	}
 
@@ -385,7 +319,12 @@ $(document).ready(function() {
 		});
 	});
 
-
+	$(document).on("click", ".refreshbtn", function() {
+			$(".read").load("<c:url value='joblist.do' />", function() {
+        		console.log("새로고침완료!");
+			});
+	
+	});
 
 
 	// schedule 버튼 클릭 시 띄워진 모달창에 해당 schedule의 데이터 출력
@@ -412,14 +351,15 @@ $(document).ready(function() {
 		});
 	});
 
-
-
 	// Runs 버튼 클릭 시 jobid에 해당하는 Runs 데이터의 최근 20개 가져오기
 	$(document).on("click", ".runsbtn", function() {
-		
+
 		var resulthtml;
 		let runsState;
-
+		const grapharea = document.getElementById('modalchart').getContext('2d');
+		let RunsChart = null;
+		
+		
 		var selectId = $(this).data('id');
 		console.log(selectId);
 		const runsurl = getContextPath() + "/GetLastTwentyRunsData.do";
@@ -431,42 +371,129 @@ $(document).ready(function() {
 			},
 			contentType: "application/json; charset=UTF-8",
 			success: function(runsData) {
-				
-				if(runsData.length > 0){
+
+				if (runsData.length > 0) {
 					for (var i = 0; i < runsData.length; i++) {
-					
-					let tt = durationTimeSet(runsData[i].Duration);
 
-					
-					if (runsData[i].State == '10') {
-						runsState = '성공';
-					}
-					else {
-						runsState = '실패';
-					}
-					
-					var htmls = '<tr id="resultRunsData-tr">' +
-						'<td>' + runsData[i].RunId + '</td>' +
-						'<td>' + runsData[i].WorkflowName + '</td>' +
-						'<td>' + $.dateFomatting(runsData[i].StartDT) + '</td>' +
-						'<td>' + $.dateFomatting(runsData[i].EndDT) + '</td>' +
-						'<td>' + tt + '</td>' +
-						'<td>' + runsState + '</td>' +
-						'<td><button type="button" class="btn RunsResultData" data-bs-toggle="modal" data-bs-target="#resultDataModal" data-id=' + runsData[i].RunId + '>보기</button></td>' +
-						'<tr>'
+						let tt = durationTimeSet(runsData[i].Duration);
 
-				resulthtml += htmls
+
+						if (runsData[i].State == '10') {
+							runsState = '성공';
+						}
+						else {
+							runsState = '실패';
+						}
+
+						var htmls = '<tr id="resultRunsData-tr">' +
+							'<td>' + runsData[i].RunId + '</td>' +
+							'<td>' + runsData[i].WorkflowName + '</td>' +
+							'<td>' + $.dateFomatting(runsData[i].StartDT) + '</td>' +
+							'<td>' + $.dateFomatting(runsData[i].EndDT) + '</td>' +
+							'<td>' + tt + '</td>' +
+							'<td>' + runsState + '</td>' +
+							'<td><button type="button" class="btn RunsResultData" data-bs-toggle="modal" data-bs-target="#resultDataModal" data-id=' + runsData[i].RunId + '>보기</button></td>' +
+							'<tr>'
+
+						resulthtml += htmls
 
 					}
-				$('.runsData-tbody').html(resulthtml);
-				$.drawingRunsChart(runsData);
+					
+					$('.runsData-tbody').html(resulthtml);
+					var labelsOfRunsId = [];
+					var duration = [];
+					
+
+					for (var i = 0; i < runsData.length; i++) {
+						var startDT = new Date(runsData[i].StartDT);
+
+						var hour = startDT.getHours();
+						var min = startDT.getMinutes();
+						var sec = startDT.getSeconds();
+
+
+
+						console.log(hour + ':' + min + ':' + sec);
+						labelsOfRunsId.push(hour + ':' + min + ':' + sec);
+						duration.push(parseInt(runsData[i].Duration));
+					}
+
+
+					const Chartdata = {
+						labels: labelsOfRunsId,
+						datasets: [{
+							label: 'Run Duration',
+							data: duration,
+							borderColor: '#7B4ED4',
+							fill: true,
+							backgroundColor: 'rgba(123, 78, 212, 0.5)'
+						}]
+					}
+
+					const Chartconfig = {
+						type: 'bar', //pie, line, doughnut, polarArea
+						data: Chartdata,
+						options: {
+							responsive: false,
+							legend: false,
+							animation: {
+								duration: 0
+							},
+							scales: {
+								yAxes: [{
+									ticks: {
+										min: 0,
+										beginAtZero: true,
+										stepSize: 100,
+										fontColor: "rgba(128, 128, 128, 1)",
+										fontSize: 14,
+									},
+									gridLines: {
+										color: "rgba(128, 128, 128, 1)",
+										lineWidth: 0.1
+									}
+								}],
+								xAxes: [{
+									categoryPercentage: 0.7,
+									maxBarThickness: 20,
+									ticks: {
+										fontColor: "rgba(128, 128, 128, 1)",
+										fontSize: 20
+									},
+									gridLines: {
+										color: "rgba(128, 128, 128, 1)",
+										lineWidth: 0.5
+									}
+								}]
+							}
+						}
+					};
+
+
+
+
+					//if (RunsChart !== null) {
+					//	console.log("디스트로이");
+					//	RunsChart.destroy();
+					//}
+					
+					let chartStatus = Chart.getChart("modalchart"); // <canvas> id
+					if (chartStatus != undefined) {
+						console.log(chartStatus);
+  						chartStatus.destroy();
+					}
+					
+					
+					RunsChart = new Chart(grapharea, Chartconfig);
+
 				}
-				
-				else{
-				$('.runsData-tbody').empty();
-				$.drawingRunsChart(runsData);
+
+				else {
+					//$('.runsData-tbody').empty();
+					//$.drawingRunsChart(runsData);
+					console.log("노데이터");
 				}
-				
+
 
 			},
 			error: function(request, error) {
@@ -474,18 +501,18 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 	$(document).on("click", ".RunsResultData", function() {
-		
+
 		var RunsId = $(this).data('id');
 		const resultDataUrl = getContextPath() + "/getResultData.do";
-		
+
 
 		$.ajax({
 			url: resultDataUrl,
 			type: "GET",
 			data: {
-				RunId : RunsId
+				RunId: RunsId
 			},
 			contentType: "application/json; charset=UTF-8",
 			success: function(result) {
@@ -533,7 +560,7 @@ $(document).ready(function() {
 										'#cron-result')
 										.html(
 											'<b class="CronIsVaildText" id="fail" style="font-size: 14px; color: #D42449">잘못된 크론식입니다.</b>');
- 
+
 							},
 							error: function(
 								request,

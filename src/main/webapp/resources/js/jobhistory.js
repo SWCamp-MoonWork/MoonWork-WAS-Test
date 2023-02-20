@@ -1,64 +1,30 @@
 
-getZingChartGraph();
-	var newDataSets_Zing = [];
 
-function getZingChartGraph() {
+var d = new Date();
+var endDay = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
+
+//10800000 3시간 전
+var startDay = new Date(d.getTime() - (d.getTimezoneOffset() * 60000 + 10800000)).toISOString().slice(0, -1);
+
+document.getElementById('endDate').value = endDay
+document.getElementById('startDate').value = startDay
+
+console.log("현재시간: " + endDay);
+console.log("3시간 전: " + startDay);
 
 
-	var ZingURL = getContextPath() + "/getChartGraph.do";
-
-	$.ajax({
-		url: ZingURL,
-		type: "GET",
-		success: function(ZingChartData) {
-			console.log("성공" + ZingChartData);
-			for (var i = 0; i < ZingChartData.length; i++) {
-				console.log("borderColor" + ZingChartData[i].borderColor);
-				console.log("label" + ZingChartData[i].label);
-				console.log("x_data" + ZingChartData[i].x_data);
-				console.log("y_list" + ZingChartData[i].y_data);
-
-				newDataSets_Zing.push({
-					"values": ZingChartData[i].y_data,			// 배열
-					"text": ChartData[i].label,		// 라벨이름
-					"line-color": "#007790",
-					"legend-item": {
-						"background-color": "#007790",
-						"borderRadius": 5,
-						"font-color": "white"
-					},
-					"legend-marker": {
-						"visible": false
-					},
-					"marker": {
-						"background-color": "#007790",
-						"border-width": 1,
-						"shadow": 0,
-						"border-color": "#69dbf1"
-					},
-					"highlight-marker": {
-						"size": 6,
-						"background-color": "#007790",
-					}
-				});
-
-			}
-		},
-		error: function(e) {
-			console.log(e);
-		}
-	})
+function getContextPath() {
+	var hostIndex = location.href.indexOf(location.host) + location.host.length;
+	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
 }
 
-
-// Zing차트 (런 히스토리)
-ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
-var runhistory = {
+const runhistory =
+{
+	"background-color": "none",
 	"type": "line",
-	"backgroundColor": null,
-	"utc": true,
+	"utc": false,
 	"title": {
-		"text": "Run Duration of Jobs",
+		"text": "Runs History of Jobs",
 		"font-size": "24px",
 		"adjust-layout": true
 	},
@@ -79,22 +45,7 @@ var runhistory = {
 			"cursor": "hand"
 		}
 	},
-	"scale-x": {
-		"min-value": 1383292800000,
-		"shadow": 0,
-		"step": 3600000,
-		"transform": {
-			"type": "date",
-			"all": "%D, %d %M<br />%h:%i %A",
-			"item": {
-				"visible": false
-			}
-		},
-		"label": {
-			"visible": false
-		},
-		"minor-ticks": 0
-	},
+	"scale-x": null,
 	"scale-y": {
 		"line-color": "#f6f7f8",
 		"shadow": 0,
@@ -102,7 +53,7 @@ var runhistory = {
 			"line-style": "dashed"
 		},
 		"label": {
-			"text": "Duration",
+			"text": "Run Duration(ms)",
 		},
 		"minor-ticks": 0,
 		"thousands-separator": ","
@@ -143,12 +94,325 @@ var runhistory = {
 			"speed": 100,
 		}
 	},
-	"series": newDataSets_Zing
+	"series": null
 };
 
-zingchart.render({
-	id: 'RunHistoryChart',
-	data: runhistory,
-	height: '600px',
-	width: '100%'
+// Zing차트 (런 히스토리)
+//ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+window.addEventListener('load', function() {
+
+
+	var getstartDT = new Date(startDay);
+	var resultStartDT = getstartDT.getTime();
+	console.log(resultStartDT);
+
+	var getendDT = new Date(endDay);
+	var resultEndDT = getendDT.getTime();
+	console.log(resultEndDT);
+
+	const URL = getContextPath() + "/RunHistoryGraph.do";
+
+
+	let newDataSets_Zing = [];
+	let boderColorArray = ["#04db68","#af232e", "#122191", "#59adf2", "#470570",  "#122191", "#243f34"];
+
+
+
+
+	$.ajax({
+		url: URL,
+		type: "GET",
+		data: {
+			st: startDay,
+			et: endDay
+		},
+		success: function(ChartData) {
+
+			console.log("얌마" + typeof (ChartData.y_data));
+
+			console.log("런히스토리성공" + ChartData);
+			
+			
+			for(var i = 0; i < ChartData.length; i++){
+				
+			newDataSets_Zing.push({
+				"values": ChartData[i].y_data,			// y축
+				"text": ChartData[i].label,		// 라벨이름
+				"line-color": boderColorArray[i],
+				"legend-item": {
+					"background-color": boderColorArray[i],
+					"borderRadius": 5,
+					"font-color": "white"
+				},
+				"legend-marker": {
+					"visible": false
+				},
+				"marker": {
+					"background-color": "#007790",
+					"border-width": 1,
+					"shadow": 0,
+					"border-color": "#69dbf1"
+				},
+				"highlight-marker": {
+					"size": 6,
+					"background-color": "#007790",
+				}
+			});
+		}
+		
+		
+			runhistory.series = newDataSets_Zing;
+			runhistory["scale-x"] = {
+				"min-value": resultStartDT,         //startDT
+				"max-value": resultEndDT,         //endDT
+				"shadow": 0,
+				"step": 500,            // 1800000 = 1시간       // 간격 각 값에 1대1 대응        //60000 = 1분
+				"transform": {
+					"type": "date",
+					"all": "%D, %d %M<br />%h:%i %A %s",
+					"item": {
+						"visible": false
+					}
+				},
+				"label": {
+					"visible": false
+				},
+				"minor-ticks": 0
+			};
+
+
+
+
+			zingchart.render({
+				id: "RunHistoryChart",
+				width: "100%",
+				height: 400,
+				data: runhistory
+			});
+		},
+		error: function(e) {
+			console.log(e);
+		}
+	}) 	//ajax
+
+
+
 });
+
+function getChartInDate() {
+
+	let setEndDate = document.getElementById('endDate').value;
+	let setStratDate = document.getElementById('startDate').value;
+	
+	
+	var get_setstartDT = new Date(setStratDate);
+	var result_setStartDT = get_setstartDT.getTime();
+	console.log(result_setStartDT);
+
+	var get_setendDT = new Date(setEndDate);
+	var result_setEndDT = get_setendDT.getTime();
+	console.log(result_setEndDT);
+	
+	
+	const URL = getContextPath() + "/RunHistoryGraph.do";
+	let newDataSets_Zing = [];
+	let boderColorArray = ["#04db68","#af232e", "#122191", "#59adf2", "#470570",  "#122191", "#243f34"];
+	$.ajax({
+		url: URL,
+		type: "GET",
+		data: {
+			st: setStratDate,
+			et: setEndDate
+		},
+		success: function(ChartData) {
+
+			console.log("런히스토리성공" + ChartData);
+
+			for (var i = 0; i < ChartData.length; i++) {
+
+
+				newDataSets_Zing.push({
+					"values": ChartData[i].y_data,			// y축
+					"text": ChartData[i].label,		// 라벨이름
+					"line-color": boderColorArray[i],
+					"legend-item": {
+						"background-color": boderColorArray[i],
+						"borderRadius": 5,
+						"font-color": "white"
+					},
+					"legend-marker": {
+						"visible": false
+					},
+					"marker": {
+						"background-color": "#007790",
+						"border-width": 1,
+						"shadow": 0,
+						"border-color": "#69dbf1"
+					},
+					"highlight-marker": {
+						"size": 6,
+						"background-color": "#007790",
+					}
+				});
+
+				runhistory.series = newDataSets_Zing;
+			}
+			
+			runhistory["scale-x"] = {
+				"min-value": result_setStartDT,         //startDT
+				"max-value": result_setEndDT,         //endDT
+				"shadow": 0,
+				"step": 60000,            // 1800000 = 1시간       // 간격 각 값에 1대1 대응        //60000 = 1분
+				"transform": {
+					"type": "date",
+					"all": "%D, %d %M<br />%h:%i %A %s",
+					"item": {
+						"visible": false
+					}
+				},
+				"label": {
+					"visible": false
+				},
+				"minor-ticks": 0
+			};
+
+
+
+			zingchart.render({
+				id: "RunHistoryChart",
+				width: "100%",
+				height: 400,
+				data: runhistory
+			});
+		},
+		error: function(e) {
+			console.log(e);
+		}
+	}) 	//ajax
+}
+
+function getChartOption(optionId) {
+	let setEndDate = document.getElementById('endDate').value;
+	let setStratDate = document.getElementById('startDate').value;
+	console.log(optionId);
+	if(optionId == "last10"){
+		
+		
+		var last10Date = new Date(d.getTime() - (d.getTimezoneOffset() * 60000 + 600000)).toISOString().slice(0, -1);
+		document.getElementById('startDate').value = last10Date;
+		setEndDate = endDay;
+		setStratDate = last10Date;
+	}else if(optionId == "last30"){
+		var last30Date = new Date(d.getTime() - (d.getTimezoneOffset() * 60000 + 1800000)).toISOString().slice(0, -1);
+		document.getElementById('startDate').value = last30Date;
+		setEndDate = endDay;
+		setStratDate = last30Date;
+	}else if(optionId == "last60"){
+		var last60Date = new Date(d.getTime() - (d.getTimezoneOffset() * 60000 + 3600000)).toISOString().slice(0, -1);
+		document.getElementById('startDate').value = last60Date;
+		setEndDate = endDay;
+		setStratDate = last60Date;
+	}else if(optionId == "last120"){
+		var last120Date = new Date(d.getTime() - (d.getTimezoneOffset() * 60000 + 7200000)).toISOString().slice(0, -1);
+		document.getElementById('startDate').value = last120Date;
+		setEndDate = endDay;
+		setStratDate = last120Date;
+	}else if(optionId == "last720"){
+		var last720Date = new Date(d.getTime() - (d.getTimezoneOffset() * 60000 + 43200000)).toISOString().slice(0, -1);
+		document.getElementById('startDate').value = last720Date;
+		setEndDate = endDay;
+		setStratDate = last720Date;
+	}
+	else{
+		console.log("실패");
+		
+	}
+
+
+	
+	
+	var get_setstartDT = new Date(setStratDate);
+	var result_setStartDT = get_setstartDT.getTime();
+	console.log(result_setStartDT);
+
+	var get_setendDT = new Date(setEndDate);
+	var result_setEndDT = get_setendDT.getTime();
+	console.log(result_setEndDT);
+	
+	
+	const URL = getContextPath() + "/RunHistoryGraph.do";
+	let newDataSets_Zing = [];
+	let boderColorArray = ["#04db68","#af232e", "#122191", "#59adf2", "#470570",  "#122191", "#243f34"];
+	$.ajax({
+		url: URL,
+		type: "GET",
+		data: {
+			st: setStratDate,
+			et: setEndDate
+		},
+		success: function(ChartData) {
+
+			console.log("런히스토리성공" + ChartData);
+
+			for (var i = 0; i < ChartData.length; i++) {
+
+
+				newDataSets_Zing.push({
+					"values": ChartData[i].y_data,			// y축
+					"text": ChartData[i].label,		// 라벨이름
+					"line-color": boderColorArray[i],
+					"legend-item": {
+						"background-color": boderColorArray[i],
+						"borderRadius": 5,
+						"font-color": "white"
+					},
+					"legend-marker": {
+						"visible": false
+					},
+					"marker": {
+						"background-color": "#007790",
+						"border-width": 1,
+						"shadow": 0,
+						"border-color": "#69dbf1"
+					},
+					"highlight-marker": {
+						"size": 6,
+						"background-color": "#007790",
+					}
+				});
+
+				runhistory.series = newDataSets_Zing;
+			}
+			
+			runhistory["scale-x"] = {
+				"min-value": result_setStartDT,         //startDT
+				"max-value": result_setEndDT,         //endDT
+				"shadow": 0,
+				"step": 60000,            // 1800000 = 1시간       // 간격 각 값에 1대1 대응        //60000 = 1분
+				"transform": {
+					"type": "date",
+					"all": "%D, %d %M<br />%h:%i %A %s",
+					"item": {
+						"visible": false
+					}
+				},
+				"label": {
+					"visible": false
+				},
+				"minor-ticks": 0
+			};
+
+
+
+			zingchart.render({
+				id: "RunHistoryChart",
+				width: "100%",
+				height: 400,
+				data: runhistory
+			});
+		},
+		error: function(e) {
+			console.log(e);
+		}
+	}) 	//ajax
+}
